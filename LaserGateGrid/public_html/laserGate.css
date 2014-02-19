@@ -71,10 +71,7 @@ tr, td {
 
 #thing {
     position: absolute;
-    /*    left: 600px;
-        top:  -50px;*/
     height: 15px;
     width: 15px;
-    /*z-index: -1;*/
     transition: left 1s ease-in, top 1s ease-in;
 }
