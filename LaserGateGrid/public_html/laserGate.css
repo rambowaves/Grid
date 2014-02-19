@@ -8,10 +8,10 @@ and open the template in the editor.
     Author     : ashleybroadwell
 */
 html, body {
-/*    overflow: hidden;
+    overflow: hidden;
     height: 100%;
     width: 100%;
-    position: absolute;*/
+    position: absolute;
     clear: both;
 }
 div.laserGate {
@@ -63,4 +63,17 @@ tr, td {
 .avatar {
     background-color: black;
     color: white;
+}
+
+#thing {
+position: absolute;
+/*    left: 600px;
+    top:  -50px;*/
+    height: 15px;
+    width: 15px;
+    /*z-index: -1;*/
+    transition: left 1s ease-in, top 1s ease-in;
+
+
+
 }
