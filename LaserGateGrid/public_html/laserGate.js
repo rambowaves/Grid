@@ -7,7 +7,7 @@
 
 var numCols = 12;
 var numRows = 12;
-var avatar = numRows.toString() + Math.floor(numCols / 2).toString();
+var avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
 var targetX;
 var targetY;
 var avatarX;
@@ -17,36 +17,36 @@ var avatarIsPlaced = false;
 document.write('<img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><h1 id="test">Laser Gate</h1><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
 
 for (i = 0; i <= numRows; i++) {
-    document.write("<tr id='row'" + i + ">");
+    document.write("<tr class='row" + i + "'>");
     for (j = 0; j <= numCols; j++) {
         if (j === 0) {
             if (i === 0) {
-                document.write("<td id= '" + i.toString() + j.toString() + "' class='outer down right'></td>");
+                document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer left corner'></td>");
             }
             else if (i === numRows) {
-                document.write("<td id= '" + i.toString() + j.toString() + "' class='outer up right'></td>");
+                document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer left corner'></td>");
             }
             else {
-                document.write("<td id= '" + i.toString() + j.toString() + "' class = 'outer up down'></td>");
+                document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer left '></td>");
             }
         }
         else if (j === numCols) {
             if (i === 0) {
-                document.write("<td id= '" + i.toString() + j.toString() + "' class='outer down left'></td>");
+                document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer corner right'></td>");
             }
             else if (i === numRows) {
-                document.write("<td id= '" + i.toString() + j.toString() + "' class='outer up left'></td>");
+                document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer corner right'></td>");
             }
             else {
-                document.write("<td id= '" + i.toString() + j.toString() + "' class = 'outer up down'></td>");
+                document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class ='outer right'></td>");
             }
         }
         else {
             if (i === 0 | i === numRows) {
-                document.write("<td id= '" + i.toString() + j.toString() + "' class = 'outer right left'></td>");
+                document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer'></td>");
             }
             else {
-                document.write("<td id= '" + i.toString() + j.toString() + "' ></td>");
+                document.write("<td id= '" + i.toString() + "_" + j.toString() + "'></td>");
 
             }
         }
@@ -58,14 +58,14 @@ level1();
 document.write('</table>');
 
 var table = $("#table");
-var cellWidth = document.getElementById("00").offsetWidth / 2;
-var cellHeight = document.getElementById("00").offsetHeight / 2;
+var cellWidth = document.getElementById("0_0").offsetWidth / 2;
+var cellHeight = document.getElementById("0_0").offsetHeight / 2;
 
 function level1() {
-    $("#00").text("laser").addClass("laser");
-    $("#60").text("laser").addClass("laser");
-    $("#3" + numCols + "").text("laser").addClass("laser");
-    $("#" + numRows + "10").text("laser").addClass("laser");
+    $("#0_0").text("laser").addClass("laser");
+    $("#6_0").text("laser").addClass("laser");
+    $("#3_" + numCols + "").text("laser").addClass("laser");
+    $("#" + numRows + "_10").text("laser").addClass("laser");
     $("#" + avatar + "").addClass("avatar");
     var pos = getElementPosition(avatar);
     avatarX = pos.left + cellWidth;
