@@ -11,6 +11,7 @@ var avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
 var avatarX;
 var avatarY;
 var avatarIsPlaced = false;
+var shooting = false;
 
 document.write('<img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><h1 id="test">Laser Gate</h1><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
 $("#thing").hide();
@@ -78,6 +79,7 @@ function level1() {
         top: avatarY
     });
     avatarIsPlaced = true;
+    $("#thing").show();
 }
 function getElementPosition(id) {
     var element = document.getElementById(id);
@@ -97,73 +99,58 @@ var grid = document.getElementById("grid");
 for (i = 0; i <= numRows; i++) {
     for (j = 0; j <= numCols; j++) {
         grid.rows[i].cells[j].onclick = function(e) {
-            var currentPosition = $(this).attr("id");
-            var position = getElementPosition(currentPosition);
-            var xPosition = position.left + cellWidth;
-            var yPosition = position.top + cellHeight;
-            $("#whereami").text("Current Location: " + xPosition + ", " + yPosition);
+            if ($(this).hasClass("outer") && !shooting) {
 
-            if ($(this).hasClass("laser") && avatarIsPlaced) {
-                $("#whereami").text("LASER --- Current Location: " + xPosition + ", " + yPosition + " avatar: " + avatarX + "  " + avatarY);
-                laserX = xPosition;
-                laserY = yPosition;
-                $("#thing").show();
-                var theThing = document.querySelector("#thing");
-                theThing.style.left = laserX + "px";
-                theThing.style.top = laserY + "px";
-                //Hide thing after it has finished it
-                $("#thing").on('transitionend webkitTransitionEnd', function(e) {
-                    $("#thing").hide();
-                });
-            }
-            else if ($(this).hasClass("outer")) {
-                $("#thing").hide();
-                $("#" + avatar + "").removeClass("avatar");
-                $(this).addClass("avatar");
-                avatar = currentPosition;
-                avatarX = xPosition;
-                avatarY = yPosition;
-                $("#thing").css({
-                    left: avatarX,
-                    top: avatarY
-                });
-                var transitionEnd = whichTransitionEvent();
-                var theThing = document.getElementById("thing");
-                theThing.addEventListener(transitionEnd, $("#thing").show(), false);
-                
-//                
-//                $("#thing").on('transitionend webkitTransitionEnd', function(e) {
-//                    $("#thing").show();
-//                });
-                
-//                $("#thing").show();
-//$("#thing").on('transitionend webkitTransitionEnd', function(e) {
-//                    $("#thing").show();
-//                });
-                avatarIsPlaced = true;
+                //get top and left coordinates of the new clicked position
+                var currentPosition = $(this).attr("id");
+                var position = getElementPosition(currentPosition);
+                var xPosition = position.left + cellWidth;
+                var yPosition = position.top + cellHeight;
+                $("#whereami").text("Current Location: " + xPosition + ", " + yPosition);
+                $("#whereami").text("shooting: " + shooting);
+                if ($(this).hasClass("laser") && avatarIsPlaced) {
+                    shooting = true;
+                    $("#thing").show();
+                    $("#whereami").text("shooting: " + shooting);
+
+                    //Shoot!
+                    var theThing = document.querySelector("#thing");
+                    theThing.style.left = xPosition + "px";
+                    theThing.style.top = yPosition + "px";
+
+                    //after done shooting, reset the avatar
+                    setTimeout(function() {
+                        $("#thing").hide();
+                        theThing.style.left = avatarX + "px";
+                        theThing.style.top = avatarY + "px";
+                        setTimeout(function() {
+                            shooting = false;
+                            $("#thing").show();
+                        }, 1000);
+                    }, 1000);
+
+
+                } else {
+                    avatarPlaced = false;
+                    shooting = true;
+                    $("#" + avatar + "").removeClass("avatar");
+                    $(this).addClass("avatar");
+                    avatar = currentPosition;
+                    avatarX = xPosition;
+                    avatarY = yPosition;
+                   
+                   $("#thing").hide();
+                   $("#thing").css({
+                        left: avatarX,
+                        top: avatarY
+                    });
+                    setTimeout(function() {
+                            avatarPlaced = true;
+                            shooting = false;
+                            $("#thing").show();
+                        }, 1000);
+                }
             }
         };
     }
 }
-
-function complete() {
-//    $("#thing").hide();
-}
-
-function whichTransitionEvent() {
-    var t;
-    var el = document.getElementById("thing");
-    var transitions = {
-        'transition': 'transitionend',
-        'OTransition': 'oTransitionEnd',
-        'MozTransition': 'transitionend',
-        'WebkitTransition': 'webkitTransitionEnd'
-    };
-
-    for (t in transitions) {
-        if (el.style[t] !== undefined) {
-            return transitions[t];
-        }
-    }
-}
-
