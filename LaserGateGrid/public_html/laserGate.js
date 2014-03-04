@@ -69,6 +69,8 @@ function level1() {
     $("#6_0").text("laser").addClass("laser");
     $("#3_" + numCols + "").text("laser").addClass("laser");
     $("#" + numRows + "_10").text("laser").addClass("laser");
+    $("#5_5").attr("id", "box");
+    $("#box").addClass("unHit");
     $("#" + avatar + "").addClass("avatar");
     var pos = getElementPosition(avatar);
     avatarX = pos.left + cellWidth;
@@ -78,6 +80,7 @@ function level1() {
         left: avatarX,
         top: avatarY
     });
+    
     avatarIsPlaced = true;
     $("#thing").show();
 }
@@ -108,15 +111,50 @@ for (i = 0; i <= numRows; i++) {
                 var yPosition = position.top + cellHeight;
                 $("#whereami").text("Current Location: " + xPosition + ", " + yPosition);
                 $("#whereami").text("shooting: " + shooting);
+
                 if ($(this).hasClass("laser") && avatarIsPlaced) {
                     shooting = true;
                     $("#thing").show();
                     $("#whereami").text("shooting: " + shooting);
 
+                    //get dimensions of box
+                    var boxPos = getElementPosition("box");
+                    var boxDim = {
+                        left: boxPos.left,
+                        top: boxPos.top,
+                        right: boxPos.left + cellWidth,
+                        bottom: boxPos.top + cellHeight
+                    };
+//                    console.log("boxdim left: " + boxDim.left + " right: " + boxDim.right + " top " + boxDim.top + " bottom " + boxDim.bottom);
+
                     //Shoot!
                     var theThing = document.querySelector("#thing");
                     theThing.style.left = xPosition + "px";
                     theThing.style.top = yPosition + "px";
+
+                    //check for any collisions 
+                    var testCollision = setInterval(function() {
+                        //get the necessary location of the thing 
+                        var thingEl = document.getElementById("thing");
+                        var thingPosition = getElementPosition("thing");
+                        var thingLeft = thingPosition.left;
+                        var thingTop = thingPosition.top;
+                        var thingRight = thingLeft + thingEl.width;
+                        var thingBottom = thingTop + thingEl.height;
+//                        console.log("\n left " + thingLeft + " top " + thingTop + " right " + thingRight + " bottom "  + thingBottom);
+
+                        //test if the objects collide
+                        xOverlap = collides(boxDim.left, thingLeft, thingRight) || collides(thingLeft, boxDim.left, boxDim.right);
+                        yOverlap = collides(boxDim.top, thingTop, thingBottom) || collides(thingTop, boxDim.top, boxDim.bottom);
+                        if (xOverlap && yOverlap) {
+                            $("#box").removeClass("unhit");
+                            $("#box").addClass("hit");
+                            console.log("overlap");
+                        }
+                    }, 1);
+                    setTimeout(function() {
+                        clearInterval(testCollision);
+                    }, 1000);
 
                     //after done shooting, reset the avatar
                     setTimeout(function() {
@@ -125,6 +163,7 @@ for (i = 0; i <= numRows; i++) {
                         theThing.style.top = avatarY + "px";
                         setTimeout(function() {
                             shooting = false;
+                            $("#whereami").text("shooting in timeout: " + shooting);
                             $("#thing").show();
                         }, 1000);
                     }, 1000);
@@ -138,19 +177,23 @@ for (i = 0; i <= numRows; i++) {
                     avatar = currentPosition;
                     avatarX = xPosition;
                     avatarY = yPosition;
-                   
-                   $("#thing").hide();
-                   $("#thing").css({
+
+                    $("#thing").hide();
+                    $("#thing").css({
                         left: avatarX,
                         top: avatarY
                     });
                     setTimeout(function() {
-                            avatarPlaced = true;
-                            shooting = false;
-                            $("#thing").show();
-                        }, 1000);
+                        avatarPlaced = true;
+                        shooting = false;
+                        $("#thing").show();
+                    }, 1000);
                 }
             }
-        };
+        }
+        ;
     }
+}
+function collides(value, min, max) {
+    return (value >= min) && (value <= max);
 }

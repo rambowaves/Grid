@@ -74,4 +74,14 @@ tr, td {
     height: 15px;
     width: 15px;
     transition: left 1s ease-in, top 1s ease-in;
+    
+}
+
+.unHit {
+    background-color: gray;
+}
+
+.hit {
+    background-color: red;
+    
 }
