@@ -5,14 +5,19 @@
  * and open the template in the editor.
  */
 
+//Initialize num of rows and cols to use as the game grid
 var numCols = 12;
 var numRows = 12;
+
+//set avatar location to be in the center of the bottom row
 var avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
 var avatarX;
 var avatarY;
 var avatarIsPlaced = false;
 var shooting = false;
 
+//sets up the game grid 
+//puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 document.write('<img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><h1 id="test">Laser Gate</h1><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
 $("#thing").hide();
 for (i = 0; i <= numRows; i++) {
@@ -49,33 +54,40 @@ for (i = 0; i <= numRows; i++) {
             }
             else {
                 document.write("<td id= '" + i.toString() + "_" + j.toString() + "'></td>");
-
             }
         }
     }
     document.write('</tr></div>');
 }
 ;
-
-level1();
 document.write('</table>');
 
-var table = $("#table");
+
+//get cellWidth and cellHeight to be used in placement and in overlap test
 var cellWidth = document.getElementById("0_0").offsetWidth / 2;
 var cellHeight = document.getElementById("0_0").offsetHeight / 2;
 
+//used to mock a level 
+level1();
 function level1() {
+    //place lasers
     $("#0_0").text("laser").addClass("laser");
     $("#6_0").text("laser").addClass("laser");
     $("#3_" + numCols + "").text("laser").addClass("laser");
     $("#" + numRows + "_10").text("laser").addClass("laser");
+    
+    //place boxes
+    //TODO: create an array of boxes
     $("#5_5").attr("id", "box");
     $("#box").addClass("unHit");
+    
+    //set avatar location
     $("#" + avatar + "").addClass("avatar");
     var pos = getElementPosition(avatar);
+    console.log("position " + pos.left + "  " + pos.top);
     avatarX = pos.left + cellWidth;
     avatarY = pos.top + cellHeight;
-
+    console.log("avatar location " + avatarX + "   " + avatarY);
     $("#thing").css({
         left: avatarX,
         top: avatarY
@@ -84,6 +96,9 @@ function level1() {
     avatarIsPlaced = true;
     $("#thing").show();
 }
+
+//used to get element position 
+//@param of id
 function getElementPosition(id) {
     var element = document.getElementById(id);
     var top = 0;
@@ -125,7 +140,6 @@ for (i = 0; i <= numRows; i++) {
                         right: boxPos.left + cellWidth,
                         bottom: boxPos.top + cellHeight
                     };
-//                    console.log("boxdim left: " + boxDim.left + " right: " + boxDim.right + " top " + boxDim.top + " bottom " + boxDim.bottom);
 
                     //Shoot!
                     var theThing = document.querySelector("#thing");
@@ -134,22 +148,25 @@ for (i = 0; i <= numRows; i++) {
 
                     //check for any collisions 
                     var testCollision = setInterval(function() {
-                        //get the necessary location of the thing 
+                        //get the necessary location of the thing at that moment
                         var thingEl = document.getElementById("thing");
                         var thingPosition = getElementPosition("thing");
                         var thingLeft = thingPosition.left;
                         var thingTop = thingPosition.top;
                         var thingRight = thingLeft + thingEl.width;
                         var thingBottom = thingTop + thingEl.height;
-//                        console.log("\n left " + thingLeft + " top " + thingTop + " right " + thingRight + " bottom "  + thingBottom);
 
-                        //test if the objects collide
+                        //test if the laser collides with any boxes
                         xOverlap = collides(boxDim.left, thingLeft, thingRight) || collides(thingLeft, boxDim.left, boxDim.right);
                         yOverlap = collides(boxDim.top, thingTop, thingBottom) || collides(thingTop, boxDim.top, boxDim.bottom);
                         if (xOverlap && yOverlap) {
                             $("#box").removeClass("unhit");
                             $("#box").addClass("hit");
                             console.log("overlap");
+                            setTimeout(function() {
+                                //we will have to reconfigure this once we decide what happens when we hit a box
+                                document.getElementById("box").style.backgroundColor = "transparent";
+                            }, 1000);
                         }
                     }, 1);
                     setTimeout(function() {
