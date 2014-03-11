@@ -15,10 +15,12 @@ var avatarX;
 var avatarY;
 var avatarIsPlaced = false;
 var shooting = false;
-
+menu();
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
-document.write('<img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><h1 id="test">L a s e r G a t e </h1><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
+
+function game () {
+document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><h1 id="test">Laser Gate</h1><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
 $("#thing").hide();
 for (i = 0; i <= numRows; i++) {
     document.write("<tr class='row" + i + "'>");
@@ -110,8 +112,7 @@ function getElementPosition(id) {
         element = element.offsetParent;
     }
     return {top: top, left: left};
-}
-;
+};
 
 var grid = document.getElementById("grid");
 for (i = 0; i <= numRows; i++) {
@@ -220,3 +221,32 @@ function checkLocation(laser) {
             ($("#" + laser + "").hasClass("top") && $(".avatar").hasClass("top"))? false :
             ($("#" + laser + "").hasClass("bottom") && $(".avatar").hasClass("bottom"))? false : true;
 }
+
+
+};
+
+function menu() { //this will bring the user back to the level screen so he can pick the next level
+            document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="menu"><h1>Laser Gate</h1><table id="selector" cellspacing = "15" cellpadding = "10" id="a" align = "center">');
+            var numRows = 6;
+            var numColmns = 5;
+            var blockId = 1;
+            for(i = 0; i < numRows; i++) { //the menu table
+               document.write('<tr id="row"' + i + '>');
+
+               for(j = 0; j < numColmns; j++){
+                   document.write("<td id= '" + blockId.toString() + "'>" + blockId.toString() + "</td>");
+                   blockId++;
+               };
+               document.write('</tr>');
+            };
+            document.write('</table></div>');
+
+         $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
+             var id = $(this).attr('id');
+             console.log("go to level " + id + "");
+             $('.menu').html(''); //remove everything
+             $('div').removeClass("menu"); 
+             game(); //game(id) will be used with a next level function when there is a variety of levels
+         });
+
+    }
