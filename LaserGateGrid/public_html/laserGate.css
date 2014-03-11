@@ -34,7 +34,7 @@ table {
 
 h1 {
     color: blue;
-    font-size: 50px;
+    font-size: 20px;
     vertical-align: middle;
     text-align: center;
 
@@ -74,7 +74,6 @@ tr, td {
     height: 15px;
     width: 15px;
     transition: left 1s ease-in, top 1s ease-in;
-    
 }
 
 .unHit {

@@ -6,8 +6,8 @@
  */
 
 //Initialize num of rows and cols to use as the game grid
-var numCols = 12;
-var numRows = 12;
+var numCols = 9;
+var numRows = 13;
 
 //set avatar location to be in the center of the bottom row
 var avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
@@ -18,7 +18,7 @@ var shooting = false;
 
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
-document.write('<img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><h1 id="test">Laser Gate</h1><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
+document.write('<img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><h1 id="test">L a s e r G a t e </h1><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
 $("#thing").hide();
 for (i = 0; i <= numRows; i++) {
     document.write("<tr class='row" + i + "'>");
@@ -71,16 +71,16 @@ var cellHeight = document.getElementById("0_0").offsetHeight / 2;
 level1();
 function level1() {
     //place lasers
-    $("#0_0").text("laser").addClass("laser");
-    $("#6_0").text("laser").addClass("laser");
-    $("#3_" + numCols + "").text("laser").addClass("laser");
-    $("#" + numRows + "_10").text("laser").addClass("laser");
-    
+    $("#0_0").text("L").addClass("laser");
+    $("#6_0").text("L").addClass("laser");
+    $("#3_" + numCols + "").text("L").addClass("laser");
+    $("#" + numRows + "_10").text("L").addClass("laser");
+
     //place boxes
     //TODO: create an array of boxes
     $("#5_5").attr("id", "box");
     $("#box").addClass("unHit");
-    
+
     //set avatar location
     $("#" + avatar + "").addClass("avatar");
     var pos = getElementPosition(avatar);
@@ -92,7 +92,7 @@ function level1() {
         left: avatarX,
         top: avatarY
     });
-    
+
     avatarIsPlaced = true;
     $("#thing").show();
 }
@@ -128,6 +128,7 @@ for (i = 0; i <= numRows; i++) {
                 $("#whereami").text("shooting: " + shooting);
 
                 if ($(this).hasClass("laser") && avatarIsPlaced) {
+                    if (checkLocation(currentPosition)) {
                     shooting = true;
                     $("#thing").show();
                     $("#whereami").text("shooting: " + shooting);
@@ -142,6 +143,9 @@ for (i = 0; i <= numRows; i++) {
                     };
 
                     //Shoot!
+                    var theThing = document.getElementById("thing");
+                    theThing.style.transition = "left 1s ease-in, top 1s ease-in";
+
                     var theThing = document.querySelector("#thing");
                     theThing.style.left = xPosition + "px";
                     theThing.style.top = yPosition + "px";
@@ -178,15 +182,12 @@ for (i = 0; i <= numRows; i++) {
                         $("#thing").hide();
                         theThing.style.left = avatarX + "px";
                         theThing.style.top = avatarY + "px";
-                        setTimeout(function() {
-                            shooting = false;
-                            $("#whereami").text("shooting in timeout: " + shooting);
-                            $("#thing").show();
-                        }, 1000);
+                        theThing.style.transition = "left 0s ease-in, top 0s ease-in";
+                        shooting = false;
+                        $("#whereami").text("shooting in timeout: " + shooting);
+                        $("#thing").show();
                     }, 1000);
-
-
-                } else {
+                    }} else {
                     avatarPlaced = false;
                     shooting = true;
                     $("#" + avatar + "").removeClass("avatar");
@@ -198,13 +199,12 @@ for (i = 0; i <= numRows; i++) {
                     $("#thing").hide();
                     $("#thing").css({
                         left: avatarX,
-                        top: avatarY
+                        top: avatarY,
+                        transition: "left 0s ease-in, top 0s ease-in"
                     });
-                    setTimeout(function() {
-                        avatarPlaced = true;
-                        shooting = false;
-                        $("#thing").show();
-                    }, 1000);
+                    avatarPlaced = true;
+                    shooting = false;
+                    $("#thing").show();
                 }
             }
         }
@@ -213,4 +213,10 @@ for (i = 0; i <= numRows; i++) {
 }
 function collides(value, min, max) {
     return (value >= min) && (value <= max);
+}
+function checkLocation(laser) {
+    return ($("#" + laser + "").hasClass("left") && $(".avatar").hasClass("left"))? false : 
+            ($("#" + laser + "").hasClass("right") && $(".avatar").hasClass("right"))? false : 
+            ($("#" + laser + "").hasClass("top") && $(".avatar").hasClass("top"))? false :
+            ($("#" + laser + "").hasClass("bottom") && $(".avatar").hasClass("bottom"))? false : true;
 }
