@@ -83,3 +83,6 @@ tr, td {
 .hit {
     background-color: red;
 }
+.remove {
+    background-color: transparent;
+}
