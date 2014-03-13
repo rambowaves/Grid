@@ -72,15 +72,19 @@ function game() {
 
     function Box(boxId) {
         this.boxId = boxId;
-
-        this.getId = this.boxId;
-        this.draw = function(id) {
+//        this.getId = getId;
+    }
+        Box.prototype.getId = function() {
+            return this.boxId;
+        };
+        
+        Box.prototype.draw = function(id) {
             console.log("DRAW " + id);
-//        $("#" + id + "").attr("id", "box" + id);
             $("#" + id + "").addClass("unHit");
         };
-        this.boxDim = function(id) {
-            var boxPos = getElementPosition(this.getId);
+        
+        Box.prototype.boxDim = function(id) {
+            var boxPos = getElementPosition(this.getId());
             return {
                 left: boxPos.left,
                 top: boxPos.top,
@@ -88,7 +92,7 @@ function game() {
                 bottom: boxPos.top + cellHeight
             };
         };
-    }
+    
 
 //used to mock a level 
     level1();
@@ -97,7 +101,8 @@ function game() {
         $("#0_0").text("L").addClass("laser");
         $("#6_0").text("L").addClass("laser");
         $("#3_" + numCols + "").text("L").addClass("laser");
-        $("#" + numRows + "_10").text("L").addClass("laser");
+//        $("#3_" + numCols + "").text("L").addClass("laser");
+        $("#" + numRows + "_7").text("L").addClass("laser");
 
         //place boxes
         //boxes is an array of box objects 
@@ -109,16 +114,18 @@ function game() {
         boxes[2] = box2;
         var box3 = new Box("7_7");
         boxes[3] = box3;
-        var box4 = new Box("4_4");
+        var box4 = new Box("7_2");
         boxes[4] = box4;
-        console.log("BOXES " + boxes[0].getId);
+        console.log("BOXES " + boxes[0].getId());
 
         for (var i = 0; i < boxes.length; i++) {
             var box = boxes[i];
-            box.draw(box.getId);
+            box.draw(box.getId());
         }
 
         //set avatar location
+        //  TODO abstraction for avatar and thing
+        // give avatar id of grid location and move avatar and thing
         $("#" + avatar + "").addClass("avatar");
         var pos = getElementPosition(avatar);
         console.log("position " + pos.left + "  " + pos.top);
@@ -192,11 +199,11 @@ function game() {
                                 //test if the laser collides with any boxes
                                 for (var i = 0; i < boxes.length; i++) {
                                     var box = boxes[i];
-                                    var boxDim = box.boxDim(box.getId);
+                                    var boxDim = box.boxDim(box.getId());
                                     xOverlap = collides(boxDim.left, thingLeft, thingRight) || collides(thingLeft, boxDim.left, boxDim.right);
                                     yOverlap = collides(boxDim.top, thingTop, thingBottom) || collides(thingTop, boxDim.top, boxDim.bottom);
                                     if (xOverlap && yOverlap) {
-                                        $("#" + box.getId + "").addClass("remove");
+                                        $("#" + box.getId() + "").addClass("remove");
                                         boxes.splice(i, 1);
                                     }
                                 }
@@ -207,6 +214,7 @@ function game() {
                             }, 1000);
 
                             //after done shooting, reset the avatar
+                            //THING ABSTRACTION
                             setTimeout(function() {
                                 $("#thing").hide();
                                 theThing.style.left = avatarX + "px";
@@ -218,6 +226,7 @@ function game() {
                             }, 1000);
                         }
                     } else {
+                        //AVATAR ABSTRACTION
                         avatarPlaced = false;
                         shooting = true;
                         $("#" + avatar + "").removeClass("avatar");
@@ -225,7 +234,7 @@ function game() {
                         avatar = currentPosition;
                         avatarX = xPosition;
                         avatarY = yPosition;
-
+                        //THING ABSTRACTION
                         $("#thing").hide();
                         $("#thing").css({
                             left: avatarX,
