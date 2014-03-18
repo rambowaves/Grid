@@ -86,3 +86,44 @@ tr, td {
 .remove {
     background-color: transparent;
 }
+
+.menuOverlay{
+   position:fixed; /*or  absolute*/
+   margin: auto;
+   top:0;
+   left:0;
+   width:100%;
+   height: 100%;
+   background: grey;
+   opacity: .5;
+   z-index: 1000; /* or  greater value */
+}
+
+
+#OverlayOptions {
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    margin-top: 5%;
+    background: gold;
+    opacity: 1;
+}
+
+#menuClick {
+    padding-top: 10%;
+    position: absolute; //could be a problem
+    text-align: center;
+    vertical-align: middle;
+    z-index: 2000;
+}
+
+#restart {
+    padding-top: 15%;
+    position: absolute; //could be a problem
+    text-align: center;
+    vertical-align: middle;
+}
+
+#menuClick h1, #restart h1{
+    color: black;
+}
