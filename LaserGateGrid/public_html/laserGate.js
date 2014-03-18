@@ -21,7 +21,7 @@ menu();
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 
 function game() {
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><h1 id="test">Laser Gate</h1><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><h1 id="test">Laser Gate</h1><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
     $("#thing").hide();
     for (i = 0; i <= numRows; i++) {
         document.write("<tr class='row" + i + "'>");
@@ -63,7 +63,7 @@ function game() {
         document.write('</tr></div>');
     }
     ;
-    document.write('</table>');
+    document.write('</table><button id="menu" align="center">menu</button>');
 
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
@@ -260,7 +260,10 @@ function game() {
                 ($("#" + laser + "").hasClass("top") && $(".avatar").hasClass("top")) ? false :
                 ($("#" + laser + "").hasClass("bottom") && $(".avatar").hasClass("bottom")) ? false : true;
     }
-
+    
+    $("#menu").click(function() {
+            menuOverlay();
+        });
 
 }
 ;
@@ -292,3 +295,28 @@ function menu() { //this will bring the user back to the level screen so he can 
     });
 
 }
+
+function menuOverlay(){
+  document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br><a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>')  
+  $('#menuClick').click(function() {
+      //this deletes the game()
+      $('.laserGate').html('');
+      $('#thing').remove();
+      $('div').removeClass('laserGate');
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+      menu();
+  });
+  $('#restart').click(function() {
+      //this deletes the game()
+      avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
+      $('.laserGate').html('');
+      $('#thing').remove();
+      $('div').removeClass('laserGate');
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+      game();
+  });
+};
