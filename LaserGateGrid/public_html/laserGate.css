@@ -79,10 +79,10 @@ tr, td {
 .unHit {
     background-color: gray;
 }
-
+/*
 .hit {
     background-color: red;
-}
+}*/
 .remove {
     background-color: transparent;
 }

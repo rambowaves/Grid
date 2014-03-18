@@ -28,10 +28,10 @@ function game() {
         for (j = 0; j <= numCols; j++) {
             if (j === 0) {
                 if (i === 0) {
-                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer left corner'></td>");
+                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer top left corner'></td>");
                 }
                 else if (i === numRows) {
-                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer left corner'></td>");
+                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer bottom left corner'></td>");
                 }
                 else {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer left '></td>");
@@ -39,10 +39,10 @@ function game() {
             }
             else if (j === numCols) {
                 if (i === 0) {
-                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer corner right'></td>");
+                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer corner top right'></td>");
                 }
                 else if (i === numRows) {
-                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer corner right'></td>");
+                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer corner bottom right'></td>");
                 }
                 else {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class ='outer right'></td>");
@@ -74,25 +74,24 @@ function game() {
         this.boxId = boxId;
 //        this.getId = getId;
     }
-        Box.prototype.getId = function() {
-            return this.boxId;
+    Box.prototype.getId = function() {
+        return this.boxId;
+    };
+
+    Box.prototype.draw = function(id) {
+        $("#" + id + "").addClass("unHit");
+    };
+
+    Box.prototype.boxDim = function(id) {
+        var boxPos = getElementPosition(this.getId());
+        return {
+            left: boxPos.left,
+            top: boxPos.top,
+            right: boxPos.left + cellWidth,
+            bottom: boxPos.top + cellHeight
         };
-        
-        Box.prototype.draw = function(id) {
-            console.log("DRAW " + id);
-            $("#" + id + "").addClass("unHit");
-        };
-        
-        Box.prototype.boxDim = function(id) {
-            var boxPos = getElementPosition(this.getId());
-            return {
-                left: boxPos.left,
-                top: boxPos.top,
-                right: boxPos.left + cellWidth,
-                bottom: boxPos.top + cellHeight
-            };
-        };
-    
+    };
+
 
 //used to mock a level 
     level1();
@@ -100,6 +99,7 @@ function game() {
         //place lasers
         $("#0_0").text("L").addClass("laser");
         $("#6_0").text("L").addClass("laser");
+        $("#0_3").text("L").addClass("laser");
         $("#3_" + numCols + "").text("L").addClass("laser");
 //        $("#3_" + numCols + "").text("L").addClass("laser");
         $("#" + numRows + "_7").text("L").addClass("laser");
@@ -116,7 +116,6 @@ function game() {
         boxes[3] = box3;
         var box4 = new Box("7_2");
         boxes[4] = box4;
-        console.log("BOXES " + boxes[0].getId());
 
         for (var i = 0; i < boxes.length; i++) {
             var box = boxes[i];
@@ -128,7 +127,6 @@ function game() {
         // give avatar id of grid location and move avatar and thing
         $("#" + avatar + "").addClass("avatar");
         var pos = getElementPosition(avatar);
-        console.log("position " + pos.left + "  " + pos.top);
         avatarX = pos.left + cellWidth;
         avatarY = pos.top + cellHeight;
         console.log("avatar location " + avatarX + "   " + avatarY);
@@ -166,16 +164,20 @@ function game() {
                     //get top and left coordinates of the new clicked position
                     var currentPosition = $(this).attr("id");
                     var position = getElementPosition(currentPosition);
-                    var xPosition = position.left + cellWidth;
-                    var yPosition = position.top + cellHeight;
-                    $("#whereami").text("Current Location: " + xPosition + ", " + yPosition);
-                    $("#whereami").text("shooting: " + shooting);
+                    //set appropriate x and y coordinates of the new position
+                    var xPosition = $(this).hasClass("left") ?
+                            $(this).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() :
+                            $(this).hasClass("right") ? position.left :
+                            position.left + cellWidth - $("#thing").width() / 2;
+                    var yPosition = $(this).hasClass("top") ?
+                            $(this).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() :
+                            $(this).hasClass("bottom") ? position.top :
+                            position.top + cellHeight - $("#thing").height() / 2;
 
                     if ($(this).hasClass("laser") && avatarIsPlaced) {
                         if (checkLocation(currentPosition)) {
                             shooting = true;
                             $("#thing").show();
-                            $("#whereami").text("shooting: " + shooting);
 
                             //Shoot!
                             var theThing = document.getElementById("thing");
@@ -207,8 +209,7 @@ function game() {
                                         boxes.splice(i, 1);
                                     }
                                 }
-
-                            }, 1.1);
+                            }, 1);
                             setTimeout(function() {
                                 clearInterval(testCollision);
                             }, 1000);
