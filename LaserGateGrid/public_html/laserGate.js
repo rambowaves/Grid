@@ -26,7 +26,8 @@ menu();
 
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
-function game() {
+function game(level) {
+    var id = level;
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><h1 id="test">Laser Gate</h1><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
     $("#thing").hide();
     for (i = 0; i <= numRows; i++) {
@@ -100,34 +101,24 @@ function game() {
         };
     
 
-//used to mock a level 
-    level1();
-    function level1() {
+    //used to create the levels
+    gameLevels(id);
+    function gameLevels(id) {
+        
         //place lasers
-        $("#0_0").text("L").addClass("laser");
-        $("#6_0").text("L").addClass("laser");
-        $("#3_" + numCols + "").text("L").addClass("laser");
-//        $("#3_" + numCols + "").text("L").addClass("laser");
-        $("#" + numRows + "_7").text("L").addClass("laser");
-
+        for(var i = 0; i < levels.level[id].laser.length; i++){
+            console.log(levels.level[id].laser[i].position);
+            $("#" + levels.level[id].laser[i].position).text("L").addClass("laser");
+        };
+        
         //place boxes
         //boxes is an array of box objects 
-        var box0 = new Box("2_4");
-        boxes[0] = box0;
-        var box1 = new Box("6_2");
-        boxes[1] = box1;
-        var box2 = new Box("8_7");
-        boxes[2] = box2;
-        var box3 = new Box("7_7");
-        boxes[3] = box3;
-        var box4 = new Box("7_2");
-        boxes[4] = box4;
-        console.log("BOXES " + boxes[0].getId());
-
-        for (var i = 0; i < boxes.length; i++) {
-            var box = boxes[i];
+        for(var j = 0; j < levels.level[id].box.length; j++) {
+            boxes[j] = new Box(levels.level[id].box[j].position);
+            var box = boxes[j];
             box.draw(box.getId());
-        }
+        };
+        console.log("BOXES " + boxes[0].getId());
 
         //set avatar location
         //  TODO abstraction for avatar and thing
@@ -214,8 +205,9 @@ function game() {
                                     }
                                     if(boxes.length === 0){
                                         var nextLevel = true;
+                                        id += 1;
                                         unlocked += 1;
-                                        menuOverlay(nextLevel);
+                                        menuOverlay(nextLevel, id);
                                     }
                                 }
 
@@ -307,13 +299,14 @@ function menu() { //this will bring the user back to the level screen so he can 
             console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
-            game(); //game(id) will be used with a next level function when there is a variety of levels
+            var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
+            game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
         };
     });
 
 }
 
-function menuOverlay(won){
+function menuOverlay(won, id){
     document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');  
   
     if(won){
@@ -340,7 +333,7 @@ function menuOverlay(won){
       //this deletes the menuOverlay
       $('.menuOverlay').html('');
       $('div').removeClass('menuOverlay');
-      game();//will pass in a value that a NEXTLEVEL function will read and change levels with 
+      game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
   });
   
   $('#restart').click(function() {
@@ -355,3 +348,23 @@ function menuOverlay(won){
       game();
   });
 };
+
+//json for the levels in the game 
+var levels = {
+    level:
+        [
+            {   
+                box: [{ position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}],
+                laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
+            },
+            {
+                box: [{position: "1_4"}, {position: "6_3"}, {position: "8_8"}, {position: "7_8"}, {position: "7_2"}], 
+                laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+            },
+            {
+                box: [{position: "2_4"}, {position: "6_2"}, {position: "9_7"}, {position: "10_7"}, {position: "7_2"}], 
+                laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+            }
+        ]
+};
+
