@@ -16,10 +16,16 @@ var avatarY;
 var avatarIsPlaced = false;
 var shooting = false;
 var boxes = new Array();
+
+//show users what levels are open to them and which ones are not
+var unlocked = 1;
+
+//code goes to menu function first
 menu();
+
+
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
-
 function game() {
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><h1 id="test">Laser Gate</h1><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
     $("#thing").hide();
@@ -208,6 +214,11 @@ function game() {
                                         $("#" + box.getId() + "").addClass("remove");
                                         boxes.splice(i, 1);
                                     }
+                                    if(boxes.length === 0){
+                                        var nextLevel = true;
+                                        unlocked += 1;
+                                        menuOverlay(nextLevel);
+                                    }
                                 }
                             }, 1);
                             setTimeout(function() {
@@ -277,7 +288,11 @@ function menu() { //this will bring the user back to the level screen so he can 
         document.write('<tr id="row"' + i + '>');
 
         for (j = 0; j < numColmns; j++) {
-            document.write("<td id= '" + blockId.toString() + "'>" + blockId.toString() + "</td>");
+            if(blockId <= unlocked){
+                document.write("<td id= '" + blockId.toString() + "' class='unlocked'>" + blockId.toString() + "</td>");
+            } else {
+                document.write("<td id= '" + blockId.toString() + "' class='locked'>" + blockId.toString() + "</td>");
+            }
             blockId++;
         }
         ;
@@ -288,17 +303,25 @@ function menu() { //this will bring the user back to the level screen so he can 
 
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
-        console.log("go to level " + id + "");
-        $('.menu').html(''); //remove everything
-        $('div').removeClass("menu");
-        game(); //game(id) will be used with a next level function when there is a variety of levels
+        //checks to see if level has been unlocked then allows you to enter game again
+        if(id <= unlocked) {
+            console.log("go to level " + id + "");
+            $('.menu').html(''); //remove everything
+            $('div').removeClass("menu");
+            game(); //game(id) will be used with a next level function when there is a variety of levels
+        };
     });
 
 }
 
-function menuOverlay(){
-  document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br><a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>')  
-  $('#menuClick').click(function() {
+function menuOverlay(won){
+    document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');  
+  
+    if(won){
+        document.write('<a id="nextLevel" align="center"><h1><u>Next Level</u></h1></a><br>');
+    }
+    document.write('<a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>');
+    $('#menuClick').click(function() {
       //this deletes the game()
       $('.laserGate').html('');
       $('#thing').remove();
@@ -308,6 +331,19 @@ function menuOverlay(){
       $('div').removeClass('menuOverlay');
       menu();
   });
+  
+  $('#nextLevel').click(function() {
+      //this deletes the game()
+      avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
+      $('.laserGate').html('');
+      $('#thing').remove();
+      $('div').removeClass('laserGate');
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+      game();//will pass in a value that a NEXTLEVEL function will read and change levels with 
+  });
+  
   $('#restart').click(function() {
       //this deletes the game()
       avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
