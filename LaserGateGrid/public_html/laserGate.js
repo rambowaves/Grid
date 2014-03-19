@@ -206,7 +206,9 @@ function game(level) {
                                     if(boxes.length === 0){
                                         var nextLevel = true;
                                         id += 1;
+                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
+                                        };
                                         menuOverlay(nextLevel, id);
                                     }
                                 }
