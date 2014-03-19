@@ -310,7 +310,7 @@ function menu() { //this will bring the user back to the level screen so he can 
 
 function menuOverlay(won, id){
     document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');  
-  
+    document.write('<a id="resume" align="center"><h1><u>resume</u></h1></a><br>');
     if(won){
         document.write('<a id="nextLevel" align="center"><h1><u>Next Level</u></h1></a><br>');
     }
@@ -336,6 +336,12 @@ function menuOverlay(won, id){
       $('.menuOverlay').html('');
       $('div').removeClass('menuOverlay');
       game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
+  });
+  
+  $('#resume').click(function() {
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
   });
   
   $('#restart').click(function() {
