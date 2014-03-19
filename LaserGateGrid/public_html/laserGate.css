@@ -118,13 +118,26 @@ tr, td {
     z-index: 2000;
 }
 
+
+#nextLevel{
+    padding-top: 13%;
+    position: absolute; //could be a problem
+    text-align: center;
+    vertical-align: middle;
+    z-index: 1500;
+}
+
 #restart {
-    padding-top: 15%;
+    padding-top: 16%;
     position: absolute; //could be a problem
     text-align: center;
     vertical-align: middle;
 }
 
-#menuClick h1, #restart h1{
+#menuClick h1,#nextLevel h1, #restart h1{
     color: black;
+}
+
+.locked {
+    background-color: gray;
 }
