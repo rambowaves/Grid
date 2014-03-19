@@ -343,6 +343,9 @@ function menuOverlay(won, id){
       //this deletes the menuOverlay
       $('.menuOverlay').html('');
       $('div').removeClass('menuOverlay');
+      if(levels.level[id].won){ //fixed bug that if you won a level and went back you could progress to next level until you won again
+          id +=1;
+      }
       game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
   });
   
