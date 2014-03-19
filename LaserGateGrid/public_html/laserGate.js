@@ -206,6 +206,9 @@ function game() {
                                         $("#" + box.getId() + "").addClass("remove");
                                         boxes.splice(i, 1);
                                     }
+                                    if(boxes.length === 0){
+                                        menuOverlay();
+                                    }
                                 }
 
                             }, 1.1);
