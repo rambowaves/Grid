@@ -266,7 +266,7 @@ function game(level) {
     }
     
     $("#menu").click(function() {
-            menuOverlay();
+            menuOverlay(false, id);
         });
 
 }
@@ -347,7 +347,7 @@ function menuOverlay(won, id){
       //this deletes the menuOverlay
       $('.menuOverlay').html('');
       $('div').removeClass('menuOverlay');
-      game();
+      game(id);
   });
 };
 
