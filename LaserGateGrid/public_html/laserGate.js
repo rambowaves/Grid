@@ -22,7 +22,7 @@ menu();
 
 function game() {
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><h1 id="test">Laser Gate</h1><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
-    $("#thing").hide();
+//    $("#thing").hide();
     for (i = 0; i <= numRows; i++) {
         document.write("<tr class='row" + i + "'>");
         for (j = 0; j <= numCols; j++) {
@@ -72,7 +72,6 @@ function game() {
 
     function Box(boxId) {
         this.boxId = boxId;
-//        this.getId = getId;
     }
     Box.prototype.getId = function() {
         return this.boxId;
@@ -101,7 +100,6 @@ function game() {
         $("#6_0").text("L").addClass("laser");
         $("#0_3").text("L").addClass("laser");
         $("#3_" + numCols + "").text("L").addClass("laser");
-//        $("#3_" + numCols + "").text("L").addClass("laser");
         $("#" + numRows + "_7").text("L").addClass("laser");
 
         //place boxes
@@ -127,16 +125,9 @@ function game() {
         // give avatar id of grid location and move avatar and thing
         $("#" + avatar + "").addClass("avatar");
         var pos = getElementPosition(avatar);
-        avatarX = pos.left + cellWidth;
-        avatarY = pos.top + cellHeight;
-        console.log("avatar location " + avatarX + "   " + avatarY);
-        $("#thing").css({
-            left: avatarX,
-            top: avatarY
-        });
-
+        avatarX = setXLocation(avatar, pos);
+        avatarY = setYLocation(avatar, pos);
         avatarIsPlaced = true;
-        $("#thing").show();
     }
 
 //used to get element position 
@@ -164,31 +155,43 @@ function game() {
                     //get top and left coordinates of the new clicked position
                     var currentPosition = $(this).attr("id");
                     var position = getElementPosition(currentPosition);
+
                     //set appropriate x and y coordinates of the new position
-                    var xPosition = $(this).hasClass("left") ?
-                            $(this).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() :
-                            $(this).hasClass("right") ? position.left :
-                            position.left + cellWidth - $("#thing").width() / 2;
-                    var yPosition = $(this).hasClass("top") ?
-                            $(this).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() :
-                            $(this).hasClass("bottom") ? position.top :
-                            position.top + cellHeight - $("#thing").height() / 2;
+                    var xPosition = setXLocation(this, position);
+                    var yPosition = setYLocation(this, position);
 
                     if ($(this).hasClass("laser") && avatarIsPlaced) {
                         if (checkLocation(currentPosition)) {
                             shooting = true;
-                            $("#thing").show();
-
-                            //Shoot!
+                            
+                            //fetch avatar location again just to be sure screen wasn't resized
+                            var temp = getElementPosition(avatar);
+                            avatarX = temp.left == avatarX? avatarX : setXLocation(avatar, temp);
+                            avatarY = temp.top == avatarY? avatarY : setYLocation(avatar, temp);
+                            
+                            //set the thing to avatar location on a zero transition speed
                             var theThing = document.getElementById("thing");
-                            theThing.style.transition = "left 1s ease-in, top 1s ease-in";
+                            theThing.style.transition = "left 0s ease-in, top 0s ease-in";
+                            theThing.style.left = avatarX;
+                            theThing.style.top = avatarY;
+//                            
+                            //make the thing visible and change transition speed back to 1s
+                            setTimeout(function() {
+//                                var theThing = document.getElementById("thing");
+                                theThing.style.visibility = "visible";
+                                theThing.style.transition = "left 1s ease-in, top 1s ease-in";
+                            }, 1);
 
-                            var theThing = document.querySelector("#thing");
-                            theThing.style.left = xPosition + "px";
-                            theThing.style.top = yPosition + "px";
+                            //set new location of the thing, in which it will show the transition to get there
 
-                            //check for any collisions 
+                            setTimeout(function() {
+                                var theThing = document.querySelector("#thing");
+                                theThing.style.left = xPosition + "px";
+                                theThing.style.top = yPosition + "px";
+                            }, 1);
 
+
+                            //check for collisions with box objects
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
                                 var thingEl = document.getElementById("thing");
@@ -214,16 +217,12 @@ function game() {
                                 clearInterval(testCollision);
                             }, 1000);
 
-                            //after done shooting, reset the avatar
+                            //after done shooting, hide the thing
                             //THING ABSTRACTION
                             setTimeout(function() {
-                                $("#thing").hide();
-                                theThing.style.left = avatarX + "px";
-                                theThing.style.top = avatarY + "px";
-                                theThing.style.transition = "left 0s ease-in, top 0s ease-in";
+//                                var theThing = document.getElementById("thing");
+                                theThing.style.visibility = "hidden";
                                 shooting = false;
-                                $("#whereami").text("shooting in timeout: " + shooting);
-                                $("#thing").show();
                             }, 1000);
                         }
                     } else {
@@ -235,21 +234,26 @@ function game() {
                         avatar = currentPosition;
                         avatarX = xPosition;
                         avatarY = yPosition;
-                        //THING ABSTRACTION
-                        $("#thing").hide();
-                        $("#thing").css({
-                            left: avatarX,
-                            top: avatarY,
-                            transition: "left 0s ease-in, top 0s ease-in"
-                        });
                         avatarPlaced = true;
                         shooting = false;
-                        $("#thing").show();
                     }
                 }
             }
             ;
         }
+    }
+    function setXLocation(obj, position) {
+        return $(obj).hasClass("left") ?
+                            $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() :
+                            $(obj).hasClass("right") ? position.left :
+                            position.left + cellWidth - $("#thing").width() / 2;
+    }
+    
+    function setYLocation(obj, position) {
+        return $(obj).hasClass("top") ?
+                            $(obj).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() :
+                            $(obj).hasClass("bottom") ? position.top :
+                            position.top + cellHeight - $("#thing").height() / 2;
     }
     function collides(value, min, max) {
         return (value >= min) && (value <= max);
@@ -260,10 +264,10 @@ function game() {
                 ($("#" + laser + "").hasClass("top") && $(".avatar").hasClass("top")) ? false :
                 ($("#" + laser + "").hasClass("bottom") && $(".avatar").hasClass("bottom")) ? false : true;
     }
-    
+
     $("#menu").click(function() {
-            menuOverlay();
-        });
+        menuOverlay();
+    });
 
 }
 ;
@@ -296,27 +300,28 @@ function menu() { //this will bring the user back to the level screen so he can 
 
 }
 
-function menuOverlay(){
-  document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br><a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>')  
-  $('#menuClick').click(function() {
-      //this deletes the game()
-      $('.laserGate').html('');
-      $('#thing').remove();
-      $('div').removeClass('laserGate');
-      //this deletes the menuOverlay
-      $('.menuOverlay').html('');
-      $('div').removeClass('menuOverlay');
-      menu();
-  });
-  $('#restart').click(function() {
-      //this deletes the game()
-      avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
-      $('.laserGate').html('');
-      $('#thing').remove();
-      $('div').removeClass('laserGate');
-      //this deletes the menuOverlay
-      $('.menuOverlay').html('');
-      $('div').removeClass('menuOverlay');
-      game();
-  });
-};
+function menuOverlay() {
+    document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br><a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>');
+    $('#menuClick').click(function() {
+        //this deletes the game()
+        $('.laserGate').html('');
+        $('#thing').remove();
+        $('div').removeClass('laserGate');
+        //this deletes the menuOverlay
+        $('.menuOverlay').html('');
+        $('div').removeClass('menuOverlay');
+        menu();
+    });
+    $('#restart').click(function() {
+        //this deletes the game()
+        avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
+        $('.laserGate').html('');
+        $('#thing').remove();
+        $('div').removeClass('laserGate');
+        //this deletes the menuOverlay
+        $('.menuOverlay').html('');
+        $('div').removeClass('menuOverlay');
+        game();
+    });
+}
+;
