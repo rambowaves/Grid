@@ -70,7 +70,7 @@ function game(level) {
         document.write('</tr></div>');
     }
     ;
-    document.write('</table><button id="menu" align="center">menu</button>');
+    document.write('</table><button id="menu" align="center">pause</button>');
 
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
@@ -205,6 +205,8 @@ function game(level) {
                                     }
                                     if(boxes.length === 0){
                                         var nextLevel = true;
+                                        levels.level[id].won = true;
+                                        console.log(levels.level[id].won);
                                         id += 1;
                                         if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
@@ -266,7 +268,7 @@ function game(level) {
     }
     
     $("#menu").click(function() {
-            menuOverlay(false, id);
+            menuOverlay(levels.level[level].won, id);
         });
 
 }
@@ -312,7 +314,7 @@ function menuOverlay(won, id){
     document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');  
     document.write('<a id="resume" align="center"><h1><u>resume</u></h1></a><br>');
     if(won){
-        document.write('<a id="nextLevel" align="center"><h1><u>Next Level</u></h1></a><br>');
+        document.write('<a id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
     }
     document.write('<a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>');
     $('#menuClick').click(function() {
@@ -362,6 +364,7 @@ var levels = {
     level:
         [
             {   
+                won: false,
                 box: [{ position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}],
                 laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
             },
