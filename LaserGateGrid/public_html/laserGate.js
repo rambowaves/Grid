@@ -374,7 +374,7 @@ var levels = {
         [
             {   
                 won: false,
-                box: [{ position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}],
+                box: [{position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}],
                 laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
             },
             {
@@ -385,6 +385,11 @@ var levels = {
             {
                 won: false,
                 box: [{position: "2_4"}, {position: "6_2"}, {position: "9_7"}, {position: "10_7"}, {position: "7_2"}], 
+                laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+            }, 
+            {
+                won: false,
+                box: [{position: "4_2"}, {position: "6_2"}, {position: "5_2"}, {position: "7_2"}, {position: "8_2"}, {position: "9_2"}, {position: "6_4"}, {position: "7_3"}, {position: "5_3"}, {position: "4_7"},{position: "5_7"},{position: "6_7"},{position: "7_7"},{position: "8_7"}, {position: "9_7"} ], 
                 laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
             }
         ]
