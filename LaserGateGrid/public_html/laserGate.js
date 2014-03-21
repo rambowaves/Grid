@@ -21,7 +21,7 @@ var boxes = new Array();
 var unlocked = 1;
 
 //code goes to menu function first
-menu();
+startScreen();
 
 
 //sets up the game grid 
@@ -279,6 +279,14 @@ function game(level) {
 
 }
 ;
+
+//a screen that says Laser Gate and has a big button to begin the game
+function startScreen(){
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><link rel="stylesheet" type="text/css" href="/fonts"><div class="welcomeScreen"><center><a id="LaserGate">Laser Gate</a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
+    $('#welcomeButton').click(function () {
+       menu(); 
+    });
+}
 
 function menu() { //this will bring the user back to the level screen so he can pick the next level
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="menu"><h1>Laser Gate</h1><table id="selector" cellspacing = "15" cellpadding = "10" id="a" align = "center">');
