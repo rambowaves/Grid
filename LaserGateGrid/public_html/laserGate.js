@@ -284,7 +284,9 @@ function game(level) {
 function startScreen(){
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><link rel="stylesheet" type="text/css" href="/fonts"><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
     $('#welcomeButton').click(function () {
-       menu(); 
+        $('.welcomeScreen').html('');
+        $('div').removeClass('welcomeScreen');
+        menu(); 
     });
 }
 
@@ -308,7 +310,7 @@ function menu() { //this will bring the user back to the level screen so he can 
         document.write('</tr>');
     }
     ;
-    document.write('</table></div>');
+    document.write('</table><button id="returnWelcome">Back to Welcome</button></div>');
 
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
@@ -320,6 +322,12 @@ function menu() { //this will bring the user back to the level screen so he can 
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
         };
+    });
+    
+    $('#returnWelcome').click(function() {
+       $('.menu').html('');
+       $('div').removeClass('menu');
+       startScreen();
     });
 
 }
