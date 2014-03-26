@@ -282,7 +282,7 @@ function game(level) {
 
 //a screen that says Laser Gate and has a big button to begin the game
 function startScreen(){
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><link rel="stylesheet" type="text/css" href="/fonts"><div class="welcomeScreen"><center><a id="LaserGate">Laser Gate</a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><link rel="stylesheet" type="text/css" href="/fonts"><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
     $('#welcomeButton').click(function () {
        menu(); 
     });
