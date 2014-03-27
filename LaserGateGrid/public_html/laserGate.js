@@ -18,11 +18,10 @@ var shooting = false;
 var boxes = new Array();
 
 //show users what levels are open to them and which ones are not
+var unlocked = 1;
 if(localStorage.getItem("unlockedLevels")) {
-    var unlocked = localStorage.getItem("unlockedLevels")
-} else {
-    var unlocked = 1;
-};
+    unlocked = localStorage.getItem("unlockedLevels");
+}; 
 
 
 //code goes to menu function first
@@ -219,11 +218,12 @@ function game(level) {
                                         levels.level[id].won = true;
                                         console.log(levels.level[id].won);
                                         id += 1;
-                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
+                                        console.log("The level unlocked now is " + unlocked + " The id is " + id);
+                                        console.log(id === unlocked);
+                                        console.log(id == unlocked);
+                                        if(id == unlocked){ //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
-                                        console.log("The local storage = " + localStorage.getItem("unlockedLevels"))
                                         localStorage.setItem("unlockedLevels", unlocked);
-                                        console.log("The local storage is now = " + localStorage.getItem("unlockedLevels"));
                                         };
                                         menuOverlay(nextLevel, id);
                                     }
@@ -302,6 +302,7 @@ function menu() { //this will bring the user back to the level screen so he can 
     var numRows = 6;
     var numColmns = 5;
     var blockId = 1;
+    console.log(unlocked);
     for (i = 0; i < numRows; i++) { //the menu table
         document.write('<tr id="row"' + i + '>');
 
@@ -344,7 +345,7 @@ function menuOverlay(won, id){
     if(won){
         document.write('<a id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
     }
-    document.write('<a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>');
+    document.write('<a id="restart" align="center"><h1><u>restart</u></h1></a><br><a id="clearStorage" align="center"><h1><u>clear local storage</u></h1></a></div></center></div>');
     $('#menuClick').click(function() {
       //this deletes the game()
       $('.laserGate').html('');
@@ -388,6 +389,20 @@ function menuOverlay(won, id){
       $('div').removeClass('menuOverlay');
       game(id);
   });
+  
+  $('#clearStorage').click(function() {
+      //this deletes the game()
+      localStorage.clear();
+      $('.laserGate').html('');
+      $('#thing').remove();
+      $('div').removeClass('laserGate');
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+      menu();
+  });
+      
+  
 };
 
 //json for the levels in the game 

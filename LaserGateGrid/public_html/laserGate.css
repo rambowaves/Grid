@@ -139,9 +139,18 @@ tr, td {
     position: absolute; //could be a problem
     text-align: center;
     vertical-align: middle;
+    z-index: 1400;
 }
 
-#menuClick h1,#nextLevel h1,#resume h1, #restart h1{
+#clearStorage {
+    padding-top: 18%;
+    position: absolute; 
+    text-align: center;
+    vertical-align: middle;
+    z-index: 1300;
+}
+
+#menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{
     color: black;
 }
 
@@ -154,7 +163,7 @@ tr, td {
     position: absolute;
     width: 100%;
     height: 100%;
-    top: 15%
+    top: 15%;
 }
 
 .welcomeScreen h1 {
