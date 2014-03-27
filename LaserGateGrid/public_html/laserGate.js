@@ -18,7 +18,12 @@ var shooting = false;
 var boxes = new Array();
 
 //show users what levels are open to them and which ones are not
-var unlocked = 1;
+if(localStorage.getItem("unlockedLevels")) {
+    var unlocked = localStorage.getItem("unlockedLevels")
+} else {
+    var unlocked = 1;
+};
+
 
 //code goes to menu function first
 startScreen();
@@ -216,6 +221,9 @@ function game(level) {
                                         id += 1;
                                         if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
+                                        console.log("The local storage = " + localStorage.getItem("unlockedLevels"))
+                                        localStorage.setItem("unlockedLevels", unlocked);
+                                        console.log("The local storage is now = " + localStorage.getItem("unlockedLevels"));
                                         };
                                         menuOverlay(nextLevel, id);
                                     }
@@ -282,10 +290,9 @@ function game(level) {
 
 //a screen that says Laser Gate and has a big button to begin the game
 function startScreen(){
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><link rel="stylesheet" type="text/css" href="/fonts"><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
     $('#welcomeButton').click(function () {
-        $('.welcomeScreen').html('');
-        $('div').removeClass('welcomeScreen');
+        document.location.replace('');
         menu(); 
     });
 }
@@ -325,8 +332,7 @@ function menu() { //this will bring the user back to the level screen so he can 
     });
     
     $('#returnWelcome').click(function() {
-       $('.menu').html('');
-       $('div').removeClass('menu');
+       document.location.replace('');
        startScreen();
     });
 
@@ -359,7 +365,7 @@ function menuOverlay(won, id){
       //this deletes the menuOverlay
       $('.menuOverlay').html('');
       $('div').removeClass('menuOverlay');
-      if(levels.level[id].won){ //fixed bug that if you won a level and went back you could progress to next level until you won again
+      if(levels.level[id].won){ //fixed bug that if you won a level and went back you couldn't progress to next level until you won again
           id +=1;
       }
       game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
