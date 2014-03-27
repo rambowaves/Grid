@@ -149,26 +149,23 @@ tr, td {
     background-color: gray;
 }
 
-#laserGat {
-    
-}
-
 .welcomeScreen {
     font-size: 100%;
     position: absolute;
     width: 100%;
     height: 100%;
+    top: 15%
 }
 
 .welcomeScreen h1 {
     font-size: 10.5em;
+    position: relative;
+    margin: auto;
 }
 
 
 .myButton {
-        position: absolute;
-        left: 40%;
-        top: 40%;
+        position: relative;
 	color:#F20d12;
 	font-family:Verdana;
 	font-size:20px;
@@ -176,4 +173,8 @@ tr, td {
 	padding: 16px 76px;
 	text-decoration:none;
 	text-shadow:-2px 2px 8px #Ff6627;
+}
+
+#welcomeButton {
+    position: relative;
 }
