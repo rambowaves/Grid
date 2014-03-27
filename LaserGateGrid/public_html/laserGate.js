@@ -18,10 +18,15 @@ var shooting = false;
 var boxes = new Array();
 
 //show users what levels are open to them and which ones are not
-var unlocked = 1;
+if(localStorage.getItem("unlockedLevels")) {
+    var unlocked = localStorage.getItem("unlockedLevels")
+} else {
+    var unlocked = 1;
+};
+
 
 //code goes to menu function first
-menu();
+startScreen();
 
 
 //sets up the game grid 
@@ -216,6 +221,9 @@ function game(level) {
                                         id += 1;
                                         if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
+                                        console.log("The local storage = " + localStorage.getItem("unlockedLevels"))
+                                        localStorage.setItem("unlockedLevels", unlocked);
+                                        console.log("The local storage is now = " + localStorage.getItem("unlockedLevels"));
                                         };
                                         menuOverlay(nextLevel, id);
                                     }
@@ -280,6 +288,15 @@ function game(level) {
 }
 ;
 
+//a screen that says Laser Gate and has a big button to begin the game
+function startScreen(){
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
+    $('#welcomeButton').click(function () {
+        document.location.replace('');
+        menu(); 
+    });
+}
+
 function menu() { //this will bring the user back to the level screen so he can pick the next level
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="menu"><h1>Laser Gate</h1><table id="selector" cellspacing = "15" cellpadding = "10" id="a" align = "center">');
     var numRows = 6;
@@ -300,7 +317,7 @@ function menu() { //this will bring the user back to the level screen so he can 
         document.write('</tr>');
     }
     ;
-    document.write('</table></div>');
+    document.write('</table><button id="returnWelcome">Back to Welcome</button></div>');
 
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
@@ -312,6 +329,11 @@ function menu() { //this will bring the user back to the level screen so he can 
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
         };
+    });
+    
+    $('#returnWelcome').click(function() {
+       document.location.replace('');
+       startScreen();
     });
 
 }
@@ -343,7 +365,7 @@ function menuOverlay(won, id){
       //this deletes the menuOverlay
       $('.menuOverlay').html('');
       $('div').removeClass('menuOverlay');
-      if(levels.level[id].won){ //fixed bug that if you won a level and went back you could progress to next level until you won again
+      if(levels.level[id].won){ //fixed bug that if you won a level and went back you couldn't progress to next level until you won again
           id +=1;
       }
       game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
@@ -374,7 +396,7 @@ var levels = {
         [
             {   
                 won: false,
-                box: [{ position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}],
+                box: [{position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}],
                 laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
             },
             {
@@ -385,6 +407,11 @@ var levels = {
             {
                 won: false,
                 box: [{position: "2_4"}, {position: "6_2"}, {position: "9_7"}, {position: "10_7"}, {position: "7_2"}], 
+                laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+            }, 
+            {
+                won: false,
+                box: [{position: "4_2"}, {position: "6_2"}, {position: "5_2"}, {position: "7_2"}, {position: "8_2"}, {position: "9_2"}, {position: "6_4"}, {position: "7_3"}, {position: "5_3"}, {position: "4_7"},{position: "5_7"},{position: "6_7"},{position: "7_7"},{position: "8_7"}, {position: "9_7"} ], 
                 laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
             }
         ]
