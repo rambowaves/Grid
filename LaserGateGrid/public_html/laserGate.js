@@ -26,8 +26,9 @@ menu();
 
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
-function game() {
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><h1 id="test">Laser Gate</h1><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
+function game(level) {
+    var id = level;
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
 //    $("#thing").hide();
     for (i = 0; i <= numRows; i++) {
         document.write("<tr class='row" + i + "'>");
@@ -69,7 +70,7 @@ function game() {
         document.write('</tr></div>');
     }
     ;
-    document.write('</table><button id="menu" align="center">menu</button>');
+    document.write('</table><button id="menu" align="center">pause</button>');
 
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
@@ -98,33 +99,24 @@ function game() {
     };
 
 
-//used to mock a level 
-    level1();
-    function level1() {
+    //used to create the levels
+    gameLevels(id);
+    function gameLevels(id) {
+        
         //place lasers
-        $("#0_0").text("L").addClass("laser");
-        $("#6_0").text("L").addClass("laser");
-        $("#0_3").text("L").addClass("laser");
-        $("#3_" + numCols + "").text("L").addClass("laser");
-        $("#" + numRows + "_7").text("L").addClass("laser");
-
+        for(var i = 0; i < levels.level[id].laser.length; i++){
+            console.log(levels.level[id].laser[i].position);
+            $("#" + levels.level[id].laser[i].position).text("L").addClass("laser");
+        };
+        
         //place boxes
         //boxes is an array of box objects 
-        var box0 = new Box("2_4");
-        boxes[0] = box0;
-        var box1 = new Box("6_2");
-        boxes[1] = box1;
-        var box2 = new Box("8_7");
-        boxes[2] = box2;
-        var box3 = new Box("7_7");
-        boxes[3] = box3;
-        var box4 = new Box("7_2");
-        boxes[4] = box4;
-
-        for (var i = 0; i < boxes.length; i++) {
-            var box = boxes[i];
+        for(var j = 0; j < levels.level[id].box.length; j++) {
+            boxes[j] = new Box(levels.level[id].box[j].position);
+            var box = boxes[j];
             box.draw(box.getId());
-        }
+        };
+        console.log("BOXES " + boxes[0].getId());
 
         //set avatar location
         //  TODO abstraction for avatar and thing
@@ -219,8 +211,13 @@ function game() {
                                     }
                                     if(boxes.length === 0){
                                         var nextLevel = true;
+                                        levels.level[id].won = true;
+                                        console.log(levels.level[id].won);
+                                        id += 1;
+                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
-                                        menuOverlay(nextLevel);
+                                        };
+                                        menuOverlay(nextLevel, id);
                                     }
                                 }
                             }, 1);
@@ -277,8 +274,8 @@ function game() {
     }
 
     $("#menu").click(function() {
-        menuOverlay();
-    });
+            menuOverlay(levels.level[level].won, id);
+        });
 
 }
 ;
@@ -312,42 +309,18 @@ function menu() { //this will bring the user back to the level screen so he can 
             console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
-            game(); //game(id) will be used with a next level function when there is a variety of levels
+            var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
+            game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
         };
     });
 
 }
 
-function menuOverlay() {
-    document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br><a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>');
-    $('#menuClick').click(function() {
-        //this deletes the game()
-        $('.laserGate').html('');
-        $('#thing').remove();
-        $('div').removeClass('laserGate');
-        //this deletes the menuOverlay
-        $('.menuOverlay').html('');
-        $('div').removeClass('menuOverlay');
-        menu();
-    });
-    $('#restart').click(function() {
-        //this deletes the game()
-        avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
-        $('.laserGate').html('');
-        $('#thing').remove();
-        $('div').removeClass('laserGate');
-        //this deletes the menuOverlay
-        $('.menuOverlay').html('');
-        $('div').removeClass('menuOverlay');
-        game();
-    });
-}
-;
-function menuOverlay(won){
+function menuOverlay(won, id){
     document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');  
-  
+    document.write('<a id="resume" align="center"><h1><u>resume</u></h1></a><br>');
     if(won){
-        document.write('<a id="nextLevel" align="center"><h1><u>Next Level</u></h1></a><br>');
+        document.write('<a id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
     }
     document.write('<a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>');
     $('#menuClick').click(function() {
@@ -370,7 +343,16 @@ function menuOverlay(won){
       //this deletes the menuOverlay
       $('.menuOverlay').html('');
       $('div').removeClass('menuOverlay');
-      game();//will pass in a value that a NEXTLEVEL function will read and change levels with 
+      if(levels.level[id].won){ //fixed bug that if you won a level and went back you could progress to next level until you won again
+          id +=1;
+      }
+      game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
+  });
+  
+  $('#resume').click(function() {
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
   });
   
   $('#restart').click(function() {
@@ -382,6 +364,29 @@ function menuOverlay(won){
       //this deletes the menuOverlay
       $('.menuOverlay').html('');
       $('div').removeClass('menuOverlay');
-      game();
+      game(id);
   });
 };
+
+//json for the levels in the game 
+var levels = {
+    level:
+        [
+            {   
+                won: false,
+                box: [{ position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}],
+                laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
+            },
+            {
+                won: false,
+                box: [{position: "1_4"}, {position: "6_3"}, {position: "8_8"}, {position: "7_8"}, {position: "7_2"}], 
+                laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+            },
+            {
+                won: false,
+                box: [{position: "2_4"}, {position: "6_2"}, {position: "9_7"}, {position: "10_7"}, {position: "7_2"}], 
+                laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+            }
+        ]
+};
+
