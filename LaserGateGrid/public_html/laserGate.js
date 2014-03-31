@@ -33,7 +33,7 @@ startScreen();
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
     var id = level;
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><h1 id="test">Laser Gate</h1><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
 //    $("#thing").hide();
     for (i = 0; i <= numRows; i++) {
         document.write("<tr class='row" + i + "'>");
@@ -107,21 +107,22 @@ function game(level) {
     //used to create the levels
     gameLevels(id);
     function gameLevels(id) {
-        
+
         //place lasers
-        for(var i = 0; i < levels.level[id].laser.length; i++){
+        for (var i = 0; i < levels.level[id].laser.length; i++) {
             console.log(levels.level[id].laser[i].position);
             $("#" + levels.level[id].laser[i].position).text("L").addClass("laser");
-        };
-        
+        }
+        ;
+
         //place boxes
         //boxes is an array of box objects 
-        for(var j = 0; j < levels.level[id].box.length; j++) {
+        for (var j = 0; j < levels.level[id].box.length; j++) {
             boxes[j] = new Box(levels.level[id].box[j].position);
             var box = boxes[j];
             box.draw(box.getId());
-        };
-        console.log("BOXES " + boxes[0].getId());
+        }
+        ;
 
         //set avatar location
         //  TODO abstraction for avatar and thing
@@ -166,12 +167,12 @@ function game(level) {
                     if ($(this).hasClass("laser") && avatarIsPlaced) {
                         if (checkLocation(currentPosition)) {
                             shooting = true;
-                            
+
                             //fetch avatar location again just to be sure screen wasn't resized
                             var temp = getElementPosition(avatar);
-                            avatarX = temp.left == avatarX? avatarX : setXLocation(avatar, temp);
-                            avatarY = temp.top == avatarY? avatarY : setYLocation(avatar, temp);
-                            
+                            avatarX = temp.left == avatarX ? avatarX : setXLocation(avatar, temp);
+                            avatarY = temp.top == avatarY ? avatarY : setYLocation(avatar, temp);
+
                             //set the thing to avatar location on a zero transition speed
                             var theThing = document.getElementById("thing");
                             theThing.style.transition = "left 0s ease-in, top 0s ease-in";
@@ -192,7 +193,7 @@ function game(level) {
                                 theThing.style.left = xPosition + "px";
                                 theThing.style.top = yPosition + "px";
                             }, 1);
-
+                            
 
                             //check for collisions with box objects
                             var testCollision = setInterval(function() {
@@ -208,8 +209,8 @@ function game(level) {
                                 for (var i = 0; i < boxes.length; i++) {
                                     var box = boxes[i];
                                     var boxDim = box.boxDim(box.getId());
-                                    xOverlap = collides(boxDim.left, thingLeft, thingRight) || collides(thingLeft, boxDim.left, boxDim.right);
-                                    yOverlap = collides(boxDim.top, thingTop, thingBottom) || collides(thingTop, boxDim.top, boxDim.bottom);
+                                    xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
+                                    yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
                                     if (xOverlap && yOverlap) {
                                         $("#" + box.getId() + "").addClass("remove");
                                         boxes.splice(i, 1);
@@ -259,19 +260,19 @@ function game(level) {
     }
     function setXLocation(obj, position) {
         return $(obj).hasClass("left") ?
-                            $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() :
-                            $(obj).hasClass("right") ? position.left :
-                            position.left + cellWidth - $("#thing").width() / 2;
+                $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() :
+                $(obj).hasClass("right") ? position.left :
+                position.left + cellWidth - $("#thing").width() / 2;
     }
-    
+
     function setYLocation(obj, position) {
         return $(obj).hasClass("top") ?
-                            $(obj).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() :
-                            $(obj).hasClass("bottom") ? position.top :
-                            position.top + cellHeight - $("#thing").height() / 2;
+                $(obj).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() :
+                $(obj).hasClass("bottom") ? position.top :
+                position.top + cellHeight - $("#thing").height() / 2;
     }
     function collides(value, min, max) {
-        return (value >= min) && (value <= max);
+        return (value >= min - 15) && (value <= max + 15);
     }
     function checkLocation(laser) {
         return ($("#" + laser + "").hasClass("left") && $(".avatar").hasClass("left")) ? false :
@@ -281,8 +282,8 @@ function game(level) {
     }
 
     $("#menu").click(function() {
-            menuOverlay(levels.level[level].won, id);
-        });
+        menuOverlay(levels.level[level].won, id);
+    });
 
 }
 ;
@@ -292,7 +293,7 @@ function startScreen(){
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a><object id="welcomeSong" data="Pika.mp3"></object><video autoplay loop id="bgVid"><source src="epicVid.webm" type="video/webm"><source src="epicVid.mp4" type="video/mp4"></video></center></div>');
     $('#welcomeButton').click(function () {
         document.location.replace('');
-        menu(); 
+        menu();
     });
 }
 
@@ -330,16 +331,16 @@ function menu() { //this will bring the user back to the level screen so he can 
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
         };
     });
-    
+
     $('#returnWelcome').click(function() {
-       document.location.replace('');
-       startScreen();
+        document.location.replace('');
+        startScreen();
     });
 
 }
 
 function menuOverlay(won, id){
-    document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');  
+    document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
     document.write('<a id="resume" align="center"><h1><u>resume</u></h1></a><br>');
     if(won){
         document.write('<a id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
@@ -407,27 +408,27 @@ function menuOverlay(won, id){
 //json for the levels in the game 
 var levels = {
     level:
-        [
-            {   
-                won: false,
-                box: [{position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}],
-                laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
-            },
-            {
-                won: false,
-                box: [{position: "1_4"}, {position: "6_3"}, {position: "8_8"}, {position: "7_8"}, {position: "7_2"}], 
-                laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
-            },
-            {
-                won: false,
-                box: [{position: "2_4"}, {position: "6_2"}, {position: "9_7"}, {position: "10_7"}, {position: "7_2"}], 
-                laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
-            }, 
-            {
-                won: false,
-                box: [{position: "4_2"}, {position: "6_2"}, {position: "5_2"}, {position: "7_2"}, {position: "8_2"}, {position: "9_2"}, {position: "6_4"}, {position: "7_3"}, {position: "5_3"}, {position: "4_7"},{position: "5_7"},{position: "6_7"},{position: "7_7"},{position: "8_7"}, {position: "9_7"} ], 
-                laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
-            }
-        ]
+            [
+                {
+                    won: false,
+                    box: [{position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}, {position: "1_6"}, {position: "2_6"}, {position: "3_6"}, {position: "4_6"}],
+                    laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    won: false,
+                    box: [{position: "1_4"}, {position: "6_3"}, {position: "8_8"}, {position: "7_8"}, {position: "7_2"}],
+                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    won: false,
+                    box: [{position: "2_4"}, {position: "6_2"}, {position: "9_7"}, {position: "10_7"}, {position: "7_2"}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    won: false,
+                    box: [{position: "4_2"}, {position: "6_2"}, {position: "5_2"}, {position: "7_2"}, {position: "8_2"}, {position: "9_2"}, {position: "6_4"}, {position: "7_3"}, {position: "5_3"}, {position: "4_7"}, {position: "5_7"}, {position: "6_7"}, {position: "7_7"}, {position: "8_7"}, {position: "9_7"}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                }
+            ]
 };
 
