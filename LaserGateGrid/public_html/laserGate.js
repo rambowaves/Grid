@@ -21,6 +21,7 @@ var boxes = new Array();
 var unlocked = 1;
 if(localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
+    
 }; 
 
 
@@ -218,10 +219,8 @@ function game(level) {
                                         levels.level[id].won = true;
                                         console.log(levels.level[id].won);
                                         id += 1;
-                                        console.log("The level unlocked now is " + unlocked + " The id is " + id);
-                                        console.log(id === unlocked);
-                                        console.log(id == unlocked);
-                                        if(id == unlocked){ //make sure player does not unlock a level by playing one they already beat
+                                        unlocked = parseInt(unlocked);
+                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
                                         localStorage.setItem("unlockedLevels", unlocked);
                                         };
