@@ -322,7 +322,7 @@ function menu() { //this will bring the user back to the level screen so he can 
         var id = $(this).attr('id');
         //checks to see if level has been unlocked then allows you to enter game again
         if (id <= unlocked) {
-            console.log("go to level " + id + "");
+//            console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
