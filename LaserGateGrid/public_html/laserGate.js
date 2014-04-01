@@ -21,7 +21,6 @@ var boxes = new Array();
 var unlocked = 1;
 if(localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
-    
 }; 
 
 
@@ -290,7 +289,7 @@ function game(level) {
 
 //a screen that says Laser Gate and has a big button to begin the game
 function startScreen(){
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a><object id="welcomeSong" data="Pika.mp3"></object><video autoplay loop id="bgVid"><source src="epicVid.webm" type="video/webm"><source src="epicVid.mp4" type="video/mp4"></video></center></div>');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
     $('#welcomeButton').click(function () {
         document.location.replace('');
         menu();

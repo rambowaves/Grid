@@ -22,7 +22,7 @@ html, body {
 }
 
 table {
-
+    width: 95%; //added this and now collitions off again
     height: 97.5%; 
     table-layout: fixed;
     overflow: hidden;
@@ -194,13 +194,3 @@ tr, td {
     position: relative;
 }
 
-#welcomeSong {
-    visibility: hidden;
-}
-
-#bgVid {
-    position: fixed; right: 0; bottom: 0;
-    min-width: 100%; min-height: 100%;
-    width: auto; height: auto; 
-    z-index: -100;
-}
