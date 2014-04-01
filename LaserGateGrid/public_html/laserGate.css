@@ -145,9 +145,18 @@ tr, td {
     position: absolute; //could be a problem
     text-align: center;
     vertical-align: middle;
+    z-index: 1400;
 }
 
-#menuClick h1,#nextLevel h1,#resume h1, #restart h1{
+#clearStorage {
+    padding-top: 18%;
+    position: absolute; 
+    text-align: center;
+    vertical-align: middle;
+    z-index: 1300;
+}
+
+#menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{
     color: black;
 }
 
@@ -183,4 +192,15 @@ tr, td {
 
 #welcomeButton {
     position: relative;
+}
+
+#welcomeSong {
+    visibility: hidden;
+}
+
+#bgVid {
+    position: fixed; right: 0; bottom: 0;
+    min-width: 100%; min-height: 100%;
+    width: auto; height: auto; 
+    z-index: -100;
 }

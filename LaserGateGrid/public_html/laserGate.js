@@ -18,12 +18,11 @@ var shooting = false;
 var boxes = new Array();
 
 //show users what levels are open to them and which ones are not
-if (localStorage.getItem("unlockedLevels")) {
-    var unlocked = localStorage.getItem("unlockedLevels")
-} else {
-    var unlocked = 1;
-}
-;
+var unlocked = 1;
+if(localStorage.getItem("unlockedLevels")) {
+    unlocked = localStorage.getItem("unlockedLevels");
+    
+}; 
 
 
 //code goes to menu function first
@@ -182,6 +181,7 @@ function game(level) {
 //                            
                             //make the thing visible and change transition speed back to 1s
                             setTimeout(function() {
+//                                var theThing = document.getElementById("thing");
                                 theThing.style.visibility = "visible";
                                 theThing.style.transition = "left 1s ease-in, top 1s ease-in";
                             }, 1);
@@ -198,9 +198,12 @@ function game(level) {
                             //check for collisions with box objects
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
+                                var thingEl = document.getElementById("thing");
                                 var thingPosition = getElementPosition("thing");
                                 var thingLeft = thingPosition.left;
                                 var thingTop = thingPosition.top;
+                                var thingRight = thingLeft + thingEl.width;
+                                var thingBottom = thingTop + thingEl.height;
 
                                 //test if the laser collides with any boxes
                                 for (var i = 0; i < boxes.length; i++) {
@@ -212,6 +215,18 @@ function game(level) {
                                         $("#" + box.getId() + "").addClass("remove");
                                         boxes.splice(i, 1);
                                     }
+                                    if(boxes.length === 0){
+                                        var nextLevel = true;
+                                        levels.level[id].won = true;
+                                        console.log(levels.level[id].won);
+                                        id += 1;
+                                        unlocked = parseInt(unlocked);
+                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
+                                        unlocked += 1;
+                                        localStorage.setItem("unlockedLevels", unlocked);
+                                        };
+                                        menuOverlay(nextLevel, id);
+                                    }
                                 }
                             }, 1);
                             setTimeout(function() {
@@ -221,20 +236,6 @@ function game(level) {
                             //after done shooting, hide the thing
                             //THING ABSTRACTION
                             setTimeout(function() {
-                                if (boxes.length === 0) {
-                            var nextLevel = true;
-                            levels.level[id].won = true;
-                            console.log(levels.level[id].won);
-                            id += 1;
-                            if (id === unlocked) { //make sure player does not unlock a level by playing one they already beat
-                                unlocked += 1;
-                                console.log("The local storage = " + localStorage.getItem("unlockedLevels"));
-                                localStorage.setItem("unlockedLevels", unlocked);
-                                console.log("The local storage is now = " + localStorage.getItem("unlockedLevels"));
-                            }
-                            ;
-                            menuOverlay(nextLevel, id);
-                        }
 //                                var theThing = document.getElementById("thing");
                                 theThing.style.visibility = "hidden";
                                 shooting = false;
@@ -288,9 +289,9 @@ function game(level) {
 ;
 
 //a screen that says Laser Gate and has a big button to begin the game
-function startScreen() {
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
-    $('#welcomeButton').click(function() {
+function startScreen(){
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a><object id="welcomeSong" data="Pika.mp3"></object><video autoplay loop id="bgVid"><source src="epicVid.webm" type="video/webm"><source src="epicVid.mp4" type="video/mp4"></video></center></div>');
+    $('#welcomeButton').click(function () {
         document.location.replace('');
         menu();
     });
@@ -301,11 +302,12 @@ function menu() { //this will bring the user back to the level screen so he can 
     var numRows = 6;
     var numColmns = 5;
     var blockId = 1;
+    console.log(unlocked);
     for (i = 0; i < numRows; i++) { //the menu table
         document.write('<tr id="row"' + i + '>');
 
         for (j = 0; j < numColmns; j++) {
-            if (blockId <= unlocked) {
+            if(blockId <= unlocked){
                 document.write("<td id= '" + blockId.toString() + "' class='unlocked'>" + blockId.toString() + "</td>");
             } else {
                 document.write("<td id= '" + blockId.toString() + "' class='locked'>" + blockId.toString() + "</td>");
@@ -321,14 +323,14 @@ function menu() { //this will bring the user back to the level screen so he can 
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
         //checks to see if level has been unlocked then allows you to enter game again
-        if (id <= unlocked) {
 //            console.log("go to level " + id + "");
+        if(id <= unlocked) {
+            console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
-        }
-        ;
+        };
     });
 
     $('#returnWelcome').click(function() {
@@ -338,58 +340,71 @@ function menu() { //this will bring the user back to the level screen so he can 
 
 }
 
-function menuOverlay(won, id) {
+function menuOverlay(won, id){
     document.write('<div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
     document.write('<a id="resume" align="center"><h1><u>resume</u></h1></a><br>');
-    if (won) {
+    if(won){
         document.write('<a id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
     }
-    document.write('<a id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div>');
+    document.write('<a id="restart" align="center"><h1><u>restart</u></h1></a><br><a id="clearStorage" align="center"><h1><u>clear local storage</u></h1></a></div></center></div>');
     $('#menuClick').click(function() {
-        //this deletes the game()
-        $('.laserGate').html('');
-        $('#thing').remove();
-        $('div').removeClass('laserGate');
-        //this deletes the menuOverlay
-        $('.menuOverlay').html('');
-        $('div').removeClass('menuOverlay');
-        menu();
-    });
-
-    $('#nextLevel').click(function() {
-        //this deletes the game()
-        avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
-        $('.laserGate').html('');
-        $('#thing').remove();
-        $('div').removeClass('laserGate');
-        //this deletes the menuOverlay
-        $('.menuOverlay').html('');
-        $('div').removeClass('menuOverlay');
-        if (levels.level[id].won) { //fixed bug that if you won a level and went back you couldn't progress to next level until you won again
-            id += 1;
-        }
-        game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
-    });
-
-    $('#resume').click(function() {
-        //this deletes the menuOverlay
-        $('.menuOverlay').html('');
-        $('div').removeClass('menuOverlay');
-    });
-
-    $('#restart').click(function() {
-        //this deletes the game()
-        avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
-        $('.laserGate').html('');
-        $('#thing').remove();
-        $('div').removeClass('laserGate');
-        //this deletes the menuOverlay
-        $('.menuOverlay').html('');
-        $('div').removeClass('menuOverlay');
-        game(id);
-    });
-}
-;
+      //this deletes the game()
+      $('.laserGate').html('');
+      $('#thing').remove();
+      $('div').removeClass('laserGate');
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+      menu();
+  });
+  
+  $('#nextLevel').click(function() {
+      //this deletes the game()
+      avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
+      $('.laserGate').html('');
+      $('#thing').remove();
+      $('div').removeClass('laserGate');
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+      if(levels.level[id].won){ //fixed bug that if you won a level and went back you couldn't progress to next level until you won again
+          id +=1;
+      }
+      game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
+  });
+  
+  $('#resume').click(function() {
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+  });
+  
+  $('#restart').click(function() {
+      //this deletes the game()
+      avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
+      $('.laserGate').html('');
+      $('#thing').remove();
+      $('div').removeClass('laserGate');
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+      game(id);
+  });
+  
+  $('#clearStorage').click(function() {
+      //this deletes the game()
+      localStorage.clear();
+      $('.laserGate').html('');
+      $('#thing').remove();
+      $('div').removeClass('laserGate');
+      //this deletes the menuOverlay
+      $('.menuOverlay').html('');
+      $('div').removeClass('menuOverlay');
+      menu();
+  });
+      
+  
+};
 
 //json for the levels in the game 
 var levels = {
