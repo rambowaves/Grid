@@ -323,6 +323,7 @@ function menu() { //this will bring the user back to the level screen so he can 
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
         //checks to see if level has been unlocked then allows you to enter game again
+//            console.log("go to level " + id + "");
         if(id <= unlocked) {
             console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
