@@ -22,7 +22,6 @@ html, body {
 }
 
 table {
-    width: 95%; //added this and now collitions off again
     height: 97.5%; 
     table-layout: fixed;
     overflow: hidden;
