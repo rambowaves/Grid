@@ -105,17 +105,31 @@ tr, td {
 }
 
 #OverlayOptions {
+    position: relative;
     width: 50%;
     height: 50%;
     margin: auto;
-    margin-top: 5%;
+    margin-top: 15%;
     background: gold;
     opacity: 1;
 }
 
+.onTop {
+    position: relative;
+    opacity: 1.0;
+    z-index: 3000;
+}
+
+a.onTop {
+    position: absolute;
+    opacity: 1.0;
+    z-index: 3000;
+}
+
 #menuClick {
-    padding-top: 10%;
-    position: absolute; //could be a problem
+    //padding-top: 13%;
+    margin-top: 20%;
+    position: relative; //could be a problem
     text-align: center;
     vertical-align: middle;
     z-index: 2000;
@@ -126,39 +140,44 @@ tr, td {
 }
 
 #resume {
-    padding-top: 12%;
-    position: absolute; //could be a problem
+    padding-top: 15%;
+    position: relative; //could be a problem
     text-align: center;
     vertical-align: middle;
     z-index: 1700;
 }
 
 #nextLevel{
-    padding-top: 14%;
-    position: absolute; //could be a problem
+    padding-top: 17%;
+    position: relative; //could be a problem
     text-align: center;
     vertical-align: middle;
     z-index: 1500;
 }
 
 #restart {
-    padding-top: 16%;
-    position: absolute; //could be a problem
+    padding-top: 19%;
+    position: relative; //could be a problem
     text-align: center;
     vertical-align: middle;
     z-index: 1400;
 }
 
 #clearStorage {
-    padding-top: 18%;
-    position: absolute; 
+    padding-top: 21%;
+    position: relative; 
     text-align: center;
     vertical-align: middle;
     z-index: 1300;
 }
 
-#menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{
+#menuClick h1 {
+    padding-top: 10%;
+}
+
+#menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{ 
     color: black;
+    margin-top: 5%;
 }
 
 .locked {
