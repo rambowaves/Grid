@@ -292,7 +292,7 @@ function game(level) {
 function startScreen(){
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
     init();
-    $('#welcomeButton').click(function () {
+    $('#welcomeButton').on('click touchstart',function () {
         document.location.replace('');
         menu();
     });
@@ -468,4 +468,4 @@ function init()
     document.addEventListener("touchmove", touchHandler, true);
     document.addEventListener("touchend", touchHandler, true);
     document.addEventListener("touchcancel", touchHandler, true);    
-}s
+}
