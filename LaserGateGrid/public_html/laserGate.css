@@ -12,9 +12,10 @@ and open the template in the editor.
     padding: 0;
     margin-left: auto;
     margin-right: auto;
+    width:100%;
 }
 
-html, body {
+html, body{
     overflow: hidden;
     height: 100%;
     width: 100%;
@@ -22,17 +23,18 @@ html, body {
 }
 
 table {
-    height: 97.5%; 
+    height: 97%; 
+    width: 100%;
     table-layout: fixed;
     overflow: hidden;
 }
 
 h1 {
     color: blue;
-    font-size: 20px;
+    font-size: 30px;
     vertical-align: middle;
     text-align: center;
-
+    font-family: monospace;
 }
 #whereami {
     color: blue;
@@ -42,7 +44,7 @@ h1 {
 
 tr, td {
     height: 30px;
-    width: 50px;
+    width: 30px;
     alignment-adjust: middle;
     text-align: center;
     overflow: hidden; 
@@ -71,6 +73,7 @@ tr, td {
     width: 15px;
     transition: left 1s ease-in, top 1s ease-in;
     visibility: hidden;
+    z-index: -1;
 }
 
 .unHit {
@@ -100,7 +103,6 @@ tr, td {
     opacity: .5;
     z-index: 1000; /* or  greater value */
 }
-
 
 #OverlayOptions {
     width: 50%;

@@ -299,7 +299,7 @@ function startScreen(){
 }
 
 function menu() { //this will bring the user back to the level screen so he can pick the next level
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="menu"><h1>Laser Gate</h1><table id="selector" cellspacing = "15" cellpadding = "10" id="a" align = "center">');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="menu"><h1><strong>Laser Gate</strong></h1><table id="selector" cellspacing = "15" cellpadding = "10" id="a" align = "center">');
     var numRows = 6;
     var numColmns = 5;
     var blockId = 1;
@@ -468,4 +468,8 @@ function init()
     document.addEventListener("touchmove", touchHandler, true);
     document.addEventListener("touchend", touchHandler, true);
     document.addEventListener("touchcancel", touchHandler, true);    
+<<<<<<< HEAD
 }
+=======
+}s
+>>>>>>> 033d8956787dd134978b10bf7b6d45fb4bdb19ea
