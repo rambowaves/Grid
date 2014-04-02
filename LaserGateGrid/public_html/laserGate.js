@@ -468,8 +468,5 @@ function init()
     document.addEventListener("touchmove", touchHandler, true);
     document.addEventListener("touchend", touchHandler, true);
     document.addEventListener("touchcancel", touchHandler, true);    
-<<<<<<< HEAD
 }
-=======
-}s
->>>>>>> 033d8956787dd134978b10bf7b6d45fb4bdb19ea
+
