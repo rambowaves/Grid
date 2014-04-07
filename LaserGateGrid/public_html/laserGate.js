@@ -218,8 +218,17 @@ function game(level) {
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
                                     if (xOverlap && yOverlap) {
-                                        $("#" + box.getId() + "").addClass("remove");
-                                        boxes.splice(i, 1);
+                                        if(!levels.level[id].box[i].deathBox){ //new atribute to a box in which if deathBox is true then you lose the level
+                                            $("#" + box.getId() + "").addClass("remove");
+                                            boxes.splice(i, 1);
+                                        } else {
+                                            $("#" + box.getId() + "").addClass("remove");
+                                            boxes.splice(i, 1);
+                                            var nextLevel = false;
+                                            levels.level[id].won = false;
+                                            console.log(levels.level[id].won);
+                                            menuOverlay(nextLevel, id);
+                                            }
                                     }
                                     if(boxes.length === 0){
                                         var nextLevel = true;
@@ -423,7 +432,7 @@ var levels = {
                 {
                     //level 1
                     won: false,
-                    box: [{position: "2_4"}, {position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}, {position: "1_6"}, {position: "2_6"}, {position: "3_6"}, {position: "4_6"}],
+                    box: [{position: "2_4"}, {deathBox: true, position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}, {position: "1_6"}, {position: "2_6"}, {position: "3_6"}, {position: "4_6"}],
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
