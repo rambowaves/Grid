@@ -307,7 +307,9 @@ function game(level) {
 function startScreen(){
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a><br><a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
-    a.play();
+    setInterval(function () {
+        a.play();
+    }, 1000);
     $('#welcomeButton').on('click touchstart',function () {
         document.location.replace('');
         menu();
@@ -430,7 +432,7 @@ var levels = {
                 {
                     //level 1
                     won: false,
-                    box: [{position: "2_4"}, {deathBox: true, position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}, {position: "1_6"}, {position: "2_6"}, {position: "3_6"}, {position: "4_6"}],
+                    box: [{position: "2_4"}, {deathBox: true, position: "6_2", hitCount: 3}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}, {position: "1_6"}, {position: "2_6"}, {position: "3_6"}, {position: "4_6"}],
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
