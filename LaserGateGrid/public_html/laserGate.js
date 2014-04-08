@@ -39,7 +39,7 @@ function game(level) {
     a.src = 'Game.mp3';
     a.play();
     var id = level;
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="http://1.bp.blogspot.com/-VfEiU_WCC0Q/UInN6IcUTDI/AAAAAAAAAH0/HRik5VIq7Y4/s1600/b001.png"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
 //    $("#thing").hide();
     for (i = 0; i <= numRows; i++) {
         document.write("<tr class='row" + i + "'>");
@@ -74,7 +74,7 @@ function game(level) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer bottom'></td>");
                 }
                 else {
-                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "'></td>");
+                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'inner'></td>");
                 }
             }
         }
@@ -116,7 +116,7 @@ function game(level) {
 
         //place lasers
         for (var i = 0; i < levels.level[id].laser.length; i++) {
-            console.log(levels.level[id].laser[i].position);
+//            console.log(levels.level[id].laser[i].position);
             $("#" + levels.level[id].laser[i].position).text("L").addClass("laser");
         }
         ;
@@ -204,12 +204,12 @@ function game(level) {
                             //check for collisions with box objects
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
-                                var thingEl = document.getElementById("thing");
+//                                var thingEl = document.getElementById("thing");
                                 var thingPosition = getElementPosition("thing");
                                 var thingLeft = thingPosition.left;
                                 var thingTop = thingPosition.top;
-                                var thingRight = thingLeft + thingEl.width;
-                                var thingBottom = thingTop + thingEl.height;
+//                                var thingRight = thingLeft + thingEl.width;
+//                                var thingBottom = thingTop + thingEl.height;
 
                                 //test if the laser collides with any boxes
                                 for (var i = 0; i < boxes.length; i++) {
@@ -224,7 +224,7 @@ function game(level) {
                                     if(boxes.length === 0){
                                         var nextLevel = true;
                                         levels.level[id].won = true;
-                                        console.log(levels.level[id].won);
+//                                        console.log(levels.level[id].won);
                                         id += 1;
                                         unlocked = parseInt(unlocked);
                                         if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
@@ -254,6 +254,7 @@ function game(level) {
                         $("#" + avatar + "").removeClass("avatar");
                         $(this).addClass("avatar");
                         avatar = currentPosition;
+                        
                         avatarX = xPosition;
                         avatarY = yPosition;
                         avatarPlaced = true;
@@ -266,16 +267,16 @@ function game(level) {
     }
     function setXLocation(obj, position) {
         return $(obj).hasClass("left") ?
-                $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() :
+                $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 + $("#thing").width() / 2:
                 $(obj).hasClass("right") ? position.left :
-                position.left + cellWidth - $("#thing").width() / 2;
+                    position.left + cellWidth - $("#thing").width() / 2;
     }
 
     function setYLocation(obj, position) {
         return $(obj).hasClass("top") ?
-                $(obj).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() :
+                $(obj).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() / 2:
                 $(obj).hasClass("bottom") ? position.top :
-                position.top + cellHeight - $("#thing").height() / 2;
+                    position.top + cellHeight - $("#thing").height() / 2;
     }
     function collides(value, min, max) {
         return (value >= min - 15) && (value <= max + 15);
@@ -310,7 +311,7 @@ function menu() { //this will bring the user back to the level screen so he can 
     var numRows = 6;
     var numColmns = 5;
     var blockId = 1;
-    console.log(unlocked);
+//    console.log(unlocked);
     for (i = 0; i < numRows; i++) { //the menu table
         document.write('<tr id="row"' + i + '>');
 
@@ -333,7 +334,7 @@ function menu() { //this will bring the user back to the level screen so he can 
         //checks to see if level has been unlocked then allows you to enter game again
 //            console.log("go to level " + id + "");
         if(id <= unlocked) {
-            console.log("go to level " + id + "");
+//            console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
