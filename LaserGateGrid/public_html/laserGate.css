@@ -163,13 +163,6 @@ a.onTop {
     z-index: 1400;
 }
 
-#clearStorage {
-    padding-top: 21%;
-    position: relative; 
-    text-align: center;
-    vertical-align: middle;
-    z-index: 1300;
-}
 
 #menuClick h1 {
     padding-top: 10%;
@@ -205,12 +198,17 @@ a.onTop {
     font-family:Verdana;
     font-size:20px;
     font-weight:bold;
-    padding: 16px 76px;
     text-decoration:none;
     text-shadow:-2px 2px 8px #Ff6627;
+    bottom: 15%;
+    top: 20%;
 }
 
 #welcomeButton {
-    position: relative;
+    top: 30px;
+}
+
+#clearStorage {
+    top: 70px;
 }
 
