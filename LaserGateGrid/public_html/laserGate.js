@@ -127,8 +127,7 @@ function game(level) {
             boxes[j] = new Box(levels.level[id].box[j].position);
             var box = boxes[j];
             box.draw(box.getId());
-        }
-        ;
+        };
 
         //set avatar location
         //  TODO abstraction for avatar and thing
