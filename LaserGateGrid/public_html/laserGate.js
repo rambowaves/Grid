@@ -22,6 +22,10 @@ var a = document.createElement('audio');
 a.setAttribute('src', 'Intro.mp3');
 
 //show users what levels are open to them and which ones are not
+var oldGame = false;
+if(localStorage.getItem("continue")) {
+    unlocked = localStorage.getItem("continue");
+}; 
 var unlocked = 1;
 if(localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
@@ -30,7 +34,7 @@ if(localStorage.getItem("unlockedLevels")) {
 
 //code goes to menu function first
 init();
-startScreen();
+startScreen(oldGame);
 
 
 //sets up the game grid 
@@ -238,6 +242,7 @@ function game(level) {
                                         if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
                                         localStorage.setItem("unlockedLevels", unlocked);
+                                        localStorage.setItem("continue", oldGame);
                                         };
                                         menuOverlay(nextLevel, id);
                                     }
@@ -304,8 +309,12 @@ function game(level) {
 ;
 
 //a screen that says Laser Gate and has a big button to begin the game
-function startScreen(){
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a><br><a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
+function startScreen(cont){
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a>');
+    if(cont){
+        document.write('<a href="#" id="welcomeButton" class="myButton">Continue</a><br>');
+    }
+    document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
     setInterval(function () {
         a.play();
@@ -357,6 +366,7 @@ function menu() { //this will bring the user back to the level screen so he can 
             $('div').removeClass("menu");
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
             a.pause();
+            oldGame = true; //used to add contrubute tag to the startscreen
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
         };
     });
@@ -455,6 +465,8 @@ var levels = {
                 }
             ]
 };
+
+
 
 function touchHandler(event) //needed for iPhone touch events
 {
