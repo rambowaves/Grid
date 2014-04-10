@@ -350,14 +350,26 @@ function game(level) {
 ;
 
 //a screen that says Laser Gate and has a big button to begin the game
-function startScreen() {
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
+
+
+function startScreen(){
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a><br><a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
-    a.play();
-    $('#welcomeButton').on('click touchstart', function() {
+    setInterval(function () {
+        a.play();
+    }, 1000);
+    $('#welcomeButton').on('click touchstart',function () {
         document.location.replace('');
         menu();
     });
+    
+    $('#clearStorage').on('click touchstart',function () {
+      //this deletes the game()
+      localStorage.clear();
+      document.location.replace('');
+      document.location.reload();
+      menu();
+  });
 }
 
 function menu() { //this will bring the user back to the level screen so he can pick the next level
@@ -412,7 +424,7 @@ function menuOverlay(won, id) {
     if (won) {
         document.write('<a class="onTop" id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
     }
-    document.write('<a class="onTop" id="restart" align="center"><h1><u>restart</u></h1></a><br><a class="onTop" id="clearStorage" align="center"><h1><u>clear local storage</u></h1></a></div></center></div></div>');
+    document.write('<a class="onTop" id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div></div>');
     $('#menuClick').click(function() {
         //this deletes the game()
         $('.laserGate').html('');
@@ -472,6 +484,7 @@ function menuOverlay(won, id) {
 
 }
 ;
+
 
 //json for the levels in the game 
 var levels = {
