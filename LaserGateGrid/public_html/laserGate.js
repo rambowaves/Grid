@@ -17,15 +17,17 @@ var avatarIsPlaced = false;
 var shooting = false;
 var boxes = new Array();
 
+
 //audio initilaization 
 var a = document.createElement('audio');
 a.setAttribute('src', 'Intro.mp3');
 
 //show users what levels are open to them and which ones are not
 var unlocked = 1;
-if(localStorage.getItem("unlockedLevels")) {
+if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
-}; 
+}
+;
 
 
 //code goes to menu function first
@@ -36,6 +38,7 @@ startScreen();
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
+    var deathBoxCount;
     a.src = 'Game.mp3';
     a.play();
     var id = level;
@@ -88,15 +91,30 @@ function game(level) {
     var cellWidth = document.getElementById("0_0").offsetWidth / 2;
     var cellHeight = document.getElementById("0_0").offsetHeight / 2;
 
-    function Box(boxId) {
+    function Box(boxId, hitCount) {
         this.boxId = boxId;
+        this.hitCount = hitCount;
     }
+    Box.prototype.setHitCount = function(hitCount) {
+        this.hitCount = hitCount;
+    };
     Box.prototype.getId = function() {
         return this.boxId;
     };
 
-    Box.prototype.draw = function(id) {
-        $("#" + id + "").addClass("unHit");
+    Box.prototype.getHitCount = function() {
+        return this.hitCount;
+    };
+    Box.prototype.draw = function(id, hitCount) {
+        hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2") :
+                hitCount == 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3") :
+                $("#" + id + "").addClass("hit3");
+//        if (hitCount < 1) {
+//            console.log("hit count is 1 " + hitCount)
+//            $("#" + id + "").addClass("unHit").removeClass("hit2");
+//        }
+
+
     };
 
     Box.prototype.boxDim = function(id) {
@@ -123,10 +141,17 @@ function game(level) {
 
         //place boxes
         //boxes is an array of box objects 
+        deathBoxCount = 0;
         for (var j = 0; j < levels.level[id].box.length; j++) {
-            boxes[j] = new Box(levels.level[id].box[j].position);
+            boxes[j] = new Box(levels.level[id].box[j].position, levels.level[id].box[j].hitCount);
             var box = boxes[j];
-            box.draw(box.getId());
+//            if (levels.level[id].box[j].deathBox) {
+//                $("#" + box.getId() + "").addClass("deathBox");
+//                deathBoxCount++;
+//            } else {
+            box.draw(box.getId(), box.getHitCount());
+            console.log("ID " + box.getId() + " HIT COUNT " + box.getHitCount() + " \n\n");
+//            }
         }
         ;
 
@@ -161,7 +186,8 @@ function game(level) {
         for (j = 0; j <= numCols; j++) {
             grid.rows[i].cells[j].onclick = function(e) {
                 if ($(this).hasClass("outer") && !shooting) {
-
+                    cellWidth = document.getElementById("0_0").offsetWidth / 2;
+                    cellHeight = document.getElementById("0_0").offsetHeight / 2;
                     //get top and left coordinates of the new clicked position
                     var currentPosition = $(this).attr("id");
                     var position = getElementPosition(currentPosition);
@@ -199,8 +225,9 @@ function game(level) {
                                 theThing.style.left = xPosition + "px";
                                 theThing.style.top = yPosition + "px";
                             }, 1);
-                            
 
+                            var hit = new Array();
+                            var j = 0;
                             //check for collisions with box objects
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
@@ -212,37 +239,49 @@ function game(level) {
 //                                var thingBottom = thingTop + thingEl.height;
 
                                 //test if the laser collides with any boxes
+
                                 for (var i = 0; i < boxes.length; i++) {
                                     var box = boxes[i];
                                     var boxDim = box.boxDim(box.getId());
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
                                     if (xOverlap && yOverlap) {
-                                        if(!levels.level[id].box[i].deathBox){ //new atribute to a box in which if deathBox is true then you lose the level
+//                                        if (!levels.level[id].box[i].deathBox) { //new atribute to a box in which if deathBox is true then you lose the level
+                                        box.setHitCount(box.getHitCount() - 1);
+                                        if (box.getHitCount() < 0) {
                                             $("#" + box.getId() + "").addClass("remove");
-                                            boxes.splice(i, 1);
-                                        } else {
-                                            $("#" + box.getId() + "").addClass("remove");
-                                            boxes.splice(i, 1);
-                                            var nextLevel = false;
-                                            levels.level[id].won = false;
-                                            console.log(levels.level[id].won);
-                                            menuOverlay(nextLevel, id);
-                                            }
+                                        }
+                                        else {
+                                            hit[j++] = box;
+                                            box.draw(box.getId(), box.getHitCount());
+                                        }
+                                        boxes.splice(i, 1);
+//                                        } else {
+//                                            console.log("DEATH BOX HIT");
+////                                            $("#" + box.getId() + "").addClass("remove");
+////                                            boxes.splice(i, 1);
+//                                            var nextLevel = false;
+//                                            levels.level[id].won = false;
+//                                            console.log(levels.level[id].won);
+//                                            menuOverlay(nextLevel, id);
+//                                        }
+//                                        console.log("BOXES LENGTH " + boxes.length);
                                     }
-                                    if(boxes.length === 0){
+                                    if ((boxes.length + hit.length) <= 0) {
                                         var nextLevel = true;
                                         levels.level[id].won = true;
 //                                        console.log(levels.level[id].won);
                                         id += 1;
                                         unlocked = parseInt(unlocked);
-                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
-                                        unlocked += 1;
-                                        localStorage.setItem("unlockedLevels", unlocked);
-                                        };
+                                        if (id === unlocked) { //make sure player does not unlock a level by playing one they already beat
+                                            unlocked += 1;
+                                            localStorage.setItem("unlockedLevels", unlocked);
+                                        }
+                                        ;
                                         menuOverlay(nextLevel, id);
                                     }
                                 }
+
                             }, 1);
                             setTimeout(function() {
                                 clearInterval(testCollision);
@@ -254,6 +293,10 @@ function game(level) {
 //                                var theThing = document.getElementById("thing");
                                 theThing.style.visibility = "hidden";
                                 shooting = false;
+                                for (var i = 0; i < hit.length; i++) {
+                                    boxes[boxes.length] = hit[i];
+                                    console.log("adding box");
+                                }
                             }, 1000);
                         }
                     } else {
@@ -263,7 +306,7 @@ function game(level) {
                         $("#" + avatar + "").removeClass("avatar");
                         $(this).addClass("avatar");
                         avatar = currentPosition;
-                        
+
                         avatarX = xPosition;
                         avatarY = yPosition;
                         avatarPlaced = true;
@@ -275,20 +318,22 @@ function game(level) {
         }
     }
     function setXLocation(obj, position) {
+        cellWidth = document.getElementById("0_0").offsetWidth / 2;
         return $(obj).hasClass("left") ?
-                $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 + $("#thing").width() / 2:
+                $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() / 2 :
                 $(obj).hasClass("right") ? position.left :
-                    position.left + cellWidth - $("#thing").width() / 2;
+                position.left + cellWidth - $("#thing").width() / 2;
     }
 
     function setYLocation(obj, position) {
+        cellHeight = document.getElementById("0_0").offsetHeight / 2;
         return $(obj).hasClass("top") ?
-                $(obj).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() / 2:
+                $(obj).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() / 2 :
                 $(obj).hasClass("bottom") ? position.top :
-                    position.top + cellHeight - $("#thing").height() / 2;
+                position.top + cellHeight + $("#thing").height() / 2;
     }
     function collides(value, min, max) {
-        return (value >= min - 15) && (value <= max + 15);
+        return (value >= min - 20) && (value <= max + 20);
     }
     function checkLocation(laser) {
         return ($("#" + laser + "").hasClass("left") && $(".avatar").hasClass("left")) ? false :
@@ -305,11 +350,11 @@ function game(level) {
 ;
 
 //a screen that says Laser Gate and has a big button to begin the game
-function startScreen(){
+function startScreen() {
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a></center></div>');
     init();
     a.play();
-    $('#welcomeButton').on('click touchstart',function () {
+    $('#welcomeButton').on('click touchstart', function() {
         document.location.replace('');
         menu();
     });
@@ -325,7 +370,7 @@ function menu() { //this will bring the user back to the level screen so he can 
         document.write('<tr id="row"' + i + '>');
 
         for (j = 0; j < numColmns; j++) {
-            if(blockId <= unlocked){
+            if (blockId <= unlocked) {
                 document.write("<td id= '" + blockId.toString() + "' class='unlocked'>" + blockId.toString() + "</td>");
             } else {
                 document.write("<td id= '" + blockId.toString() + "' class='locked'>" + blockId.toString() + "</td>");
@@ -342,14 +387,15 @@ function menu() { //this will bring the user back to the level screen so he can 
         var id = $(this).attr('id');
         //checks to see if level has been unlocked then allows you to enter game again
 //            console.log("go to level " + id + "");
-        if(id <= unlocked) {
+        if (id <= unlocked) {
 //            console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
             a.pause();
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
-        };
+        }
+        ;
     });
 
     $('#returnWelcome').click(function() {
@@ -359,72 +405,73 @@ function menu() { //this will bring the user back to the level screen so he can 
 
 }
 
-function menuOverlay(won, id){
+function menuOverlay(won, id) {
     a.pause();
     document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
     document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
-    if(won){
+    if (won) {
         document.write('<a class="onTop" id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
     }
     document.write('<a class="onTop" id="restart" align="center"><h1><u>restart</u></h1></a><br><a class="onTop" id="clearStorage" align="center"><h1><u>clear local storage</u></h1></a></div></center></div></div>');
     $('#menuClick').click(function() {
-      //this deletes the game()
-      $('.laserGate').html('');
-      $('#thing').remove();
-      $('div').removeClass('laserGate');
-      //this deletes the menuOverlay
-      $('.menuOverlay').html('');
-      $('div').removeClass('menuOverlay');
-      menu();
-  });
-  
-  $('#nextLevel').click(function() {
-      //this deletes the game()
-      avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
-      $('.laserGate').html('');
-      $('#thing').remove();
-      $('div').removeClass('laserGate');
-      //this deletes the menuOverlay
-      $('.menuOverlay').html('');
-      $('div').removeClass('menuOverlay');
-      if(levels.level[id].won){ //fixed bug that if you won a level and went back you couldn't progress to next level until you won again
-          id +=1;
-      }
-      game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
-  });
-  
-  $('#resume').click(function() {
-      //this deletes the menuOverlay
-      $('.menuOverlay').html('');
-      $('div').removeClass('menuOverlay');
-  });
-  
-  $('#restart').click(function() {
-      //this deletes the game()
-      avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
-      $('.laserGate').html('');
-      $('#thing').remove();
-      $('div').removeClass('laserGate');
-      //this deletes the menuOverlay
-      $('.menuOverlay').html('');
-      $('div').removeClass('menuOverlay');
-      game(id);
-  });
-  
-  $('#clearStorage').click(function() {
-      //this deletes the game()
-      localStorage.clear();
-      $('.laserGate').html('');
-      $('#thing').remove();
-      $('div').removeClass('laserGate');
-      //this deletes the menuOverlay
-      $('.menuOverlay').html('');
-      $('div').removeClass('menuOverlay');
-      menu();
-  });
-      
-  
-};
+        //this deletes the game()
+        $('.laserGate').html('');
+        $('#thing').remove();
+        $('div').removeClass('laserGate');
+        //this deletes the menuOverlay
+        $('.menuOverlay').html('');
+        $('div').removeClass('menuOverlay');
+        menu();
+    });
+
+    $('#nextLevel').click(function() {
+        //this deletes the game()
+        avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
+        $('.laserGate').html('');
+        $('#thing').remove();
+        $('div').removeClass('laserGate');
+        //this deletes the menuOverlay
+        $('.menuOverlay').html('');
+        $('div').removeClass('menuOverlay');
+        if (levels.level[id].won) { //fixed bug that if you won a level and went back you couldn't progress to next level until you won again
+            id += 1;
+        }
+        game(id);//will pass in a value that a NEXTLEVEL function will read and change levels with 
+    });
+
+    $('#resume').click(function() {
+        //this deletes the menuOverlay
+        $('.menuOverlay').html('');
+        $('div').removeClass('menuOverlay');
+    });
+
+    $('#restart').click(function() {
+        //this deletes the game()
+        avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
+        $('.laserGate').html('');
+        $('#thing').remove();
+        $('div').removeClass('laserGate');
+        //this deletes the menuOverlay
+        $('.menuOverlay').html('');
+        $('div').removeClass('menuOverlay');
+        game(id);
+    });
+
+    $('#clearStorage').click(function() {
+        //this deletes the game()
+        localStorage.clear();
+        $('.laserGate').html('');
+        $('#thing').remove();
+        $('div').removeClass('laserGate');
+        //this deletes the menuOverlay
+        $('.menuOverlay').html('');
+        $('div').removeClass('menuOverlay');
+        menu();
+    });
+
+
+}
+;
 
 //json for the levels in the game 
 var levels = {
@@ -433,25 +480,25 @@ var levels = {
                 {
                     //level 1
                     won: false,
-                    box: [{position: "2_4"}, {deathBox: true, position: "6_2"}, {position: "8_7"}, {position: "7_7"}, {position: "7_2"}, {position: "1_6"}, {position: "2_6"}, {position: "3_6"}, {position: "4_6"}],
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 2}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
                     //level 2
                     won: false,
-                    box: [{position: "1_4"}, {position: "6_3"}, {position: "8_8"}, {position: "7_8"}, {position: "7_2"}],
+                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
                     laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
                     //level 3
                     won: false,
-                    box: [{position: "2_4"}, {position: "6_2"}, {position: "9_7"}, {position: "10_7"}, {position: "7_2"}],
+                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
                     laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
                 },
                 {
                     //level 4
                     won: false,
-                    box: [{position: "4_2"}, {position: "6_2"}, {position: "5_2"}, {position: "7_2"}, {position: "8_2"}, {position: "9_2"}, {position: "6_4"}, {position: "7_3"}, {position: "5_3"}, {position: "4_7"}, {position: "5_7"}, {position: "6_7"}, {position: "7_7"}, {position: "8_7"}, {position: "9_7"}],
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
                     laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
                 }
             ]
@@ -460,15 +507,22 @@ var levels = {
 function touchHandler(event) //needed for iPhone touch events
 {
     var touches = event.changedTouches,
-        first = touches[0],
-        type = "";
+            first = touches[0],
+            type = "";
 
-    switch(event.type)
+    switch (event.type)
     {
-       case "touchstart": type = "mousedown"; break;
-       case "touchmove":  type = "mousemove"; break;        
-       case "touchend":   type = "mouseup"; break;
-       default: return;
+        case "touchstart":
+            type = "mousedown";
+            break;
+        case "touchmove":
+            type = "mousemove";
+            break;
+        case "touchend":
+            type = "mouseup";
+            break;
+        default:
+            return;
     }
 
     //initMouseEvent(type, canBubble, cancelable, view, clickCount, 
@@ -476,20 +530,20 @@ function touchHandler(event) //needed for iPhone touch events
     //           altKey, shiftKey, metaKey, button, relatedTarget);
 
     var simulatedEvent = document.createEvent("MouseEvent");
-    simulatedEvent.initMouseEvent(type, true, true, window, 1, 
-                          first.screenX, first.screenY, 
-                          first.clientX, first.clientY, false, 
-                          false, false, false, 0/*left*/, null);
+    simulatedEvent.initMouseEvent(type, true, true, window, 1,
+            first.screenX, first.screenY,
+            first.clientX, first.clientY, false,
+            false, false, false, 0/*left*/, null);
 
     first.target.dispatchEvent(simulatedEvent);
     event.preventDefault();
 }
 
-function init() 
+function init()
 {
     document.addEventListener("touchstart", touchHandler, true);
     document.addEventListener("touchmove", touchHandler, true);
     document.addEventListener("touchend", touchHandler, true);
-    document.addEventListener("touchcancel", touchHandler, true);    
+    document.addEventListener("touchcancel", touchHandler, true);
 }
 
