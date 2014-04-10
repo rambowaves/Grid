@@ -11,8 +11,8 @@ var numRows = 13;
 
 //set avatar location to be in the center of the bottom row
 var avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
-var avatarX;
-var avatarY;
+//var avatarX;
+//var avatarY;
 var avatarIsPlaced = false;
 var shooting = false;
 var boxes = new Array();
@@ -43,7 +43,6 @@ function game(level) {
     a.play();
     var id = level;
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
-//    $("#thing").hide();
     for (i = 0; i <= numRows; i++) {
         document.write("<tr class='row" + i + "'>");
         for (j = 0; j <= numCols; j++) {
@@ -109,12 +108,6 @@ function game(level) {
         hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2") :
                 hitCount == 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3") :
                 $("#" + id + "").addClass("hit3");
-//        if (hitCount < 1) {
-//            console.log("hit count is 1 " + hitCount)
-//            $("#" + id + "").addClass("unHit").removeClass("hit2");
-//        }
-
-
     };
 
     Box.prototype.boxDim = function(id) {
@@ -126,7 +119,6 @@ function game(level) {
             bottom: boxPos.top + cellHeight
         };
     };
-
 
     //used to create the levels
     gameLevels(id);
@@ -145,23 +137,18 @@ function game(level) {
         for (var j = 0; j < levels.level[id].box.length; j++) {
             boxes[j] = new Box(levels.level[id].box[j].position, levels.level[id].box[j].hitCount);
             var box = boxes[j];
-//            if (levels.level[id].box[j].deathBox) {
-//                $("#" + box.getId() + "").addClass("deathBox");
-//                deathBoxCount++;
-//            } else {
-            box.draw(box.getId(), box.getHitCount());
-            console.log("ID " + box.getId() + " HIT COUNT " + box.getHitCount() + " \n\n");
-//            }
+            if (levels.level[id].box[j].deathBox) {
+                $("#" + box.getId() + "").addClass("deathBox");
+                deathBoxCount++;
+            } else {
+                box.draw(box.getId(), box.getHitCount());
+                console.log("ID " + box.getId() + " HIT COUNT " + box.getHitCount() + " \n\n");
+            }
         }
         ;
 
         //set avatar location
-        //  TODO abstraction for avatar and thing
-        // give avatar id of grid location and move avatar and thing
         $("#" + avatar + "").addClass("avatar");
-        var pos = getElementPosition(avatar);
-        avatarX = setXLocation(avatar, pos);
-        avatarY = setYLocation(avatar, pos);
         avatarIsPlaced = true;
     }
 
@@ -202,8 +189,8 @@ function game(level) {
 
                             //fetch avatar location again just to be sure screen wasn't resized
                             var temp = getElementPosition(avatar);
-                            avatarX = temp.left == avatarX ? avatarX : setXLocation(avatar, temp);
-                            avatarY = temp.top == avatarY ? avatarY : setYLocation(avatar, temp);
+                            var avatarX = temp.left == avatarX ? avatarX : setXLocation(avatar, temp);
+                            var avatarY = temp.top == avatarY ? avatarY : setYLocation(avatar, temp);
 
                             //set the thing to avatar location on a zero transition speed
                             var theThing = document.getElementById("thing");
@@ -213,33 +200,27 @@ function game(level) {
 //                            
                             //make the thing visible and change transition speed back to 1s
                             setTimeout(function() {
-//                                var theThing = document.getElementById("thing");
                                 theThing.style.visibility = "visible";
                                 theThing.style.transition = "left 1s ease-in, top 1s ease-in";
                             }, 1);
 
                             //set new location of the thing, in which it will show the transition to get there
-
                             setTimeout(function() {
                                 var theThing = document.querySelector("#thing");
                                 theThing.style.left = xPosition + "px";
                                 theThing.style.top = yPosition + "px";
                             }, 1);
 
+                            //check for collisions with box objects
                             var hit = new Array();
                             var j = 0;
-                            //check for collisions with box objects
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
-//                                var thingEl = document.getElementById("thing");
                                 var thingPosition = getElementPosition("thing");
                                 var thingLeft = thingPosition.left;
                                 var thingTop = thingPosition.top;
-//                                var thingRight = thingLeft + thingEl.width;
-//                                var thingBottom = thingTop + thingEl.height;
 
                                 //test if the laser collides with any boxes
-
                                 for (var i = 0; i < boxes.length; i++) {
                                     var box = boxes[i];
                                     var boxDim = box.boxDim(box.getId());
@@ -247,30 +228,33 @@ function game(level) {
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
                                     if (xOverlap && yOverlap) {
 //                                        if (!levels.level[id].box[i].deathBox) { //new atribute to a box in which if deathBox is true then you lose the level
-                                        box.setHitCount(box.getHitCount() - 1);
-                                        if (box.getHitCount() < 0) {
-                                            $("#" + box.getId() + "").addClass("remove");
+                                        if (!$("#" + box.getId() + "").hasClass("deathBox")) {
+                                            box.setHitCount(box.getHitCount() - 1);
+                                            if (box.getHitCount() < 0) {
+                                                $("#" + box.getId() + "").addClass("remove");
+                                            }
+                                            else {
+                                                hit[j++] = box;
+                                                box.draw(box.getId(), box.getHitCount());
+                                            }
+                                            boxes.splice(i, 1);
+                                        } else {
+                                            
+                                            console.log("DEATH BOX HIT");
+//                                            $("#" + box.getId() + "").addClass("remove");
+//                                            boxes.splice(i, 1);
+                                            var nextLevel = false;
+                                            levels.level[id].won = false;
+                                            console.log(levels.level[id].won);
+                                            menuOverlay(nextLevel, id, false);
+                                            //cannot have option to resume
+                                            clearInterval(testCollision);
                                         }
-                                        else {
-                                            hit[j++] = box;
-                                            box.draw(box.getId(), box.getHitCount());
-                                        }
-                                        boxes.splice(i, 1);
-//                                        } else {
-//                                            console.log("DEATH BOX HIT");
-////                                            $("#" + box.getId() + "").addClass("remove");
-////                                            boxes.splice(i, 1);
-//                                            var nextLevel = false;
-//                                            levels.level[id].won = false;
-//                                            console.log(levels.level[id].won);
-//                                            menuOverlay(nextLevel, id);
-//                                        }
 //                                        console.log("BOXES LENGTH " + boxes.length);
                                     }
-                                    if ((boxes.length + hit.length) <= 0) {
+                                    if ((boxes.length + hit.length - deathBoxCount) <= 0) {
                                         var nextLevel = true;
                                         levels.level[id].won = true;
-//                                        console.log(levels.level[id].won);
                                         id += 1;
                                         unlocked = parseInt(unlocked);
                                         if (id === unlocked) { //make sure player does not unlock a level by playing one they already beat
@@ -278,10 +262,10 @@ function game(level) {
                                             localStorage.setItem("unlockedLevels", unlocked);
                                         }
                                         ;
-                                        menuOverlay(nextLevel, id);
+                                        menuOverlay(nextLevel, id, false);
+                                        clearInterval(testCollision);
                                     }
                                 }
-
                             }, 1);
                             setTimeout(function() {
                                 clearInterval(testCollision);
@@ -290,13 +274,11 @@ function game(level) {
                             //after done shooting, hide the thing
                             //THING ABSTRACTION
                             setTimeout(function() {
-//                                var theThing = document.getElementById("thing");
                                 theThing.style.visibility = "hidden";
-                                shooting = false;
                                 for (var i = 0; i < hit.length; i++) {
                                     boxes[boxes.length] = hit[i];
-                                    console.log("adding box");
                                 }
+                                shooting = false;
                             }, 1000);
                         }
                     } else {
@@ -306,15 +288,11 @@ function game(level) {
                         $("#" + avatar + "").removeClass("avatar");
                         $(this).addClass("avatar");
                         avatar = currentPosition;
-
-                        avatarX = xPosition;
-                        avatarY = yPosition;
                         avatarPlaced = true;
                         shooting = false;
                     }
                 }
-            }
-            ;
+            };
         }
     }
     function setXLocation(obj, position) {
@@ -343,7 +321,7 @@ function game(level) {
     }
 
     $("#menu").click(function() {
-        menuOverlay(levels.level[level].won, id);
+        menuOverlay(levels.level[level].won, id, true);
     });
 
 }
@@ -352,24 +330,24 @@ function game(level) {
 //a screen that says Laser Gate and has a big button to begin the game
 
 
-function startScreen(){
+function startScreen() {
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a><a href="#" id="welcomeButton" class="myButton">click to begin</a><br><a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
-    setInterval(function () {
+    setInterval(function() {
         a.play();
     }, 1000);
-    $('#welcomeButton').on('click touchstart',function () {
+    $('#welcomeButton').on('click touchstart', function() {
         document.location.replace('');
         menu();
     });
-    
-    $('#clearStorage').on('click touchstart',function () {
-      //this deletes the game()
-      localStorage.clear();
-      document.location.replace('');
-      document.location.reload();
-      menu();
-  });
+
+    $('#clearStorage').on('click touchstart', function() {
+        //this deletes the game()
+        localStorage.clear();
+        document.location.replace('');
+        document.location.reload();
+        menu();
+    });
 }
 
 function menu() { //this will bring the user back to the level screen so he can pick the next level
@@ -417,10 +395,12 @@ function menu() { //this will bring the user back to the level screen so he can 
 
 }
 
-function menuOverlay(won, id) {
+function menuOverlay(won, id, paused) {
     a.pause();
     document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
-    document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
+    if(paused) {
+        document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
+    }
     if (won) {
         document.write('<a class="onTop" id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
     }
@@ -493,7 +473,7 @@ var levels = {
                 {
                     //level 1
                     won: false,
-                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 2}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
