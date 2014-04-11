@@ -85,7 +85,16 @@ function game(level) {
         document.write('</tr></div>');
     }
     ;
+    
+    // Current score functionality adds 10 points for each box hit and counts the number of shots
+    Score = {
+        hit : 0,
+        shots : 0
+    };
+    
+    
     document.write('</table><button id="menu" align="center">pause</button>');
+    document.write('<p id="score">Score: ' + Score.hit + '</p>');
 
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
@@ -121,6 +130,7 @@ function game(level) {
             bottom: boxPos.top + cellHeight
         };
     };
+    
 
     //used to create the levels
     gameLevels(id);
@@ -188,6 +198,7 @@ function game(level) {
                     if ($(this).hasClass("laser") && avatarIsPlaced) {
                         if (checkLocation(currentPosition)) {
                             shooting = true;
+                            Score.shots += 1;
 
                             //fetch avatar location again just to be sure screen wasn't resized
                             var temp = getElementPosition(avatar);
@@ -240,6 +251,8 @@ function game(level) {
                                                 box.draw(box.getId(), box.getHitCount());
                                             }
                                             boxes.splice(i, 1);
+                                            Score.hit += 10;
+                                            document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                         } else {
                                             
                                             console.log("DEATH BOX HIT");
