@@ -84,6 +84,19 @@ tr, td {
         background-repeat: no-repeat;
         background-position: center;*/
 }
+.hit2 {
+    background-color: darkgray;
+    border: 1px lightgray solid;
+}
+
+.hit3 {
+    background-color: black;
+    border: 1px lightgray solid;
+}
+.deathBox {
+    background-color: red;
+    border: 1px lightgray solid;
+}
 
 .remove {
     background-color: transparent;
