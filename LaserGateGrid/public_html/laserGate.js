@@ -227,7 +227,6 @@ function game(level) {
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
                                     if (xOverlap && yOverlap) {
-//                                        if (!levels.level[id].box[i].deathBox) { //new atribute to a box in which if deathBox is true then you lose the level
                                         if (!$("#" + box.getId() + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
                                             if (box.getHitCount() < 0) {
@@ -239,10 +238,6 @@ function game(level) {
                                             }
                                             boxes.splice(i, 1);
                                         } else {
-                                            
-                                            console.log("DEATH BOX HIT");
-//                                            $("#" + box.getId() + "").addClass("remove");
-//                                            boxes.splice(i, 1);
                                             var nextLevel = false;
                                             levels.level[id].won = false;
                                             console.log(levels.level[id].won);
@@ -250,7 +245,6 @@ function game(level) {
                                             //cannot have option to resume
                                             clearInterval(testCollision);
                                         }
-//                                        console.log("BOXES LENGTH " + boxes.length);
                                     }
                                     if ((boxes.length + hit.length - deathBoxCount) <= 0) {
                                         var nextLevel = true;
@@ -299,8 +293,7 @@ function game(level) {
         cellWidth = document.getElementById("0_0").offsetWidth / 2;
         return $(obj).hasClass("left") ?
                 $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() / 2 :
-                $(obj).hasClass("right") ? position.left :
-                position.left + cellWidth - $("#thing").width() / 2;
+                $(obj).hasClass("right") ? position.left : position.left + cellWidth - $("#thing").width() / 2;
     }
 
     function setYLocation(obj, position) {
