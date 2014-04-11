@@ -133,6 +133,15 @@ tr, td {
     z-index: 3000;
 }
 
+#score {
+    position: fixed;
+    top: 2.3%;
+    right: -91%;
+    z-index: 3000;
+    font-size: 1.25em;
+    color: white;
+}
+
 a.onTop {
     position: absolute;
     opacity: 1.0;

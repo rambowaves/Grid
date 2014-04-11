@@ -85,7 +85,16 @@ function game(level) {
         document.write('</tr></div>');
     }
     ;
+    
+    // Current score functionality adds 10 points for each box hit and counts the number of shots
+    Score = {
+        hit : 0,
+        shots : 0
+    };
+    
+    
     document.write('</table><button id="menu" align="center">pause</button>');
+    document.write('<p id="score">Score: ' + Score.hit + '</p>');
 
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
@@ -121,6 +130,7 @@ function game(level) {
             bottom: boxPos.top + cellHeight
         };
     };
+    
 
     //used to create the levels
     gameLevels(id);
@@ -188,6 +198,7 @@ function game(level) {
                     if ($(this).hasClass("laser") && avatarIsPlaced) {
                         if (checkLocation(currentPosition)) {
                             shooting = true;
+                            Score.shots += 1;
 
                             //fetch avatar location again just to be sure screen wasn't resized
                             var temp = getElementPosition(avatar);
@@ -229,7 +240,6 @@ function game(level) {
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
                                     if (xOverlap && yOverlap) {
-//                                        if (!levels.level[id].box[i].deathBox) { //new atribute to a box in which if deathBox is true then you lose the level
                                         if (!$("#" + box.getId() + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
                                             if (box.getHitCount() < 0) {
@@ -240,11 +250,9 @@ function game(level) {
                                                 box.draw(box.getId(), box.getHitCount());
                                             }
                                             boxes.splice(i, 1);
+                                            Score.hit += 10;
+                                            document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                         } else {
-                                            
-                                            console.log("DEATH BOX HIT");
-//                                            $("#" + box.getId() + "").addClass("remove");
-//                                            boxes.splice(i, 1);
                                             var nextLevel = false;
                                             levels.level[id].won = false;
                                             console.log(levels.level[id].won);
@@ -301,8 +309,7 @@ function game(level) {
         cellWidth = document.getElementById("0_0").offsetWidth / 2;
         return $(obj).hasClass("left") ?
                 $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() / 2 :
-                $(obj).hasClass("right") ? position.left :
-                position.left + cellWidth - $("#thing").width() / 2;
+                $(obj).hasClass("right") ? position.left : position.left + cellWidth - $("#thing").width() / 2;
     }
 
     function setYLocation(obj, position) {
