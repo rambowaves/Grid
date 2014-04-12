@@ -20,6 +20,22 @@ var boxes = new Array();
 //audio initilaization 
 var a = document.createElement('audio');
 a.setAttribute('src', 'Intro.mp3');
+a.loop = true;
+var loop = setInterval(playAudio, 31000);
+//used to stop or loop audio
+function playAudio(music) {
+    a.src = music;
+    if(stop === true){
+        clearInterval(loop);
+    }
+    a.play();
+    
+    playAudio(music);
+};
+function stopAudio() {
+    a.loop=false;
+    a.pause();
+}
 
 //show users what levels are open to them and which ones are not
 var oldGame = false;
@@ -41,8 +57,7 @@ startScreen(oldGame);
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
     var deathBoxCount;
-    a.src = 'Game.mp3';
-    a.play();
+    playAudio('Game.mp3');
     var id = level;
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
     for (i = 0; i <= numRows; i++) {
@@ -344,9 +359,7 @@ function startScreen(cont){
     }
     document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
-    setInterval(function() {
-        a.play();
-    }, 1000);
+    playAudio('intro.mp3');
     $('#welcomeButton').on('click touchstart', function() {
         document.body.innerHTML = '';
         menu();
