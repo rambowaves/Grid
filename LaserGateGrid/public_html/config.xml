@@ -23,7 +23,7 @@
     -->
     <feature name="http://api.phonegap.com/1.0/device" />
   
-    <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.7" />
+    <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.3" />
     <feature name="SplashScreen">
         <param name="ios-package" value="CDVSplashScreen" />
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
