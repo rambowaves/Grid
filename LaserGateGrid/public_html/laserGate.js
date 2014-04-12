@@ -366,7 +366,6 @@ function startScreen(cont){
         document.location.reload();
         menu();
     });
-    navigator.splashscreen.hide();
 }
 
 function menu() { //this will bring the user back to the level screen so he can pick the next level
