@@ -47,6 +47,11 @@ if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
 }; 
 
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+    navigator.splashscreen.hide();
+}
 
 //code goes to menu function first
 init();
