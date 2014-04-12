@@ -34,7 +34,6 @@ if (localStorage.getItem("unlockedLevels")) {
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-    navigator.splashscreen.show();
     setTimeout(function () {
     navigator.splashscreen.hide();
     }, 5000);
