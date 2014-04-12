@@ -31,13 +31,13 @@ if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
 }; 
 
-document.addEventListener("deviceready", onDeviceReady, false);
-
-function onDeviceReady() {
-    setTimeout(function () {
-    navigator.splashscreen.hide();
-    }, 5000);
-}
+//document.addEventListener("deviceready", onDeviceReady, false);
+//
+//function onDeviceReady() {
+//    setTimeout(function () {
+//    navigator.splashscreen.hide();
+//    }, 5000);
+//}
 
 //code goes to menu function first
 init();
@@ -366,6 +366,7 @@ function startScreen(cont){
         document.location.reload();
         menu();
     });
+    navigator.splashscreen.hide();
 }
 
 function menu() { //this will bring the user back to the level screen so he can pick the next level
