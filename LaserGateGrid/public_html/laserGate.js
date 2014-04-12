@@ -31,7 +31,7 @@ if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
 }; 
 
-document.addEventListener( deviceready, onDeviceReady, false);
+document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     setTimeout(function () {
