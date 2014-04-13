@@ -18,7 +18,8 @@ var shooting = false;
 var boxes = new Array();
 
 //audio initilaization 
-var a = document.createElement('audio');
+//var a = document.createElement('audio');
+var a = new Audio('Intro.mp3');
 a.setAttribute('src', 'Intro.mp3');
 //used to stop or loop audio
 
@@ -401,13 +402,15 @@ function menu() { //this will bring the user back to the level screen so he can 
     }
     ;
     document.write('</table><button id="returnWelcome">Back to Welcome</button></div>');
-
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
+        console.log('id for this level is: ' + id);
+        console.log("id <= unlocked? " + id <= unlocked);
+
         //checks to see if level has been unlocked then allows you to enter game again
 //            console.log("go to level " + id + "");
         if (id <= unlocked) {
-//            console.log("go to level " + id + "");
+            console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
