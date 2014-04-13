@@ -92,7 +92,7 @@ function game(level) {
         shots : 0
     };
     
-    
+    document.write('</table>');
     document.write('</table><button id="menu" align="center">pause</button>');
     document.write('<p id="score">Score: ' + Score.hit + '</p>');
 
@@ -250,7 +250,7 @@ function game(level) {
                                                 box.draw(box.getId(), box.getHitCount());
                                             }
                                             boxes.splice(i, 1);
-                                            Score.hit += 10;
+                                            Score.hit += 100;
                                             document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                         } else {
                                             var nextLevel = false;

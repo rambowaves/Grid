@@ -133,15 +133,6 @@ tr, td {
     z-index: 3000;
 }
 
-#score {
-    position: fixed;
-    top: 2.3%;
-    right: -91%;
-    z-index: 3000;
-    font-size: 1.25em;
-    color: white;
-}
-
 a.onTop {
     position: absolute;
     opacity: 1.0;
@@ -234,3 +225,28 @@ a.onTop {
     top: 70px;
 }
 
+.bottomBar {
+    float: left;
+    margin: 5px;
+}
+
+#score {
+    z-index: 3000;
+    font-size: 1.1em;
+    color: black;
+    width: 20%;
+    max-width: 400px;
+    margin-bottom: 1%;
+}
+
+button {
+    float: left;
+    width: 15%;
+    max-width: 200px;
+    text-align: center;
+    margin-bottom: 1%;
+}
+
+#menu {
+    margin-top: .5%;
+}
