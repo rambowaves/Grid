@@ -345,6 +345,7 @@ function game(level) {
     }
 
     $("#menu").click(function() {
+        clearInterval(audioLoop);
         menuOverlay(levels.level[level].won, id, true);
     });
 
@@ -427,7 +428,6 @@ function menu() { //this will bring the user back to the level screen so he can 
 }
 
 function menuOverlay(won, id, paused) {
-    clearInterval(audioLoop);
     a.pause();
     document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
     if(paused) {
