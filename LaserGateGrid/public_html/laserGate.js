@@ -21,21 +21,8 @@ var boxes = new Array();
 var a = document.createElement('audio');
 a.setAttribute('src', 'Intro.mp3');
 a.loop = true;
-var loop = setInterval(playAudio, 31000);
 //used to stop or loop audio
-function playAudio(music) {
-    a.src = music;
-    if(stop === true){
-        clearInterval(loop);
-    }
-    a.play();
-    
-    playAudio(music);
-};
-function stopAudio() {
-    a.loop=false;
-    a.pause();
-}
+
 
 //show users what levels are open to them and which ones are not
 var oldGame = false;
@@ -62,7 +49,15 @@ startScreen(oldGame);
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
     var deathBoxCount;
-    playAudio('Game.mp3');
+    a.src = 'Game.mp3';
+    a.play();
+    var audioLoop = setInterval(function () {
+        if (a.currentTime > 29) { //specific to the song cuz booleans don't seem to work for me here!!!!! blehhhhererasdfgjklg
+            a.pause();
+            a.src = 'Game.mp3'; //resets a.currentTime
+            a.play();
+        }
+    }, 3100);
     var id = level;
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
     for (i = 0; i <= numRows; i++) {
@@ -364,7 +359,14 @@ function startScreen(cont){
     }
     document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
-    playAudio('intro.mp3');
+    a.play();
+    var audioLoop = setInterval(function () {
+        if (a.currentTime > 30) {
+            a.pause();
+            a.src = 'Intro.mp3'; //resets a.currentTime
+            a.play();
+        }
+    }, 2100);
     $('#welcomeButton').on('click touchstart', function() {
         document.body.innerHTML = '';
         menu();
@@ -425,6 +427,7 @@ function menu() { //this will bring the user back to the level screen so he can 
 }
 
 function menuOverlay(won, id, paused) {
+    clearInterval(audioLoop);
     a.pause();
     document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
     if(paused) {
