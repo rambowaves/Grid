@@ -47,17 +47,14 @@
     <preference name="ios-statusbarstyle"         value="black-opaque" />   <!-- ios: black-translucent will appear black because the PhoneGap webview doesn't go beneath the status bar -->
     <preference name="detect-data-types"          value="false" />           <!-- ios: controls whether data types (such as phone no. and dates) are automatically turned into links by the system -->
     <preference name="exit-on-suspend"            value="false" />          <!-- ios: if set to true, app will terminate when home button is pressed -->
-<<<<<<< HEAD
     <preference name="show-splash-screen-spinner" value="true" />           <!-- ios: if set to false, the spinner won't appear on the splash screen during app loading -->
     <preference name="splashscreen" value="splash" />
     <preference name="splashScreenDelay" value="10000" />
     <preference name="auto-hide-splash-screen"    value="true" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
-=======
     <preference name="show-splash-screen-spinner" value="false" />           <!-- ios: if set to false, the spinner won't appear on the splash screen during app loading -->
     <preference name="splashscreen" value="splash" />
     <preference name="splashScreenDelay" value="10000" />
     <preference name="auto-hide-splash-screen"    value="false" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
->>>>>>> 95f684d5f2a0bc8b7b01ef67d80a024abf023dce
     <preference name="android-minSdkVersion"      value="7" />              <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
 
@@ -75,11 +72,7 @@
         <false/>
     </gap:config-file>
     
-<<<<<<< HEAD
-    <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.7" />
-=======
->>>>>>> 95f684d5f2a0bc8b7b01ef67d80a024abf023dce
-    
+    <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.7" />    
     <!-- Define app icon for each platform. -->
     <icon src="icon.png" />
 <!--
