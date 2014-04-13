@@ -269,7 +269,7 @@ function game(level) {
                                             var nextLevel = false;
                                             levels.level[id].won = false;
                                             console.log(levels.level[id].won);
-                                            menuOverlay(nextLevel, id, false);
+                                            setTimeout(menuOverlay(nextLevel, id, false), 5000);
                                             //cannot have option to resume
                                             clearInterval(testCollision);
                                         }
@@ -285,7 +285,7 @@ function game(level) {
                                         localStorage.setItem("unlockedLevels", unlocked);
                                         localStorage.setItem("continue", oldGame);
                                         };
-                                        menuOverlay(nextLevel, id, false);
+                                        setTimeout(menuOverlay(nextLevel, id, false), 5000);
                                         clearInterval(testCollision);
                                     }
                                 }
