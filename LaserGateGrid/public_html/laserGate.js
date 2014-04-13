@@ -106,8 +106,8 @@ function game(level) {
     };
     
     document.write('</table>');
-    document.write('</table><button id="menu" align="center">pause</button>');
-    document.write('<p id="score">Score: ' + Score.hit + '</p>');
+    document.write('</table><div id="header"><div id="button"><button id="menu" align="center">pause</button></div>');
+    document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
 
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
