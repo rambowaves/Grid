@@ -22,7 +22,12 @@
         The "device" permission is required for the 'deviceready' event.
     -->
     <feature name="http://api.phonegap.com/1.0/device" />
-
+  
+    <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.3" />
+    <feature name="SplashScreen">
+        <param name="ios-package" value="CDVSplashScreen" />
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+    </feature>
 
     <!--
         If you do not want any permissions to be added to your app, add the
@@ -32,7 +37,7 @@
     <!--<preference name="permissions"                value="none"/>-->
 
     <!-- Customize your app and platform with the preference element. -->
-    <preference name="phonegap-version"      value="3.4.0" />     <!-- all: current version of PhoneGap -->
+    <preference name="phonegap-version"           value="3.4.0" />     <!-- all: current version of PhoneGap -->
     <preference name="orientation"                value="portrait" />        <!-- all: default means both landscape and portrait are enabled -->
     <preference name="target-device"              value="universal" />      <!-- all: possible values handset, tablet, or universal -->
     <preference name="Fullscreen"                 value="true" />           <!-- all: hides the status bar at the top of the screen -->
@@ -46,6 +51,10 @@
     <preference name="splashscreen" value="splash" />
     <preference name="splashScreenDelay" value="10000" />
     <preference name="auto-hide-splash-screen"    value="true" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
+    <preference name="show-splash-screen-spinner" value="false" />           <!-- ios: if set to false, the spinner won't appear on the splash screen during app loading -->
+    <preference name="splashscreen" value="splash" />
+    <preference name="splashScreenDelay" value="10000" />
+    <preference name="auto-hide-splash-screen"    value="false" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
     <preference name="android-minSdkVersion"      value="7" />              <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
 
@@ -63,8 +72,7 @@
         <false/>
     </gap:config-file>
     
-    <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.7" />
-    
+    <gap:plugin name="org.apache.cordova.splashscreen" version="0.2.7" />    
     <!-- Define app icon for each platform. -->
     <icon src="icon.png" />
 <!--

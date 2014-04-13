@@ -18,8 +18,11 @@ var shooting = false;
 var boxes = new Array();
 
 //audio initilaization 
-var a = document.createElement('audio');
+//var a = document.createElement('audio');
+var a = new Audio('Intro.mp3');
 a.setAttribute('src', 'Intro.mp3');
+//used to stop or loop audio
+
 
 //show users what levels are open to them and which ones are not
 var oldGame = false;
@@ -31,18 +34,28 @@ if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
 }; 
 
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+    navigator.splashscreen.hide();
+}
 
 //code goes to menu function first
 init();
 startScreen(oldGame);
-
-
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
     var deathBoxCount;
     a.src = 'Game.mp3';
     a.play();
+    var audioLoop = setInterval(function () {
+        if (a.currentTime > 29) { //specific to the song cuz booleans don't seem to work for me here!!!!! blehhhhererasdfgjklg
+            a.pause();
+            a.src = 'Game.mp3'; //resets a.currentTime
+            a.play();
+        }
+    }, 3100);
     var id = level;
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
     for (i = 0; i <= numRows; i++) {
@@ -330,6 +343,7 @@ function game(level) {
     }
 
     $("#menu").click(function() {
+        clearInterval(audioLoop);
         menuOverlay(levels.level[level].won, id, true);
     });
 
@@ -344,9 +358,14 @@ function startScreen(cont){
     }
     document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
-    setInterval(function() {
-        a.play();
-    }, 1000);
+    a.play();
+    var audioLoop = setInterval(function () {
+        if (a.currentTime > 30) {
+            a.pause();
+            a.src = 'Intro.mp3'; //resets a.currentTime
+            a.play();
+        }
+    }, 2100);
     $('#welcomeButton').on('click touchstart', function() {
         document.body.innerHTML = '';
         menu();
@@ -357,6 +376,7 @@ function startScreen(cont){
         localStorage.clear();
         document.location.replace('');
         document.location.reload();
+        unlocked = 1;
         menu();
     });
 }
@@ -383,13 +403,15 @@ function menu() { //this will bring the user back to the level screen so he can 
     }
     ;
     document.write('</table><button id="returnWelcome">Back to Welcome</button></div>');
-
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
+        console.log('id for this level is: ' + id);
+        console.log("id <= unlocked? " + id <= unlocked);
+
         //checks to see if level has been unlocked then allows you to enter game again
 //            console.log("go to level " + id + "");
         if (id <= unlocked) {
-//            console.log("go to level " + id + "");
+            console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
             var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
@@ -457,6 +479,9 @@ function menuOverlay(won, id, paused) {
         //this deletes the menuOverlay
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
+        if(won){ //so restart does not go to the next level if you won the current level
+            id--;
+        };
         game(id);
     });
 }
