@@ -105,7 +105,7 @@ function game(level) {
         shots : 0
     };
     
-    
+    document.write('</table>');
     document.write('</table><button id="menu" align="center">pause</button>');
     document.write('<p id="score">Score: ' + Score.hit + '</p>');
 
@@ -263,7 +263,7 @@ function game(level) {
                                                 box.draw(box.getId(), box.getHitCount());
                                             }
                                             boxes.splice(i, 1);
-                                            Score.hit += 10;
+                                            Score.hit += 100;
                                             document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                         } else {
                                             var nextLevel = false;
@@ -308,11 +308,37 @@ function game(level) {
                         //AVATAR ABSTRACTION
                         avatarPlaced = false;
                         shooting = true;
-                        $("#" + avatar + "").removeClass("avatar");
+                        $("#" + avatar + "").removeClass("avatar").removeClass('tankBottom').removeClass('tankTop').
+                                removeClass('tankRight').removeClass('tankLeft').removeClass('tankUpperLeft').
+                                removeClass('tankUpperRight').removeClass('tankLowerLeft').removeClass('tankLowerRight');
                         $(this).addClass("avatar");
                         avatar = currentPosition;
                         avatarPlaced = true;
                         shooting = false;
+                        if($("#" + avatar + "").hasClass('top')){
+                            $(this).addClass("tankBottom");
+                        }
+                        if($("#" + avatar + "").hasClass('bottom')){
+                            $(this).addClass("tankTop");
+                        }
+                        if($("#" + avatar + "").hasClass('left')){
+                            $(this).addClass("tankRight");
+                        }
+                        if($("#" + avatar + "").hasClass('right')){
+                            $(this).addClass("tankLeft");
+                        }
+                        if(avatar == '0_0'){
+                            $(this).addClass("tankUpperLeft");
+                        }
+                        if(avatar == '0_9'){
+                            $(this).addClass("tankUpperRight");
+                        }
+                        if(avatar == '13_9'){
+                            $(this).addClass("tankLowerRight");
+                        }
+                        if(avatar == '13_0'){
+                            $(this).addClass("tankLowerLeft");
+                        }
                     }
                 }
             };
