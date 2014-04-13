@@ -376,6 +376,7 @@ function startScreen(cont){
         localStorage.clear();
         document.location.replace('');
         document.location.reload();
+        unlocked = 1;
         menu();
     });
 }
@@ -478,6 +479,9 @@ function menuOverlay(won, id, paused) {
         //this deletes the menuOverlay
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
+        if(won){ //so restart does not go to the next level if you won the current level
+            id--;
+        };
         game(id);
     });
 }
