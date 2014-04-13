@@ -20,7 +20,6 @@ var boxes = new Array();
 //audio initilaization 
 var a = document.createElement('audio');
 a.setAttribute('src', 'Intro.mp3');
-a.loop = true;
 //used to stop or loop audio
 
 
@@ -43,8 +42,6 @@ function onDeviceReady() {
 //code goes to menu function first
 init();
 startScreen(oldGame);
-
-
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
