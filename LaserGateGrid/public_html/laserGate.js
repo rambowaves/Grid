@@ -36,14 +36,14 @@ if (localStorage.getItem("unlockedLevels")) {
 }
 ;
 
-//document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("deviceready", onDeviceReady, false);
 
-//function onDeviceReady() {
-//    navigator.splashscreen.hide();
-//}
-setTimeout(function() {
+function onDeviceReady() {
     navigator.splashscreen.hide();
-}, 3000);
+    init();
+    startScreen(oldGame);
+}
+
 
 
 //code goes to menu function first
