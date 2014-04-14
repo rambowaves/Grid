@@ -21,7 +21,12 @@ var boxes = new Array();
 //var a = document.createElement('audio');
 var a = new Audio('Intro.mp3');
 a.setAttribute('src', 'Intro.mp3');
-//used to stop or loop audio
+//Tank audio
+var aTank = new Audio('pew.mp3');
+aTank.setAttribute('src', 'pew.mp3');
+//deathBox audio
+var explode = new Audio('explode.mp3');
+explode.setAttribute('src', 'explode.mp3');
 
 
 //show users what levels are open to them and which ones are not
@@ -223,7 +228,11 @@ function game(level) {
                             theThing.style.transition = "left 0s ease-in, top 0s ease-in";
                             theThing.style.left = avatarX;
                             theThing.style.top = avatarY;
-//                            
+//                          
+//                          //make the pew sound
+                            aTank.play();
+                            setTimeout(function () {aTank.pause(); aTank.src = 'pew.mp3';}, 1000);
+                            
                             //make the thing visible and change transition speed back to 1s
                             setTimeout(function() {
                                 theThing.style.visibility = "visible";
@@ -269,7 +278,9 @@ function game(level) {
                                             var nextLevel = false;
                                             levels.level[id].won = false;
                                             console.log(levels.level[id].won);
-                                            setTimeout(menuOverlay(nextLevel, id, false), 5000);
+                                            explode.play();
+                                            setTimeout(function () {explode.pause(); explode.src = 'explode.mp3';}, 1500);
+                                            delay(nextLevel, id, false, 1600);
                                             //cannot have option to resume
                                             clearInterval(testCollision);
                                         }
@@ -285,7 +296,7 @@ function game(level) {
                                         localStorage.setItem("unlockedLevels", unlocked);
                                         localStorage.setItem("continue", oldGame);
                                         };
-                                        setTimeout(menuOverlay(nextLevel, id, false), 5000);
+                                        delay(nextLevel, id, false, 500);
                                         clearInterval(testCollision);
                                     }
                                 }
@@ -344,6 +355,7 @@ function game(level) {
             };
         }
     }
+    
     function setXLocation(obj, position) {
         cellWidth = document.getElementById("0_0").offsetWidth / 2;
         return $(obj).hasClass("left") ?
@@ -373,8 +385,11 @@ function game(level) {
         menuOverlay(levels.level[level].won, id, true);
     });
 
-}
-;
+};
+
+function delay(nextLevel, id, bool, delay) {
+        setTimeout(function () {menuOverlay(nextLevel, id, bool);}, delay);
+    };
 
 //a screen that says Laser Gate and has a big button to begin the game
 function startScreen(cont){
