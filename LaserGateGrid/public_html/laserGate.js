@@ -287,7 +287,7 @@ function game(level) {
                                             console.log(levels.level[id].won);
                                             explode.play();
                                             setTimeout(function () {explode.pause(); explode.src = 'explode.mp3';}, 1500);
-                                            delay(nextLevel, id, false, 1400);
+                                            delay(nextLevel, id, false, 400);
                                             clearInterval(testCollision);
                                         }
                                     }
@@ -315,20 +315,6 @@ function game(level) {
                             //THING ABSTRACTION
                             setTimeout(function() {
                                 theThing.style.visibility = "hidden";
-//                                if ((boxes.length + hit.length - deathBoxCount) <= 0) {
-//                                        var nextLevel = true;
-//                                        levels.level[id].won = true;
-//                                        id += 1;
-//                                        unlocked = parseInt(unlocked);
-//                                        oldgame = true;
-//                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
-//                                        unlocked += 1;
-//                                        localStorage.setItem("unlockedLevels", unlocked);
-//                                        localStorage.setItem("continue", oldGame);
-//                                        };
-//                                        delay(nextLevel, id, false, 500);
-//                                        clearInterval(testCollision);
-//                                    }
                                 for (var i = 0; i < hit.length; i++) {
                                     boxes[boxes.length] = hit[i];
                                 }
