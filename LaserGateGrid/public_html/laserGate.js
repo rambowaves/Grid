@@ -11,8 +11,6 @@ var numRows = 13;
 
 //set avatar location to be in the center of the bottom row
 var avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
-//var avatarX;
-//var avatarY;
 var avatarIsPlaced = false;
 var shooting = false;
 var boxes = new Array();
@@ -33,11 +31,13 @@ explode.setAttribute('src', 'explode.mp3');
 var oldGame = false;
 if (localStorage.getItem("continue")) {
     oldGame = localStorage.getItem("continue");
-}; 
+}
+;
 var unlocked = 1;
 if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
-}; 
+}
+;
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -45,7 +45,7 @@ function onDeviceReady() {
     navigator.splashscreen.show();
     setTimeout(function() {
         navigator.splashscreen.hide();
-    }, 5000);
+    }, 3000);
 }
 //code goes to menu function first
 init();
@@ -71,33 +71,27 @@ function game(level) {
             if (j === 0) {
                 if (i === 0) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer top left corner'></td>");
-                }
-                else if (i === numRows) {
+                } else if (i === numRows) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer bottom left corner'></td>");
-                }
-                else {
+                } else {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer left '></td>");
                 }
             }
             else if (j === numCols) {
                 if (i === 0) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer corner top right'></td>");
-                }
-                else if (i === numRows) {
+                } else if (i === numRows) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class='outer corner bottom right'></td>");
-                }
-                else {
+                } else {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class ='outer right'></td>");
                 }
             }
             else {
                 if (i === 0) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer top'></td>");
-                }
-                else if (i === numRows) {
+                } else if (i === numRows) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer bottom'></td>");
-                }
-                else {
+                } else {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'inner'></td>");
                 }
             }
@@ -116,6 +110,10 @@ function game(level) {
     document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
     document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
 
+    if (unlocked === 1) {
+        setTimeout(handHolding, 500);
+    }
+    ;
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
     var cellWidth = document.getElementById("0_0").offsetWidth / 2;
@@ -146,8 +144,8 @@ function game(level) {
         return {
             left: boxPos.left,
             top: boxPos.top,
-            right: boxPos.left + cellWidth,
-            bottom: boxPos.top + cellHeight
+            right: boxPos.left + document.getElementById(id).offsetWidth,
+            bottom: boxPos.top + document.getElementById(id).offsetHeight
         };
     };
 
@@ -158,7 +156,6 @@ function game(level) {
 
         //place lasers
         for (var i = 0; i < levels.level[id].laser.length; i++) {
-//            console.log(levels.level[id].laser[i].position);
             $("#" + levels.level[id].laser[i].position).text("L").addClass("laser");
         }
         ;
@@ -190,15 +187,7 @@ function game(level) {
 //@param of id
     function getElementPosition(id) {
         var element = document.getElementById(id);
-        var top = 0;
-        var left = 0;
-
-        while (element.tagName !== "BODY") {
-            top += element.offsetTop;
-            left += element.offsetLeft;
-            element = element.offsetParent;
-        }
-        return {top: top, left: left};
+        return {top: element.offsetTop, left: element.offsetLeft};
     }
     ;
 
@@ -222,10 +211,10 @@ function game(level) {
                             shooting = true;
                             Score.shots += 1;
 
-                            //fetch avatar location again just to be sure screen wasn't resized
+                            //fetch avatar location 
                             var temp = getElementPosition(avatar);
-                            var avatarX = temp.left == avatarX ? avatarX : setXLocation(avatar, temp);
-                            var avatarY = temp.top == avatarY ? avatarY : setYLocation(avatar, temp);
+                            var avatarX = setXLocation(avatar, temp);
+                            var avatarY = setYLocation(avatar, temp);
 
                             //set the thing to avatar location on a zero transition speed
                             var theThing = document.getElementById("thing");
@@ -235,8 +224,11 @@ function game(level) {
 //                          
 //                          //make the pew sound
                             aTank.play();
-                            setTimeout(function () {aTank.pause(); aTank.src = 'pew.mp3';}, 1000);
-                            
+                            setTimeout(function() {
+                                aTank.pause();
+                                aTank.src = 'pew.mp3';
+                            }, 1000);
+
                             //make the thing visible and change transition speed back to 1s
                             setTimeout(function() {
                                 theThing.style.visibility = "visible";
@@ -253,6 +245,7 @@ function game(level) {
                             //check for collisions with box objects
                             var hit = new Array();
                             var j = 0;
+                            var deathBoxCollision = false;
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
                                 var thingPosition = getElementPosition("thing");
@@ -265,6 +258,7 @@ function game(level) {
                                     var boxDim = box.boxDim(box.getId());
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
+
                                     if (xOverlap && yOverlap) {
                                         if (!$("#" + box.getId() + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
@@ -279,34 +273,39 @@ function game(level) {
                                             Score.hit += 100;
                                             document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                         } else {
+                                            theThing.style.visibility = "hidden";
+                                            deathBoxCollision = true;
                                             var nextLevel = false;
                                             levels.level[id].won = false;
                                             console.log(levels.level[id].won);
                                             explode.play();
-                                            setTimeout(function () {explode.pause(); explode.src = 'explode.mp3';}, 1500);
-                                            delay(nextLevel, id, false, 1600);
-                                            //cannot have option to resume
+                                            setTimeout(function() {
+                                                explode.pause();
+                                                explode.src = 'explode.mp3';
+                                            }, 1500);
+                                            delay(nextLevel, id, false, 400);
                                             clearInterval(testCollision);
                                         }
-                                    }
-                                    if ((boxes.length + hit.length - deathBoxCount) <= 0) {
-                                        var nextLevel = true;
-                                        levels.level[id].won = true;
-                                        id += 1;
-                                        unlocked = parseInt(unlocked);
-                                        oldgame = true;
-                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
-                                        unlocked += 1;
-                                        localStorage.setItem("unlockedLevels", unlocked);
-                                        localStorage.setItem("continue", oldGame);
-                                        };
-                                        delay(nextLevel, id, false, 500);
-                                        clearInterval(testCollision);
                                     }
                                 }
                             }, 1);
                             setTimeout(function() {
                                 clearInterval(testCollision);
+                                if ((boxes.length + hit.length - deathBoxCount) <= 0 && !deathBoxCollision) {
+                                    var nextLevel = true;
+                                    levels.level[id].won = true;
+                                    id += 1;
+                                    unlocked = parseInt(unlocked);
+                                    oldgame = true;
+                                    if (id === unlocked) { //make sure player does not unlock a level by playing one they already beat
+                                        unlocked += 1;
+                                        localStorage.setItem("unlockedLevels", unlocked);
+                                        localStorage.setItem("continue", oldGame);
+                                    }
+                                    ;
+                                    delay(nextLevel, id, false, 200);
+                                    clearInterval(testCollision);
+                                }
                             }, 1000);
 
                             //after done shooting, hide the thing
@@ -321,6 +320,7 @@ function game(level) {
                         }
                     } else {
                         //AVATAR ABSTRACTION
+
                         avatarPlaced = false;
                         shooting = true;
                         $("#" + avatar + "").removeClass("avatar").removeClass('tankBottom').removeClass('tankTop').
@@ -328,8 +328,6 @@ function game(level) {
                                 removeClass('tankUpperRight').removeClass('tankLowerLeft').removeClass('tankLowerRight');
                         $(this).addClass("avatar");
                         avatar = currentPosition;
-                        avatarPlaced = true;
-                        shooting = false;
                         if ($("#" + avatar + "").hasClass('top')) {
                             $(this).addClass("tankBottom");
                         }
@@ -354,28 +352,29 @@ function game(level) {
                         if (avatar == '13_0') {
 //                            $(this).addClass("tankLowerLeft");
                         }
+                        avatarPlaced = true;
+                        shooting = false;
                     }
                 }
             };
         }
     }
-    
+
     function setXLocation(obj, position) {
-        cellWidth = document.getElementById("0_0").offsetWidth / 2;
+        cellWidth = document.getElementById("5_5").offsetWidth;
         return $(obj).hasClass("left") ?
-                $(obj).hasClass("laser") ? position.left + cellWidth * 2 : position.left + cellWidth * 2 - $("#thing").width() / 2 :
-                $(obj).hasClass("right") ? position.left : position.left + cellWidth - $("#thing").width() / 2;
+                position.left + cellWidth :
+                ($(obj).hasClass("right") ? position.left : position.left + cellWidth / 2 - $("#thing").width() / 2);
     }
 
     function setYLocation(obj, position) {
-        cellHeight = document.getElementById("0_0").offsetHeight / 2;
+        cellHeight = document.getElementById("5_5").offsetHeight;
         return $(obj).hasClass("top") ?
-                $(obj).hasClass("laser") ? position.top + cellHeight * 2 : position.top + cellHeight * 2 - $("#thing").height() / 2 :
-                $(obj).hasClass("bottom") ? position.top :
-                position.top + cellHeight + $("#thing").height() / 2;
+                position.top + cellHeight :
+                ($(obj).hasClass("bottom") ? position.top : position.top + cellHeight / 2 - $("#thing").height() / 2);
     }
     function collides(value, min, max) {
-        return (value >= min - 20) && (value <= max + 20);
+        return (value >= min - 15) && (value <= max + 15);
     }
     function checkLocation(laser) {
         return ($("#" + laser + "").hasClass("left") && $(".avatar").hasClass("left")) ? false :
@@ -388,12 +387,15 @@ function game(level) {
         clearInterval(audioLoop);
         menuOverlay(levels.level[level].won, id, true);
     });
-
-};
+}
+;
 
 function delay(nextLevel, id, bool, delay) {
-        setTimeout(function () {menuOverlay(nextLevel, id, bool);}, delay);
-    };
+    setTimeout(function() {
+        menuOverlay(nextLevel, id, bool);
+    }, delay);
+}
+;
 
 //a screen that says Laser Gate and has a big button to begin the game
 function startScreen(cont) {
@@ -463,7 +465,8 @@ function menu() { //this will bring the user back to the level screen so he can 
             a.pause();
             oldGame = true; //used to add contrubute tag to the startscreen
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
-        };
+        }
+        ;
     });
 
     $('#returnWelcome').click(function() {
@@ -472,6 +475,22 @@ function menu() { //this will bring the user back to the level screen so he can 
     });
 
 }
+
+function handHolding() {
+    document.write('<div class="helpOverlay"><div class="helpOptions">\n\
+            <center><h1>Welcome to LASER GATE</h1><h2>How to play our wonderful game</h2>\n\
+            <ol>\n\
+                <li>You are the tank. The tank can move anywhere in the outer grid.</li>\n\
+                <li>There are gates on the outer part of the grid. Click on them to shoot a laser!</li>\n\
+                <li>Clear the boxes in the least ammount of moves possible. Watch out for dangers on the grid!</li>\n\
+            </ol>\n\
+            <a id="startLevel">Click to begin</a></center></div></div>');
+    $('#startLevel').click(function() {
+        $('.helpOverlay').html('');
+        $('div').removeClass('helpOverlay');
+    });
+}
+;
 
 function menuOverlay(won, id, paused) {
     a.pause();
@@ -526,7 +545,8 @@ function menuOverlay(won, id, paused) {
         $('div').removeClass('menuOverlay');
         if (won) { //so restart does not go to the next level if you won the current level
             id--;
-        };
+        }
+        ;
         game(id);
     });
 }

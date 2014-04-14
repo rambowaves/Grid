@@ -48,7 +48,7 @@ tr, td {
     alignment-adjust: middle;
     text-align: center;
     overflow: hidden; 
-    border: 1px solid black;
+/*    border: 1px solid black;*/
 }
 
 .outer {
@@ -59,6 +59,8 @@ tr, td {
     //border: 1px lightgray dotted;
     background-repeat: no-repeat;
     background-position: center;
+        border: 2px dotted black;
+
 }
 
 .laser {
@@ -78,23 +80,21 @@ tr, td {
     width: 15px;
     transition: left 1s ease-in, top 1s ease-in;
     visibility: hidden;
-    z-index: 5;
+    z-index: 1;
 }
 
 .unHit {
     background-image: url('pics/brickLarge.png');
     background-size: 100% 100%;
     background-color: green;
-    border: 1px black solid;
-    z-index: 1;
+    z-index: 10;
 
 }
 .hit2 {
     background-image: url('pics/crackedSteel.png');
     background-size: 100% 100%;
     background-color: black;
-    border: 1px solid black;
-    z-index: 1;
+    z-index: 10;
 
 }
 
@@ -102,8 +102,7 @@ tr, td {
     background-image: url('pics/steel.png');
     background-size: 100% 100%;
     background-color: black;
-    border: 1px solid black;
-    z-index: 1;
+    z-index: 10;
 
 
 }
@@ -113,16 +112,28 @@ tr, td {
     background-repeat: no-repeat;
     background-position: center;
     background-color: black;
-    border: 2px solid gold;
-    z-index: 1;
+    z-index: 10;
 }
 
 .remove {
     background-color: transparent;
     background-image: none;
-    border: 1px solid black;
-
 }
+
+.helpOverlay{
+     position:fixed;
+     margin: auto; 
+     top:0; 
+     left:0; 
+    width:100%;
+    height: 100%;
+    background: grey;
+    opacity: 0.7;
+    z-index: 500; /* or  greater value */
+     padding: 10%; 
+}
+
+
 
 .menuOverlay{
     position:fixed; /*or  absolute*/
@@ -132,8 +143,55 @@ tr, td {
     width:100%;
     height: 100%;
     background: grey;
-    opacity: .5;
+    opacity: 0.7;
     z-index: 1000; /* or  greater value */
+}
+
+u,p, div.helpOptions {
+    font-size: 80%;
+    display: inline-block;
+    width: 63%;
+    height: 63%;
+    left: 10%;
+     
+    top: 9%;
+    position: absolute; 
+     
+    /* margin: auto; */ 
+      
+    vertical-align: center;
+    text-shadow: 0px 0px 1px white;
+    z-index: 1500;
+     
+    background-color: white;
+    opacity: 1;
+}
+ol, li {
+    overflow-wrap: break-word;
+    width: 87%;
+    height: 40%;
+    font-size: 111%;
+}
+
+div.helpingTheHelp{
+    position: relative;
+    width: 60%;
+    height: 60%;
+     left: 23%; 
+    position: absolute;
+     margin: auto; 
+     margin-top: 10%; 
+    background-color: white;
+    z-index: 1400;
+}
+
+#startLevel{
+    top: 50px;
+    font-size: 215%;
+    color: darkblue;
+    text-decoration:none;
+    text-shadow:-2px 2px 8px #Ff6627;
+    position: relative;
 }
 
 #OverlayOptions {
@@ -141,7 +199,11 @@ tr, td {
     width: 80%;
     height: 80%;
     margin: auto;
+<<<<<<< HEAD
     margin-top: 5%;
+=======
+    margin-top: 15%;
+>>>>>>> 00f41741a8eefd941fe5c28f00fa88b682704ff1
     background: white;
     opacity: 1;
 }
@@ -342,8 +404,7 @@ button {
     //background-color: orange;
     //color: white;
     //border: 1px lightgray dotted;
-    border: 1px solid black;
-
+    /*border: 1px solid black;*/
     background-repeat: no-repeat;
     background-position: center;
     z-index: -500;
