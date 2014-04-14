@@ -475,7 +475,7 @@ function menu() { //this will bring the user back to the level screen so he can 
 }
 
 function handHolding() {
-        document.write('<div class="helpOverlay"><div class="helpingTheHelp"><div class="helpOptions"><center><h1>Welcome to LASER GATE</h1><h2><u>How to play our wonderful game</u></h2><ol><li>You are the tank. The tank can move anywhere in the outer grid</li><br><li>There are gates on the outer part of the grid. Click on them to shoot a laser!</li><br><li>Clear the boxes in the least ammount of moves possible. Watch out for dangers on the grid!</li></ol><a id="startLevel"><u>Click to begin</u></a></center></div></div></div>');
+        document.write('<div class="helpOverlay"><div class="helpOptions"><center><h1>Welcome to LASER GATE</h1><h2><u>How to play our wonderful game</u></h2><ol><li>You are the tank. The tank can move anywhere in the outer grid</li><br><li>There are gates on the outer part of the grid. Click on them to shoot a laser!</li><br><li>Clear the boxes in the least ammount of moves possible. Watch out for dangers on the grid!</li></ol><a id="startLevel"><u>Click to begin</u></a></center></div></div>');
         $('#startLevel').click(function () {
             $('.helpOverlay').html('');
             $('div').removeClass('helpOverlay');
