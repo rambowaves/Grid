@@ -138,11 +138,11 @@ tr, td {
 
 #OverlayOptions {
     position: relative;
-    width: 50%;
-    height: 50%;
+    width: 80%;
+    height: 80%;
     margin: auto;
-    margin-top: 15%;
-    background: gold;
+    margin-top: 5%;
+    background: white;
     opacity: 1;
 }
 

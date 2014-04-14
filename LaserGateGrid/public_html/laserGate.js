@@ -475,7 +475,7 @@ function menu() { //this will bring the user back to the level screen so he can 
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>main menu</u></h1></a><br>');
     if (paused) {
         document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
     }
