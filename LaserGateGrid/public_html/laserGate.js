@@ -26,19 +26,25 @@ a.setAttribute('src', 'Intro.mp3');
 
 //show users what levels are open to them and which ones are not
 var oldGame = false;
-if(localStorage.getItem("continue")) {
+if (localStorage.getItem("continue")) {
     oldGame = localStorage.getItem("continue");
-}; 
+}
+;
 var unlocked = 1;
 if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
-}; 
-
-document.addEventListener("deviceready", onDeviceReady, false);
-
-function onDeviceReady() {
-    navigator.splashscreen.hide();
 }
+;
+
+//document.addEventListener("deviceready", onDeviceReady, false);
+
+//function onDeviceReady() {
+//    navigator.splashscreen.hide();
+//}
+setTimeout(function() {
+    navigator.splashscreen.hide();
+}, 3000);
+
 
 //code goes to menu function first
 init();
@@ -49,7 +55,7 @@ function game(level) {
     var deathBoxCount;
     a.src = 'Game.mp3';
     a.play();
-    var audioLoop = setInterval(function () {
+    var audioLoop = setInterval(function() {
         if (a.currentTime > 29) { //specific to the song cuz booleans don't seem to work for me here!!!!! blehhhhererasdfgjklg
             a.pause();
             a.src = 'Game.mp3'; //resets a.currentTime
@@ -98,13 +104,13 @@ function game(level) {
         document.write('</tr></div>');
     }
     ;
-    
+
     // Current score functionality adds 10 points for each box hit and counts the number of shots
     Score = {
-        hit : 0,
-        shots : 0
+        hit: 0,
+        shots: 0
     };
-    
+
     document.write('</table>');
     document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
     document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
@@ -143,7 +149,7 @@ function game(level) {
             bottom: boxPos.top + cellHeight
         };
     };
-    
+
 
     //used to create the levels
     gameLevels(id);
@@ -282,11 +288,12 @@ function game(level) {
                                         id += 1;
                                         unlocked = parseInt(unlocked);
                                         oldgame = true;
-                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
-                                        unlocked += 1;
-                                        localStorage.setItem("unlockedLevels", unlocked);
-                                        localStorage.setItem("continue", oldGame);
-                                        };
+                                        if (id === unlocked) { //make sure player does not unlock a level by playing one they already beat
+                                            unlocked += 1;
+                                            localStorage.setItem("unlockedLevels", unlocked);
+                                            localStorage.setItem("continue", oldGame);
+                                        }
+                                        ;
                                         setTimeout(menuOverlay(nextLevel, id, false), 5000);
                                         clearInterval(testCollision);
                                     }
@@ -305,8 +312,8 @@ function game(level) {
                                 }
                                 shooting = false;
                             }, 1000);
-                        } 
-                } else {
+                        }
+                    } else {
                         //AVATAR ABSTRACTION
                         avatarPlaced = false;
                         shooting = true;
@@ -317,28 +324,28 @@ function game(level) {
                         avatar = currentPosition;
                         avatarPlaced = true;
                         shooting = false;
-                        if($("#" + avatar + "").hasClass('top')){
+                        if ($("#" + avatar + "").hasClass('top')) {
                             $(this).addClass("tankBottom");
                         }
-                        if($("#" + avatar + "").hasClass('bottom')){
+                        if ($("#" + avatar + "").hasClass('bottom')) {
                             $(this).addClass("tankTop");
                         }
-                        if($("#" + avatar + "").hasClass('left')){
+                        if ($("#" + avatar + "").hasClass('left')) {
                             $(this).addClass("tankRight");
                         }
-                        if($("#" + avatar + "").hasClass('right')){
+                        if ($("#" + avatar + "").hasClass('right')) {
                             $(this).addClass("tankLeft");
                         }
-                        if(avatar == '0_0'){
+                        if (avatar == '0_0') {
                             $(this).addClass("tankUpperLeft");
                         }
-                        if(avatar == '0_9'){
+                        if (avatar == '0_9') {
                             $(this).addClass("tankUpperRight");
                         }
-                        if(avatar == '13_9'){
+                        if (avatar == '13_9') {
                             $(this).addClass("tankLowerRight");
                         }
-                        if(avatar == '13_0'){
+                        if (avatar == '13_0') {
 //                            $(this).addClass("tankLowerLeft");
                         }
                     }
@@ -379,15 +386,15 @@ function game(level) {
 ;
 
 //a screen that says Laser Gate and has a big button to begin the game
-function startScreen(cont){
+function startScreen(cont) {
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a>');
-    if(cont){
+    if (cont) {
         document.write('<a href="#" id="welcomeButton" class="myButton">Continue</a><br>');
     }
     document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
     a.play();
-    var audioLoop = setInterval(function () {
+    var audioLoop = setInterval(function() {
         if (a.currentTime > 30) {
             a.pause();
             a.src = 'Intro.mp3'; //resets a.currentTime
@@ -446,7 +453,8 @@ function menu() { //this will bring the user back to the level screen so he can 
             a.pause();
             oldGame = true; //used to add contrubute tag to the startscreen
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
-        };
+        }
+        ;
     });
 
     $('#returnWelcome').click(function() {
@@ -459,7 +467,7 @@ function menu() { //this will bring the user back to the level screen so he can 
 function menuOverlay(won, id, paused) {
     a.pause();
     document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
-    if(paused) {
+    if (paused) {
         document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
     }
     if (won) {
@@ -507,9 +515,10 @@ function menuOverlay(won, id, paused) {
         //this deletes the menuOverlay
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
-        if(won){ //so restart does not go to the next level if you won the current level
+        if (won) { //so restart does not go to the next level if you won the current level
             id--;
-        };
+        }
+        ;
         game(id);
     });
 }
