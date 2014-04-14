@@ -15,21 +15,7 @@ var avatarIsPlaced = false;
 var shooting = false;
 var boxes = new Array();
 
-//audio initilaization
-var a = new Media('Intro.mp3');
 
-//var a = document.createElement('audio');
-//var a = new Audio('Intro.mp3');
-//a.setAttribute('src', 'Intro.mp3');
-//Tank audio
-//var aTank = new Audio('pew.mp3');
-var aTank = new Media('pew.mp3');
-
-aTank.setAttribute('src', 'pew.mp3');
-//deathBox audio
-//var explode = new Audio('explode.mp3');
-var explode = new Media('explode.mp3');
-//explode.setAttribute('src', 'explode.mp3');
 
 
 //show users what levels are open to them and which ones are not
@@ -48,6 +34,21 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     navigator.splashscreen.show();
+    //audio initilaization
+    var a = new Media('Intro.mp3');
+
+//var a = document.createElement('audio');
+//var a = new Audio('Intro.mp3');
+//a.setAttribute('src', 'Intro.mp3');
+//Tank audio
+//var aTank = new Audio('pew.mp3');
+    var aTank = new Media('pew.mp3');
+
+    aTank.setAttribute('src', 'pew.mp3');
+//deathBox audio
+//var explode = new Audio('explode.mp3');
+    var explode = new Media('explode.mp3');
+//explode.setAttribute('src', 'explode.mp3');
     setTimeout(function() {
         navigator.splashscreen.hide();
     }, 3000);
