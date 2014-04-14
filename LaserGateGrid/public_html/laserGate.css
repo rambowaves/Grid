@@ -147,7 +147,7 @@ tr, td {
     z-index: 1000; /* or  greater value */
 }
 
-u,p, div.helpOptions {
+u, div.helpOptions {
     font-size: 80%;
     display: inline-block;
     width: 63%;
