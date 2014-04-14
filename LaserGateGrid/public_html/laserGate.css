@@ -244,6 +244,41 @@ a.onTop {
     top: 70px;
 }
 
+div#scoreBar {
+    display: inline-block;
+    height: 10%;
+}
+
+div#scoreBar div#button {
+    display: inline-block;
+    height: 100%;
+    width: 20%;
+}
+
+div#scoreBar div#score-header {
+    display: inline-block;
+    height: 100%;
+    width: 80%;
+    position: absolute;
+    right: .5%;
+}
+
+#score {
+    z-index: 3000;
+    font-size: 1.1em;
+    color: black;
+    text-align: right;
+    padding-right: 20px;
+}
+
+button {
+    width: 75%;
+    text-align: center;
+}
+
+#menu {
+    margin-top: .5%;
+}
 
 .tankLeft{
     background-image:url('pics/tankLeft.png'),url('pics/redbutton.png');
@@ -312,31 +347,5 @@ a.onTop {
     background-repeat: no-repeat;
     background-position: center;
     z-index: -500;
-}
-
-.bottomBar {
-    float: left;
-    margin: 5px;
-}
-
-#score {
-    z-index: 3000;
-    font-size: 1.1em;
-    color: black;
-    width: 20%;
-    max-width: 400px;
-    margin-bottom: 1%;
-}
-
-button {
-    float: left;
-    width: 15%;
-    max-width: 200px;
-    text-align: center;
-    margin-bottom: 1%;
-}
-
-#menu {
-    margin-top: .5%;
 }
 
