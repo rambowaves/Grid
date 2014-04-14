@@ -31,7 +31,7 @@ explode.setAttribute('src', 'explode.mp3');
 
 //show users what levels are open to them and which ones are not
 var oldGame = false;
-if(localStorage.getItem("continue")) {
+if (localStorage.getItem("continue")) {
     oldGame = localStorage.getItem("continue");
 }; 
 var unlocked = 1;
@@ -39,11 +39,14 @@ if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
 }; 
 
-document.addEventListener("deviceready", onDeviceReady, false);
+//document.addEventListener("deviceready", onDeviceReady, false);
 
-function onDeviceReady() {
+//function onDeviceReady() {
+//    navigator.splashscreen.hide();
+//}
+setTimeout(function() {
     navigator.splashscreen.hide();
-}
+}, 3000);
 
 //code goes to menu function first
 init();
@@ -54,7 +57,7 @@ function game(level) {
     var deathBoxCount;
     a.src = 'Game.mp3';
     a.play();
-    var audioLoop = setInterval(function () {
+    var audioLoop = setInterval(function() {
         if (a.currentTime > 29) { //specific to the song cuz booleans don't seem to work for me here!!!!! blehhhhererasdfgjklg
             a.pause();
             a.src = 'Game.mp3'; //resets a.currentTime
@@ -103,16 +106,16 @@ function game(level) {
         document.write('</tr></div>');
     }
     ;
-    
+
     // Current score functionality adds 10 points for each box hit and counts the number of shots
     Score = {
-        hit : 0,
-        shots : 0
+        hit: 0,
+        shots: 0
     };
-    
+
     document.write('</table>');
-    document.write('</table><button id="menu" align="center">pause</button>');
-    document.write('<p id="score">Score: ' + Score.hit + '</p>');
+    document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
+    document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
 
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
@@ -134,9 +137,9 @@ function game(level) {
         return this.hitCount;
     };
     Box.prototype.draw = function(id, hitCount) {
-        hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2") :
-                hitCount == 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3") :
-                $("#" + id + "").addClass("hit3");
+        hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2").removeClass("inner") :
+                hitCount == 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3").removeClass("inner") :
+                $("#" + id + "").addClass("hit3").removeClass("inner");
     };
 
     Box.prototype.boxDim = function(id) {
@@ -148,7 +151,7 @@ function game(level) {
             bottom: boxPos.top + cellHeight
         };
     };
-    
+
 
     //used to create the levels
     gameLevels(id);
@@ -168,7 +171,7 @@ function game(level) {
             boxes[j] = new Box(levels.level[id].box[j].position, levels.level[id].box[j].hitCount);
             var box = boxes[j];
             if (levels.level[id].box[j].deathBox) {
-                $("#" + box.getId() + "").addClass("deathBox");
+                $("#" + box.getId() + "").addClass("deathBox").removeClass("inner");
                 deathBoxCount++;
             } else {
                 box.draw(box.getId(), box.getHitCount());
@@ -178,7 +181,9 @@ function game(level) {
         ;
 
         //set avatar location
-        $("#" + avatar + "").addClass("avatar");
+        avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
+        $("#" + avatar + "").addClass("avatar").addClass("tankTop");
+        console.log("avatar location " + avatar);
         avatarIsPlaced = true;
     }
 
@@ -265,7 +270,7 @@ function game(level) {
                                         if (!$("#" + box.getId() + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
                                             if (box.getHitCount() < 0) {
-                                                $("#" + box.getId() + "").addClass("remove");
+                                                $("#" + box.getId() + "").removeClass("unhit").addClass("inner");
                                             }
                                             else {
                                                 hit[j++] = box;
@@ -314,8 +319,8 @@ function game(level) {
                                 }
                                 shooting = false;
                             }, 1000);
-                        } 
-                } else {
+                        }
+                    } else {
                         //AVATAR ABSTRACTION
                         avatarPlaced = false;
                         shooting = true;
@@ -326,29 +331,29 @@ function game(level) {
                         avatar = currentPosition;
                         avatarPlaced = true;
                         shooting = false;
-                        if($("#" + avatar + "").hasClass('top')){
+                        if ($("#" + avatar + "").hasClass('top')) {
                             $(this).addClass("tankBottom");
                         }
-                        if($("#" + avatar + "").hasClass('bottom')){
+                        if ($("#" + avatar + "").hasClass('bottom')) {
                             $(this).addClass("tankTop");
                         }
-                        if($("#" + avatar + "").hasClass('left')){
+                        if ($("#" + avatar + "").hasClass('left')) {
                             $(this).addClass("tankRight");
                         }
-                        if($("#" + avatar + "").hasClass('right')){
+                        if ($("#" + avatar + "").hasClass('right')) {
                             $(this).addClass("tankLeft");
                         }
-                        if(avatar == '0_0'){
+                        if (avatar == '0_0') {
                             $(this).addClass("tankUpperLeft");
                         }
-                        if(avatar == '0_9'){
+                        if (avatar == '0_9') {
                             $(this).addClass("tankUpperRight");
                         }
-                        if(avatar == '13_9'){
+                        if (avatar == '13_9') {
                             $(this).addClass("tankLowerRight");
                         }
-                        if(avatar == '13_0'){
-                            $(this).addClass("tankLowerLeft");
+                        if (avatar == '13_0') {
+//                            $(this).addClass("tankLowerLeft");
                         }
                     }
                 }
@@ -392,15 +397,15 @@ function delay(nextLevel, id, bool, delay) {
     };
 
 //a screen that says Laser Gate and has a big button to begin the game
-function startScreen(cont){
+function startScreen(cont) {
     document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a>');
-    if(cont){
+    if (cont) {
         document.write('<a href="#" id="welcomeButton" class="myButton">Continue</a><br>');
     }
     document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
     a.play();
-    var audioLoop = setInterval(function () {
+    var audioLoop = setInterval(function() {
         if (a.currentTime > 30) {
             a.pause();
             a.src = 'Intro.mp3'; //resets a.currentTime
@@ -472,7 +477,7 @@ function menu() { //this will bring the user back to the level screen so he can 
 function menuOverlay(won, id, paused) {
     a.pause();
     document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
-    if(paused) {
+    if (paused) {
         document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
     }
     if (won) {
@@ -520,7 +525,7 @@ function menuOverlay(won, id, paused) {
         //this deletes the menuOverlay
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
-        if(won){ //so restart does not go to the next level if you won the current level
+        if (won) { //so restart does not go to the next level if you won the current level
             id--;
         };
         game(id);
