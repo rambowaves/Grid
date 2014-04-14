@@ -47,8 +47,6 @@ function onDeviceReady() {
         navigator.splashscreen.hide();
     }, 5000);
 }
-
-
 //code goes to menu function first
 init();
 startScreen(oldGame);
