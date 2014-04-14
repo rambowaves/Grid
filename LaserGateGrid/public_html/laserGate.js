@@ -45,7 +45,7 @@ function onDeviceReady() {
     navigator.splashscreen.show();
     setTimeout(function() {
         navigator.splashscreen.hide();
-    }, 5000);
+    }, 3000);
 }
 //code goes to menu function first
 init();
@@ -253,6 +253,7 @@ function game(level) {
                             //check for collisions with box objects
                             var hit = new Array();
                             var j = 0;
+                            var deathBoxCollision = false;
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
                                 var thingPosition = getElementPosition("thing");
@@ -279,17 +280,22 @@ function game(level) {
                                             Score.hit += 100;
                                             document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                         } else {
+                                            theThing.style.visibility = "hidden";
+                                            deathBoxCollision = true;
                                             var nextLevel = false;
                                             levels.level[id].won = false;
                                             console.log(levels.level[id].won);
                                             explode.play();
                                             setTimeout(function () {explode.pause(); explode.src = 'explode.mp3';}, 1500);
-                                            delay(nextLevel, id, false, 1600);
-                                            //cannot have option to resume
+                                            delay(nextLevel, id, false, 1400);
                                             clearInterval(testCollision);
                                         }
                                     }
-                                    if ((boxes.length + hit.length - deathBoxCount) <= 0) {
+                                }
+                            }, 1);
+                            setTimeout(function() {
+                                clearInterval(testCollision);
+                                if ((boxes.length + hit.length - deathBoxCount) <= 0 && !deathBoxCollision) {
                                         var nextLevel = true;
                                         levels.level[id].won = true;
                                         id += 1;
@@ -300,19 +306,29 @@ function game(level) {
                                         localStorage.setItem("unlockedLevels", unlocked);
                                         localStorage.setItem("continue", oldGame);
                                         };
-                                        delay(nextLevel, id, false, 500);
+                                        delay(nextLevel, id, false, 200);
                                         clearInterval(testCollision);
                                     }
-                                }
-                            }, 1);
-                            setTimeout(function() {
-                                clearInterval(testCollision);
                             }, 1000);
 
                             //after done shooting, hide the thing
                             //THING ABSTRACTION
                             setTimeout(function() {
                                 theThing.style.visibility = "hidden";
+//                                if ((boxes.length + hit.length - deathBoxCount) <= 0) {
+//                                        var nextLevel = true;
+//                                        levels.level[id].won = true;
+//                                        id += 1;
+//                                        unlocked = parseInt(unlocked);
+//                                        oldgame = true;
+//                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
+//                                        unlocked += 1;
+//                                        localStorage.setItem("unlockedLevels", unlocked);
+//                                        localStorage.setItem("continue", oldGame);
+//                                        };
+//                                        delay(nextLevel, id, false, 500);
+//                                        clearInterval(testCollision);
+//                                    }
                                 for (var i = 0; i < hit.length; i++) {
                                     boxes[boxes.length] = hit[i];
                                 }
