@@ -39,14 +39,15 @@ if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
 }; 
 
-//document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("deviceready", onDeviceReady, false);
 
-//function onDeviceReady() {
-//    navigator.splashscreen.hide();
-//}
-setTimeout(function() {
-    navigator.splashscreen.hide();
-}, 3000);
+function onDeviceReady() {
+    navigator.splashscreen.show();
+    setTimeout(function() {
+        navigator.splashscreen.hide();
+    }, 5000);
+}
+
 
 //code goes to menu function first
 init();
