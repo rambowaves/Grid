@@ -110,10 +110,11 @@ function game(level) {
     document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
     document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
 
-    if(unlocked === 1){
+    if (unlocked === 1) {
         setTimeout(handHolding, 500);
-    };
-    
+    }
+    ;
+
 //get cellWidth and cellHeight to be used in placement and in overlap test
     var cellWidth = document.getElementById("0_0").offsetWidth / 2;
     var cellHeight = document.getElementById("0_0").offsetHeight / 2;
@@ -187,7 +188,8 @@ function game(level) {
     function getElementPosition(id) {
         var element = document.getElementById(id);
         return {top: element.offsetTop, left: element.offsetLeft};
-    };
+    }
+    ;
 
     var grid = document.getElementById("grid");
     for (i = 0; i <= numRows; i++) {
@@ -199,7 +201,7 @@ function game(level) {
                     //get top and left coordinates of the new clicked position
                     var currentPosition = $(this).attr("id");
                     var position = getElementPosition(currentPosition);
-                    
+
                     //set appropriate x and y coordinates of the new position
                     var xPosition = setXLocation(this, position);
                     var yPosition = setYLocation(this, position);
@@ -213,7 +215,7 @@ function game(level) {
                             var temp = getElementPosition(avatar);
                             var avatarX = setXLocation(avatar, temp);
                             var avatarY = setYLocation(avatar, temp);
-                            
+
                             //set the thing to avatar location on a zero transition speed
                             var theThing = document.getElementById("thing");
                             theThing.style.transition = "left 0s ease-in, top 0s ease-in";
@@ -256,7 +258,7 @@ function game(level) {
                                     var boxDim = box.boxDim(box.getId());
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
-                                    
+
                                     if (xOverlap && yOverlap) {
                                         if (!$("#" + box.getId() + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
@@ -318,14 +320,14 @@ function game(level) {
                         }
                     } else {
                         //AVATAR ABSTRACTION
-                        
+
                         avatarPlaced = false;
                         shooting = true;
                         $("#" + avatar + "").removeClass("avatar").removeClass('tankBottom').removeClass('tankTop').
                                 removeClass('tankRight').removeClass('tankLeft').removeClass('tankUpperLeft').
                                 removeClass('tankUpperRight').removeClass('tankLowerLeft').removeClass('tankLowerRight');
                         $(this).addClass("avatar");
-                        avatar = currentPosition;                        
+                        avatar = currentPosition;
                         if ($("#" + avatar + "").hasClass('top')) {
                             $(this).addClass("tankBottom");
                         }
@@ -361,15 +363,15 @@ function game(level) {
     function setXLocation(obj, position) {
         cellWidth = document.getElementById("5_5").offsetWidth;
         return $(obj).hasClass("left") ?
-                position.left + cellWidth:
-                ($(obj).hasClass("right") ? position.left : position.left + cellWidth/2 - $("#thing").width() / 2);
+                position.left + cellWidth :
+                ($(obj).hasClass("right") ? position.left : position.left + cellWidth / 2 - $("#thing").width() / 2);
     }
 
     function setYLocation(obj, position) {
         cellHeight = document.getElementById("5_5").offsetHeight;
         return $(obj).hasClass("top") ?
                 position.top + cellHeight :
-                ($(obj).hasClass("bottom") ? position.top : position.top + cellHeight/2 - $("#thing").height() / 2);
+                ($(obj).hasClass("bottom") ? position.top : position.top + cellHeight / 2 - $("#thing").height() / 2);
     }
     function collides(value, min, max) {
         return (value >= min - 15) && (value <= max + 15);
@@ -475,12 +477,20 @@ function menu() { //this will bring the user back to the level screen so he can 
 }
 
 function handHolding() {
-        document.write('<div class="helpOverlay"><div class="helpingTheHelp"><div class="helpOptions"><center><h1>Welcome to LASER GATE</h1><h2><u>How to play our wonderful game</u></h2><ol><li>You are the tank. The tank can move anywhere in the outer grid</li><br><li>There are gates on the outer part of the grid. Click on them to shoot a laser!</li><br><li>Clear the boxes in the least ammount of moves possible. Watch out for dangers on the grid!</li></ol><a id="startLevel"><u>Click to begin</u></a></center></div></div></div>');
-        $('#startLevel').click(function () {
-            $('.helpOverlay').html('');
-            $('div').removeClass('helpOverlay');
-        });
-};
+    document.write('<div class="helpOverlay"><div class="helpOptions">\n\
+            <center><h1>Welcome to LASER GATE</h1><h2>How to play our wonderful game</h2>\n\
+            <ol>\n\
+                <li>You are the tank. The tank can move anywhere in the outer grid.</li>\n\
+                <li>There are gates on the outer part of the grid. Click on them to shoot a laser!</li>\n\
+                <li>Clear the boxes in the least ammount of moves possible. Watch out for dangers on the grid!</li>\n\
+            </ol>\n\
+            <a id="startLevel">Click to begin</a></center></div></div>');
+    $('#startLevel').click(function() {
+        $('.helpOverlay').html('');
+        $('div').removeClass('helpOverlay');
+    });
+}
+;
 
 function menuOverlay(won, id, paused) {
     a.pause();
