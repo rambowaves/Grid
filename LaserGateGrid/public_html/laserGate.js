@@ -21,20 +21,23 @@ var boxes = new Array();
 //var a = document.createElement('audio');
 var a = new Audio('Intro.mp3');
 a.setAttribute('src', 'Intro.mp3');
-//used to stop or loop audio
+//Tank audio
+var aTank = new Audio('pew.mp3');
+aTank.setAttribute('src', 'pew.mp3');
+//deathBox audio
+var explode = new Audio('explode.mp3');
+explode.setAttribute('src', 'explode.mp3');
 
 
 //show users what levels are open to them and which ones are not
 var oldGame = false;
 if (localStorage.getItem("continue")) {
     oldGame = localStorage.getItem("continue");
-}
-;
+}; 
 var unlocked = 1;
 if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
-}
-;
+}; 
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -44,9 +47,6 @@ function onDeviceReady() {
         navigator.splashscreen.hide();
     }, 5000);
 }
-
-
-
 //code goes to menu function first
 init();
 startScreen(oldGame);
@@ -232,7 +232,11 @@ function game(level) {
                             theThing.style.transition = "left 0s ease-in, top 0s ease-in";
                             theThing.style.left = avatarX;
                             theThing.style.top = avatarY;
-//                            
+//                          
+//                          //make the pew sound
+                            aTank.play();
+                            setTimeout(function () {aTank.pause(); aTank.src = 'pew.mp3';}, 1000);
+                            
                             //make the thing visible and change transition speed back to 1s
                             setTimeout(function() {
                                 theThing.style.visibility = "visible";
@@ -278,7 +282,9 @@ function game(level) {
                                             var nextLevel = false;
                                             levels.level[id].won = false;
                                             console.log(levels.level[id].won);
-                                            setTimeout(menuOverlay(nextLevel, id, false), 5000);
+                                            explode.play();
+                                            setTimeout(function () {explode.pause(); explode.src = 'explode.mp3';}, 1500);
+                                            delay(nextLevel, id, false, 1600);
                                             //cannot have option to resume
                                             clearInterval(testCollision);
                                         }
@@ -289,13 +295,12 @@ function game(level) {
                                         id += 1;
                                         unlocked = parseInt(unlocked);
                                         oldgame = true;
-                                        if (id === unlocked) { //make sure player does not unlock a level by playing one they already beat
-                                            unlocked += 1;
-                                            localStorage.setItem("unlockedLevels", unlocked);
-                                            localStorage.setItem("continue", oldGame);
-                                        }
-                                        ;
-                                        setTimeout(menuOverlay(nextLevel, id, false), 5000);
+                                        if(id === unlocked){ //make sure player does not unlock a level by playing one they already beat
+                                        unlocked += 1;
+                                        localStorage.setItem("unlockedLevels", unlocked);
+                                        localStorage.setItem("continue", oldGame);
+                                        };
+                                        delay(nextLevel, id, false, 500);
                                         clearInterval(testCollision);
                                     }
                                 }
@@ -354,6 +359,7 @@ function game(level) {
             };
         }
     }
+    
     function setXLocation(obj, position) {
         cellWidth = document.getElementById("0_0").offsetWidth / 2;
         return $(obj).hasClass("left") ?
@@ -383,8 +389,11 @@ function game(level) {
         menuOverlay(levels.level[level].won, id, true);
     });
 
-}
-;
+};
+
+function delay(nextLevel, id, bool, delay) {
+        setTimeout(function () {menuOverlay(nextLevel, id, bool);}, delay);
+    };
 
 //a screen that says Laser Gate and has a big button to begin the game
 function startScreen(cont) {
@@ -454,8 +463,7 @@ function menu() { //this will bring the user back to the level screen so he can 
             a.pause();
             oldGame = true; //used to add contrubute tag to the startscreen
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
-        }
-        ;
+        };
     });
 
     $('#returnWelcome').click(function() {
@@ -518,8 +526,7 @@ function menuOverlay(won, id, paused) {
         $('div').removeClass('menuOverlay');
         if (won) { //so restart does not go to the next level if you won the current level
             id--;
-        }
-        ;
+        };
         game(id);
     });
 }
