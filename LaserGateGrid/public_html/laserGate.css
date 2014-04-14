@@ -53,10 +53,12 @@ tr, td {
 
 .outer {
     background-image:url('pics/redbutton.png');
-    background-size:100% 100%;
+    background-size: 200% 200%;
     //background-color: orange;
     //color: white;
     //border: 1px lightgray dotted;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .laser {
@@ -66,7 +68,7 @@ tr, td {
 }
 
 .avatar {
-   // background-color: black;
+    // background-color: black;
     //color: white;
 }
 
@@ -82,17 +84,18 @@ tr, td {
 .unHit {
     background-image: url('pics/brickLarge.png');
     background-size: 100% 100%;
-    //background-color: gray;
-    border: 1px lightgray solid;
-
+    background-color: green;
+    border: 1px black solid;
     z-index: 1;
-    
+
 }
 .hit2 {
     background-image: url('pics/crackedSteel.png');
     background-size: 100% 100%;
-    background-color: darkgray;
+    background-color: black;
     border: 1px solid black;
+    z-index: 1;
+
 }
 
 .hit3 {
@@ -100,15 +103,18 @@ tr, td {
     background-size: 100% 100%;
     background-color: black;
     border: 1px solid black;
-    
+    z-index: 1;
+
+
 }
 .deathBox {
     background-image: url('pics/skull.png');
-    background-size: 30px 40px;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-color: black;
     border: 2px solid gold;
+    z-index: 1;
 }
 
 .remove {
@@ -240,63 +246,71 @@ a.onTop {
 
 
 .tankLeft{
-    background-image:url('pics/tankLeft.png'),url('pics/redButton.png');
-    background-size: 30px 20px,100% 100%;
+    background-image:url('pics/tankLeft.png'),url('pics/redbutton.png');
+    background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankRight{
-    background-image:url('pics/tankRight.png'),url('pics/redButton.png');
-    background-size: 30px 20px,100% 100%;
+    background-image:url('pics/tankRight.png'),url('pics/redbutton.png');
+    background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankTop{
-    background-image:url('pics/tankUp.png'),url('pics/redButton.png');
-    background-size: 30px 20px,100% 100%;
+    background-image:url('pics/tankUp.png'),url('pics/redbutton.png');
+    background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankBottom{
-    background-image:url('pics/tankDown.png'),url('pics/redButton.png');
-    background-size: 30px 20px,100% 100%;
+    background-image:url('pics/tankDown.png'),url('pics/redbutton.png');
+    background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankUpperLeft{
-    background-image:url('pics/tankUpperLeft.png'),url('pics/redButton.png');
-    background-size: 30px 20px,100% 100%;
+    background-image:url('pics/tankUpperLeft.png'),url('pics/redbutton.png');
+    background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankUpperRight{
-    background-image:url('pics/tankUpperRight.png'),url('pics/redButton.png');
-    background-size: 30px 20px,100% 100%;
+    background-image:url('pics/tankUpperRight.png'),url('pics/redbutton.png');
+    background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankLowerLeft{
-    background-image:url('pics/tankLowerLeft.png'),url('pics/redButton.png');
-    background-size: 30px 20px,100% 100%;
+    background-image:url('pics/tankLowerLeft.png'),url('pics/redbutton.png');
+    background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankLowerRight{
-    background-image:url('pics/tankLowerRight.png'),url('pics/redButton.png');
-    background-size: 30px 20px,100% 100%;
+    background-image:url('pics/tankLowerRight.png'),url('pics/redbutton.png');
+    background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .inner{
+    background-image:url('pics/grass.png');
+    background-size: 200% 200%;
+    //background-color: orange;
+    //color: white;
+    //border: 1px lightgray dotted;
+    border: 1px solid black;
 
+    background-repeat: no-repeat;
+    background-position: center;
     z-index: -500;
 }
 

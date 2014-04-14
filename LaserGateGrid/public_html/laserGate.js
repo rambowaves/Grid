@@ -129,9 +129,9 @@ function game(level) {
         return this.hitCount;
     };
     Box.prototype.draw = function(id, hitCount) {
-        hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2") :
-                hitCount == 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3") :
-                $("#" + id + "").addClass("hit3");
+        hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2").removeClass("inner") :
+                hitCount == 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3").removeClass("inner") :
+                $("#" + id + "").addClass("hit3").removeClass("inner");
     };
 
     Box.prototype.boxDim = function(id) {
@@ -163,7 +163,7 @@ function game(level) {
             boxes[j] = new Box(levels.level[id].box[j].position, levels.level[id].box[j].hitCount);
             var box = boxes[j];
             if (levels.level[id].box[j].deathBox) {
-                $("#" + box.getId() + "").addClass("deathBox");
+                $("#" + box.getId() + "").addClass("deathBox").removeClass("inner");
                 deathBoxCount++;
             } else {
                 box.draw(box.getId(), box.getHitCount());
@@ -173,7 +173,9 @@ function game(level) {
         ;
 
         //set avatar location
-        $("#" + avatar + "").addClass("avatar");
+        avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
+        $("#" + avatar + "").addClass("avatar").addClass("tankTop");
+        console.log("avatar location " + avatar);
         avatarIsPlaced = true;
     }
 
@@ -256,7 +258,7 @@ function game(level) {
                                         if (!$("#" + box.getId() + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
                                             if (box.getHitCount() < 0) {
-                                                $("#" + box.getId() + "").addClass("remove");
+                                                $("#" + box.getId() + "").removeClass("unhit").addClass("inner");
                                             }
                                             else {
                                                 hit[j++] = box;
@@ -337,7 +339,7 @@ function game(level) {
                             $(this).addClass("tankLowerRight");
                         }
                         if(avatar == '13_0'){
-                            $(this).addClass("tankLowerLeft");
+//                            $(this).addClass("tankLowerLeft");
                         }
                     }
                 }
