@@ -540,14 +540,14 @@ function handHolding() {
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a>');
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><div id="buttonRow"><button class="onTop" id="menuClick" align="center">main menu</button>');
     if (paused) {
-        document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
+        document.write('<button class="onTop" id="resume" align="center">resume</button>');
     }
     if (won) {
-        document.write('<a class="onTop" id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
+        document.write('<button class="onTop" id="nextLevel" align="center">next level</button>');
     }
-    document.write('<a class="onTop" id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div></div>');
+    document.write('<button class="onTop" id="restart" align="center">restart</button></div></center></div></div></div>');
     $('#menuClick').click(function() {
         //this deletes the game()
         $('.laserGate').html('');
@@ -685,7 +685,7 @@ var levels = {
                     //level 13
                     won: false,
                     box: [{position: "3_4", hitCount: 0}, {position: "4_5", hitCount: 1}, {position: "3_7", hitCount: 0}, {position: "7_3", hitCount: 0, deathBox: true}, {position: "5_2", hitCount: 0, deathBox: true}, {position: "6_3", hitCount: 2}, {position: "8_2", hitCount: 0}, {position: "8_4", hitCount: 0} ],
-                    laser: [{position: "0_9"}, {position: "0_0"}, {position: "0_3"}, {position: "13_6"}, {position: "13_3", dissapear: true}]
+                    laser: [{position: "0_9"}, {position: "0_0"}, {position: "0_3"}, {position: "13_6"}, {position: "13_3", disappear: true}]
                 },
                 {
                     //level 14
