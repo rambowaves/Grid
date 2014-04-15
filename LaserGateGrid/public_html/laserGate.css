@@ -13,8 +13,6 @@ and open the template in the editor.
     margin-left: auto;
     margin-right: auto;
     width:100%;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-size:20px;
 }
 
 html, body{
@@ -31,6 +29,7 @@ table {
     overflow: hidden;
     
 }
+
 #grid {
     background-image: url('pics/grass.png');
     background-repeat: repeat;
@@ -218,18 +217,23 @@ a.onTop {
  margin: .25%;
 }
 
+#selector {
+   height:90%; 
+}
+
 #selector td {
     border: 1px lightgray dotted;
 }
 
 div#buttonRow {
     position: absolute;
-    top: 80%
+    top: 70%;
 }
 
 button#menuClick, button#resume, button#nextLevel, button#restart {
-    width: 25%;
+    width: 20%;
     margin: .5%;
+    height: 50px;
     z-index: 1700;
     text-align: center;
     vertical-align: middle;
@@ -238,7 +242,8 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     font-family: Arial, Helvetica, sans-serif;
 	font-size: 1em;
 	color: #ffffff;
-	padding: 10px 20px;    
+	
+    padding: 5px;    
     background: linear-gradient(to bottom, #42aaff 0%, #003366 100%);
     border-radius: 10px;
     border: 1px solid #003366;
@@ -248,6 +253,7 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     text-shadow:
             0px -1px 0px rgba(000,000,000,0.7),
             0px 1px 0px rgba(255,255,255,0.3);
+    text-align: center;
 }
 
 #menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{ 
@@ -271,7 +277,7 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     background-size: 200% 200%;
     background-position: center;
     background-size: 10% 10%;
-    background-repeat: repeat;    
+    background-repeat: repeat;
 }
 
 .welcomeScreen h1 {
@@ -282,7 +288,6 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     margin: auto;
     top: 5%;
 }
-
 
 .myButton {
     position: relative;
@@ -303,7 +308,7 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     font-size: 350%;
 }
 #welcomeButton:hover {
-    color:green;
+    color:black;
 }
 #clearStorage {
     top: 70px;
@@ -312,7 +317,7 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     font-size: 350%;
 }
 #clearStorage:hover {
-    color: green;
+    color: black;
 }
 div#scoreBar {
     display: inline-block;
@@ -344,6 +349,8 @@ div#scoreBar div#score-header {
 button#returnWelcome {
     width: 20%;
     font-size: 1.1em;
+    /*width: 30%;*/
+    height: 20px;
 }
 
 button#menu {
