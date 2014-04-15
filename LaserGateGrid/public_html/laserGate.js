@@ -109,7 +109,8 @@ function game(level) {
     // Current score functionality adds 10 points for each box hit and counts the number of shots
     Score = {
         hit: 0,
-        shots: 0
+        shots: 0,
+        total: 0
     };
     document.write('</table>');
     document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">Pause</button></div>');
@@ -329,6 +330,7 @@ function game(level) {
                                     id += 1;
                                     unlocked = parseInt(unlocked);
                                     oldgame = true;
+                                    Score.total = Score.hit - Score.hit / Score.shots;
                                     if (id === unlocked) { //make sure player does not unlock a level by playing one they already beat
                                         unlocked += 1;
                                         localStorage.setItem("unlockedLevels", unlocked);
@@ -541,20 +543,34 @@ function handHolding() {
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><h1 id="pauseHeader"></h1><div id="buttonRow"><button class="onTop" id="menuClick" align="center">Level Select</button>');
-    if (paused) {
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><h1 id="pauseHeader"></h1><img id="stars"><p id="finalScores"></p><div id="buttonRow"><button class="onTop" id="menuClick" align="center">Level Select</button>');
+    if (!won && paused) {
         document.getElementById("pauseHeader").style.fontSize = "500%";
         document.getElementById("pauseHeader").innerHTML = 'Paused';
         document.write('<button class="onTop" id="resume" align="center">Resume</button>');
     }
-    if (won) {
+    else if (won && !paused) {
         document.getElementById("pauseHeader").style.fontSize = "400%";
-        document.getElementById("pauseHeader").innerHTML = 'Level Complete';        
+        document.getElementById("pauseHeader").innerHTML = 'Level Complete';  
+        if (Score.total > 1000) {  // real logic goes here
+            document.getElementById("stars").src = 'pics/3stars.png';
+        }
+        else {
+            document.getElementById("stars").src = 'pics/0stars.png';
+        }
+        document.getElementById("finalScores").innerHTML = 'Score: ' + Score.hit + '<br>Shots Fired: ' + Score.shots;
         document.write('<button class="onTop" id="nextLevel" align="center">Next Level</button>');
     }
-    else if (!won && !paused) {
+    else if (won && paused) {
+        document.getElementById("pauseHeader").style.fontSize = "500%";
+        document.getElementById("pauseHeader").innerHTML = 'Paused';
+        document.write('<button class="onTop" id="resume" align="center">Resume</button>');
+        document.write('<button class="onTop" id="nextLevel" align="center">Next Level</button>');
+    }
+    else {
         document.getElementById("pauseHeader").style.fontSize = "400%";
         document.getElementById("pauseHeader").innerHTML = 'Game Over';
+        document.getElementById("finalScores").innerHTML = 'Score: ' + Score.hit + '<br>Shots Fired: ' + Score.shots;
     }
     document.write('<button class="onTop" id="restart" align="center">Restart</button></div></center></div></div></div>');
     $('#menuClick').click(function() {

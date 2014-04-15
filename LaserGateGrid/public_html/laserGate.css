@@ -227,7 +227,7 @@ a.onTop {
 
 div#buttonRow {
     position: absolute;
-    top: 75%;
+    top: 85%;
 }
 
 button#menuClick, button#resume, button#nextLevel, button#restart {
@@ -264,6 +264,18 @@ h1#pauseHeader {
     margin-top: 1%;
     color: crimson;
     font-weight: bold;
+}
+
+#stars {
+    visibility: hidden;
+    position: relative;
+    height: 30%;
+    width: 80%;
+}
+
+p#finalScores {
+    color: crimson;
+    font-size: 200%;
 }
 
 #clearStorage h1{ 
