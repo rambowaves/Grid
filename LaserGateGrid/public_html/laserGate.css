@@ -233,6 +233,7 @@ div#buttonRow {
 button#menuClick, button#resume, button#nextLevel, button#restart {
     width: 25%;
     margin: .5%;
+    height: 50px;
     z-index: 1700;
     text-align: center;
     vertical-align: middle;
@@ -241,7 +242,8 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     font-family: Arial, Helvetica, sans-serif;
 	font-size: 1em;
 	color: #ffffff;
-	padding: 10px 20px;    
+	
+    padding: 5px;    
     background: linear-gradient(to bottom, #42aaff 0%, #003366 100%);
     border-radius: 10px;
     border: 1px solid #003366;
@@ -251,6 +253,7 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     text-shadow:
             0px -1px 0px rgba(000,000,000,0.7),
             0px 1px 0px rgba(255,255,255,0.3);
+    text-align: center;
 }
 
 #menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{ 
@@ -274,7 +277,7 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     background-size: 200% 200%;
     background-position: center;
     background-size: 10% 10%;
-    background-repeat: repeat;    
+    background-repeat: repeat;
 }
 
 .welcomeScreen h1 {
@@ -285,7 +288,6 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     margin: auto;
     top: 5%;
 }
-
 
 .myButton {
     position: relative;
