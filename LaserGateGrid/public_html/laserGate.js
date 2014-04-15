@@ -557,7 +557,7 @@ function menuOverlay(won, id, paused) {
             document.getElementById("stars").style.visibility = "visible";
         }
         else {
-            document.getElementById("stars").src = 'pics/0stars.png';
+            document.getElementById("stars").src = 'pics/1star.png';
             document.getElementById("stars").style.visibility = "visible";
         }
         document.getElementById("finalScores").innerHTML = 'Score: ' + Score.hit + '<br>Shots Fired: ' + Score.shots;
@@ -573,6 +573,8 @@ function menuOverlay(won, id, paused) {
         document.getElementById("pauseHeader").style.fontSize = "300%";
         document.getElementById("pauseHeader").innerHTML = 'Game Over';
         document.getElementById("finalScores").innerHTML = 'Score: ' + Score.hit + '<br>Shots Fired: ' + Score.shots;
+        document.getElementById("stars").src = 'pics/0stars.png';
+        document.getElementById("stars").style.visibility = "visible";
     }
     document.write('<button class="onTop" id="restart" align="center">Restart</button></div></center></div></div></div>');
     $('#menuClick').click(function() {
