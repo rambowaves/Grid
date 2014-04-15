@@ -51,7 +51,7 @@ function onDeviceReady() {
 
     setTimeout(function() {
         navigator.splashscreen.hide();
-    }, 3000);
+    }, 1800);
 }
 //code goes to menu function first
 init();
