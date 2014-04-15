@@ -64,7 +64,8 @@ function game(level) {
         }
     }, 3100);
     var id = level;
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate">\n\
+                    <table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
     for (i = 0; i <= numRows; i++) {
         document.write("<tr class='row" + i + "'>");
         for (j = 0; j <= numCols; j++) {
@@ -97,8 +98,8 @@ function game(level) {
             }
         }
         document.write('</tr></div>');
-    }
-    ;
+    };
+    
 
     // Current score functionality adds 10 points for each box hit and counts the number of shots
     Score = {
@@ -112,12 +113,7 @@ function game(level) {
 
     if (unlocked === 1) {
         setTimeout(handHolding, 500);
-    }
-    ;
-
-//get cellWidth and cellHeight to be used in placement and in overlap test
-    var cellWidth = document.getElementById("0_0").offsetWidth / 2;
-    var cellHeight = document.getElementById("0_0").offsetHeight / 2;
+    };
 
     function Box(boxId, hitCount) {
         this.boxId = boxId;
@@ -135,7 +131,7 @@ function game(level) {
     };
     Box.prototype.draw = function(id, hitCount) {
         hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2").removeClass("inner") :
-                hitCount == 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3").removeClass("inner") :
+                hitCount === 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3").removeClass("inner") :
                 $("#" + id + "").addClass("hit3").removeClass("inner");
     };
 
@@ -156,7 +152,7 @@ function game(level) {
 
         //place lasers
         for (var i = 0; i < levels.level[id].laser.length; i++) {
-            $("#" + levels.level[id].laser[i].position).text("L").addClass("laser");
+            $("#" + levels.level[id].laser[i].position).addClass("laser");
         }
         ;
 
@@ -171,15 +167,12 @@ function game(level) {
                 deathBoxCount++;
             } else {
                 box.draw(box.getId(), box.getHitCount());
-                console.log("ID " + box.getId() + " HIT COUNT " + box.getHitCount() + " \n\n");
             }
-        }
-        ;
+        };
 
         //set avatar location
         avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
         $("#" + avatar + "").addClass("avatar").addClass("tankTop");
-        console.log("avatar location " + avatar);
         avatarIsPlaced = true;
     }
 
@@ -188,16 +181,13 @@ function game(level) {
     function getElementPosition(id) {
         var element = document.getElementById(id);
         return {top: element.offsetTop, left: element.offsetLeft};
-    }
-    ;
+    };
 
     var grid = document.getElementById("grid");
     for (i = 0; i <= numRows; i++) {
         for (j = 0; j <= numCols; j++) {
             grid.rows[i].cells[j].onclick = function(e) {
                 if ($(this).hasClass("outer") && !shooting) {
-                    cellWidth = document.getElementById("0_0").offsetWidth / 2;
-                    cellHeight = document.getElementById("0_0").offsetHeight / 2;
                     //get top and left coordinates of the new clicked position
                     var currentPosition = $(this).attr("id");
                     var position = getElementPosition(currentPosition);
@@ -246,6 +236,7 @@ function game(level) {
                             var hit = new Array();
                             var j = 0;
                             var deathBoxCollision = false;
+                            
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
                                 var thingPosition = getElementPosition("thing");
@@ -258,9 +249,9 @@ function game(level) {
                                     var boxDim = box.boxDim(box.getId());
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
-
                                     if (xOverlap && yOverlap) {
                                         if (!$("#" + box.getId() + "").hasClass("deathBox")) {
+                                            Score.hit += 100;
                                             box.setHitCount(box.getHitCount() - 1);
                                             if (box.getHitCount() < 0) {
                                                 $("#" + box.getId() + "").removeClass("unhit").addClass("inner");
@@ -270,8 +261,6 @@ function game(level) {
                                                 box.draw(box.getId(), box.getHitCount());
                                             }
                                             boxes.splice(i, 1);
-                                            Score.hit += 100;
-                                            document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                         } else {
                                             theThing.style.visibility = "hidden";
                                             deathBoxCollision = true;
@@ -291,6 +280,7 @@ function game(level) {
                             }, 1);
                             setTimeout(function() {
                                 clearInterval(testCollision);
+                                document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                 if ((boxes.length + hit.length - deathBoxCount) <= 0 && !deathBoxCollision) {
                                     var nextLevel = true;
                                     levels.level[id].won = true;
@@ -350,7 +340,7 @@ function game(level) {
                             $(this).addClass("tankLowerRight");
                         }
                         if (avatar == '13_0') {
-//                            $(this).addClass("tankLowerLeft");
+                            $(this).addClass("tankLowerLeft");
                         }
                         avatarPlaced = true;
                         shooting = false;
@@ -373,9 +363,11 @@ function game(level) {
                 position.top + cellHeight :
                 ($(obj).hasClass("bottom") ? position.top : position.top + cellHeight / 2 - $("#thing").height() / 2);
     }
+    
     function collides(value, min, max) {
         return (value >= min - 15) && (value <= max + 15);
     }
+    
     function checkLocation(laser) {
         return ($("#" + laser + "").hasClass("left") && $(".avatar").hasClass("left")) ? false :
                 ($("#" + laser + "").hasClass("right") && $(".avatar").hasClass("right")) ? false :
@@ -399,11 +391,11 @@ function delay(nextLevel, id, bool, delay) {
 
 //a screen that says Laser Gate and has a big button to begin the game
 function startScreen(cont) {
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a>');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><h1>Laser Gate</h1>');
     if (cont) {
         document.write('<a href="#" id="welcomeButton" class="myButton">Continue</a><br>');
     }
-    document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
+    document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></div>');
     init();
     a.play();
     var audioLoop = setInterval(function() {
@@ -494,7 +486,7 @@ function handHolding() {
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a><br>');
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a>');
     if (paused) {
         document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
     }
