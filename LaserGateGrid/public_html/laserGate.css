@@ -256,6 +256,10 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     text-align: center;
 }
 
+button#menuClick:active, button#resume:active, button#nextLevel:active, button#restart:active {
+    background: linear-gradient(to bottom, #127acf 0%, #000336 100%);
+}
+
 #menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{ 
     color: black;
     margin-top: 5%;
