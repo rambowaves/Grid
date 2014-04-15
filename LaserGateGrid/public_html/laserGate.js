@@ -63,7 +63,7 @@ function game(level) {
     a.src = 'Game.mp3';
     a.play();
     var audioLoop = setInterval(function() {
-        if (a.currentTime > 29) { 
+        if (a.currentTime > 29) {
             a.pause();
             a.src = 'Game.mp3'; //resets a.currentTime
             a.play();
@@ -99,27 +99,26 @@ function game(level) {
                 } else if (i === numRows) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer bottom'></td>");
                 } else {
-                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'inner'></td>");
+                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "'></td>");
                 }
             }
         }
         document.write('</tr></div>');
-    };
-    
-
+    }
+    ;
     // Current score functionality adds 10 points for each box hit and counts the number of shots
     Score = {
         hit: 0,
         shots: 0
     };
-
     document.write('</table>');
     document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
     document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
 
     if (unlocked === 1) {
         setTimeout(handHolding, 500);
-    };
+    }
+    ;
 
     function Box(boxId, hitCount) {
         this.boxId = boxId;
@@ -135,10 +134,17 @@ function game(level) {
     Box.prototype.getHitCount = function() {
         return this.hitCount;
     };
+    Box.prototype.initialDraw = function(id, hitCount) {
+        if(hitCount < 1) {
+            $("#" + id + "").addClass("unHit");
+        } else if(hitCount == 1) {
+            $("#" + id + "").addClass("unHit").addClass("hit2");
+        } else {
+            $("#" + id + "").addClass("unHit").addClass("hit2").addClass("hit3");
+        }
+    };
     Box.prototype.draw = function(id, hitCount) {
-        hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2").removeClass("inner") :
-                hitCount === 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3").removeClass("inner") :
-                $("#" + id + "").addClass("hit3").removeClass("inner");
+        hitCount < 1 ? $("#" + id + "").removeClass("hit2") : $("#" + id + "").removeClass("hit3");
     };
 
     Box.prototype.boxDim = function(id) {
@@ -169,12 +175,13 @@ function game(level) {
             boxes[j] = new Box(levels.level[id].box[j].position, levels.level[id].box[j].hitCount);
             var box = boxes[j];
             if (levels.level[id].box[j].deathBox) {
-                $("#" + box.getId() + "").addClass("deathBox").removeClass("inner");
+                $("#" + box.getId() + "").addClass("deathBox");
                 deathBoxCount++;
             } else {
-                box.draw(box.getId(), box.getHitCount());
+                box.initialDraw(box.getId(), box.getHitCount());
             }
-        };
+        }
+        ;
 
         //set avatar location
         avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
@@ -187,7 +194,8 @@ function game(level) {
     function getElementPosition(id) {
         var element = document.getElementById(id);
         return {top: element.offsetTop, left: element.offsetLeft};
-    };
+    }
+    ;
 
     var grid = document.getElementById("grid");
     for (i = 0; i <= numRows; i++) {
@@ -220,10 +228,10 @@ function game(level) {
 //                          
 //                          //make the pew sound
                             aTank.play();
-                            setTimeout(function() {
-                                aTank.pause();
-                                aTank.src = 'pew.mp3';
-                            }, 1000);
+//                            setTimeout(function() {
+//                                aTank.pause();
+//                                aTank.src = 'pew.mp3';
+//                            }, 1000);
 
                             //make the thing visible and change transition speed back to 1s
                             setTimeout(function() {
@@ -242,7 +250,7 @@ function game(level) {
                             var hit = new Array();
                             var j = 0;
                             var deathBoxCollision = false;
-                            
+
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
                                 var thingPosition = getElementPosition("thing");
@@ -260,7 +268,7 @@ function game(level) {
                                         if (!$("#" + boxID + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
                                             if (box.getHitCount() < 0) {
-                                                $("#" + boxID + "").removeClass("unhit").addClass("inner");
+                                                $("#" + boxID + "").removeClass("unHit");
                                             }
                                             else {
                                                 hit[j++] = box;
@@ -284,10 +292,11 @@ function game(level) {
                                         }
                                     }
                                 }
-                                console.log(thingLeft + "  top " + thingTop);
                             }, 2);
                             setTimeout(function() {
                                 clearInterval(testCollision);
+                                aTank.pause();
+                                aTank.src = 'pew.mp3';
                                 document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                 if ((boxes.length + hit.length - deathBoxCount) <= 0 && !deathBoxCollision) {
                                     var nextLevel = true;
@@ -375,11 +384,11 @@ function game(level) {
                 position.top + cellHeight :
                 ($(obj).hasClass("bottom") ? position.top : position.top + cellHeight / 2 - $("#thing").height() / 2);
     }
-    
+
     function collides(value, min, max) {
-        return (value >= min - 15) && (value <= max + 15);
+        return (value >= min - 5) && (value <= max + 5);
     }
-    
+
     function checkLocation(laser) {
         return ($("#" + laser + "").hasClass("left") && $(".avatar").hasClass("left")) ? false :
                 ($("#" + laser + "").hasClass("right") && $(".avatar").hasClass("right")) ? false :
@@ -502,7 +511,8 @@ function handHolding() {
         $('.helpOverlay').html('');
         $('div').removeClass('helpOverlay');
     });
-};
+}
+;
 
 function menuOverlay(won, id, paused) {
     a.pause();
@@ -523,9 +533,9 @@ function menuOverlay(won, id, paused) {
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
         console.log('Audio on?' + a.paused);
-        if(a.paused) {
+        if (a.paused) {
             winning.pause();
-            a.src ='Intro.mp3';
+            a.src = 'Intro.mp3';
             a.play();
         }
         menu();

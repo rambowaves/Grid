@@ -27,8 +27,13 @@ table {
     width: 100%;
     table-layout: fixed;
     overflow: hidden;
+    
 }
-
+#grid {
+    background-image: url('pics/grass.png');
+    background-repeat: repeat;
+    background-size: 15% 15%;
+}
 tr, td {
     height: 30px;
     width: 28px;
@@ -80,25 +85,23 @@ h1 {
 .unHit {
     background-image: url('pics/brickLarge.png');
     background-size: 100% 100%;
-    background-color: green;
     z-index: 10;
 
 }
 .hit2 {
     background-image: url('pics/crackedSteel.png');
     background-size: 100% 100%;
-    background-color: black;
     z-index: 10;
-
 }
 
 .hit3 {
     background-image: url('pics/steel.png');
     background-size: 100% 100%;
-    background-color: black;
     z-index: 10;
+}
 
-
+.remove {
+    background-color: transparent;
 }
 .deathBox {
     background-image: url('pics/skull.png');
@@ -403,9 +406,9 @@ button {
 }
 
 .inner{
-    background-image:url('pics/grass.png');
+/*    background-image:url('pics/grass.png');
     background-size: 200% 200%;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: -500;
+    z-index: -500;*/
 }
