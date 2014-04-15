@@ -260,7 +260,13 @@ button#menuClick:active, button#resume:active, button#nextLevel:active, button#r
     background: linear-gradient(to bottom, #127acf 0%, #000336 100%);
 }
 
-#menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{ 
+h1#pauseHeader {
+    margin-top: 1%;
+    color: crimson;
+    font-weight: bold;
+}
+
+#clearStorage h1{ 
     color: black;
     margin-top: 5%;
 }

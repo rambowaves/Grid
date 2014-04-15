@@ -305,7 +305,7 @@ function game(level) {
                                 clearInterval(testCollision);
                                 aTank.pause();
                                 aTank.src = 'pew.mp3';
-                                document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
+                                document.getElementById("score").innerHTML = 'Score: ' + Score.hit;
                                 if (removeLaser) {
                                     disappearingLasers.splice(disappearingLasers.indexOf(currentPosition), 1);
                                     $("#" + currentPosition + "").removeClass("laser");
@@ -541,12 +541,20 @@ function handHolding() {
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><div id="buttonRow"><button class="onTop" id="menuClick" align="center">Level Select</button>');
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><h1 id="pauseHeader"></h1><div id="buttonRow"><button class="onTop" id="menuClick" align="center">Level Select</button>');
     if (paused) {
+        document.getElementById("pauseHeader").style.fontSize = "500%";
+        document.getElementById("pauseHeader").innerHTML = 'Paused';
         document.write('<button class="onTop" id="resume" align="center">Resume</button>');
     }
     if (won) {
+        document.getElementById("pauseHeader").style.fontSize = "400%";
+        document.getElementById("pauseHeader").innerHTML = 'Level Complete';        
         document.write('<button class="onTop" id="nextLevel" align="center">Next Level</button>');
+    }
+    else if (!won && !paused) {
+        document.getElementById("pauseHeader").style.fontSize = "400%";
+        document.getElementById("pauseHeader").innerHTML = 'Game Over';
     }
     document.write('<button class="onTop" id="restart" align="center">Restart</button></div></center></div></div></div>');
     $('#menuClick').click(function() {
