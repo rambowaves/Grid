@@ -138,8 +138,9 @@ h1 {
 }
 
 div.helpOptions {
-    font-size: 70%;
+    font-size: 60%;
     display: inline-block;
+    line-height: .72em;
     width: 63%;
     height: 63%;
     left: 10%;
@@ -172,7 +173,7 @@ div.helpingTheHelp{
 
 #startLevel{
     top: 50px;
-    font-size: 215%;
+    font-size: 200%;
     color: darkblue;
     text-decoration:none;
     text-shadow:-2px 2px 8px #Ff6627;
