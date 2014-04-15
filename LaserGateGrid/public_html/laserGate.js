@@ -19,12 +19,17 @@ var boxes = new Array();
 //var a = document.createElement('audio');
 var a = new Audio('Intro.mp3');
 a.setAttribute('src', 'Intro.mp3');
+var warford = new Audio('areYouWithMe.mp3');
+warford.setAttribute('src','areYouWithMe.mp3');
 //Tank audio
 var aTank = new Audio('pew.mp3');
 aTank.setAttribute('src', 'pew.mp3');
 //deathBox audio
 var explode = new Audio('explode.mp3');
 explode.setAttribute('src', 'explode.mp3');
+//win level audio
+var winning = new Audio('winning.mp3');
+winning.setAttribute('src', 'winning.mp3');
 
 
 //show users what levels are open to them and which ones are not
@@ -58,14 +63,15 @@ function game(level) {
     a.src = 'Game.mp3';
     a.play();
     var audioLoop = setInterval(function() {
-        if (a.currentTime > 29) { 
+        if (a.currentTime > 29) {
             a.pause();
             a.src = 'Game.mp3'; //resets a.currentTime
             a.play();
         }
     }, 3100);
     var id = level;
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate"><table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><img id="thing" src="thing.jpg"><div class="laserGate">\n\
+                    <table id="grid" border="0" cellspacing = "0" cellpadding = "0" id="a" align = "center">');
     for (i = 0; i <= numRows; i++) {
         document.write("<tr class='row" + i + "'>");
         for (j = 0; j <= numCols; j++) {
@@ -93,31 +99,26 @@ function game(level) {
                 } else if (i === numRows) {
                     document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'outer bottom'></td>");
                 } else {
-                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "' class = 'inner'></td>");
+                    document.write("<td id= '" + i.toString() + "_" + j.toString() + "'></td>");
                 }
             }
         }
         document.write('</tr></div>');
     }
     ;
-
     // Current score functionality adds 10 points for each box hit and counts the number of shots
     Score = {
         hit: 0,
         shots: 0
     };
-
     document.write('</table>');
     document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
     document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
 
     if (unlocked === 1) {
         setTimeout(handHolding, 500);
-    };
-
-//get cellWidth and cellHeight to be used in placement and in overlap test
-    var cellWidth = document.getElementById("0_0").offsetWidth / 2;
-    var cellHeight = document.getElementById("0_0").offsetHeight / 2;
+    }
+    ;
 
     function Box(boxId, hitCount) {
         this.boxId = boxId;
@@ -133,10 +134,17 @@ function game(level) {
     Box.prototype.getHitCount = function() {
         return this.hitCount;
     };
+    Box.prototype.initialDraw = function(id, hitCount) {
+        if(hitCount < 1) {
+            $("#" + id + "").addClass("unHit");
+        } else if(hitCount == 1) {
+            $("#" + id + "").addClass("unHit").addClass("hit2");
+        } else {
+            $("#" + id + "").addClass("unHit").addClass("hit2").addClass("hit3");
+        }
+    };
     Box.prototype.draw = function(id, hitCount) {
-        hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2").removeClass("inner") :
-                hitCount == 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3").removeClass("inner") :
-                $("#" + id + "").addClass("hit3").removeClass("inner");
+        hitCount < 1 ? $("#" + id + "").removeClass("hit2") : $("#" + id + "").removeClass("hit3");
     };
 
     Box.prototype.boxDim = function(id) {
@@ -156,7 +164,7 @@ function game(level) {
 
         //place lasers
         for (var i = 0; i < levels.level[id].laser.length; i++) {
-            $("#" + levels.level[id].laser[i].position).text("L").addClass("laser");
+            $("#" + levels.level[id].laser[i].position).addClass("laser");
         }
         ;
 
@@ -167,11 +175,10 @@ function game(level) {
             boxes[j] = new Box(levels.level[id].box[j].position, levels.level[id].box[j].hitCount);
             var box = boxes[j];
             if (levels.level[id].box[j].deathBox) {
-                $("#" + box.getId() + "").addClass("deathBox").removeClass("inner");
+                $("#" + box.getId() + "").addClass("deathBox");
                 deathBoxCount++;
             } else {
-                box.draw(box.getId(), box.getHitCount());
-                console.log("ID " + box.getId() + " HIT COUNT " + box.getHitCount() + " \n\n");
+                box.initialDraw(box.getId(), box.getHitCount());
             }
         }
         ;
@@ -179,7 +186,6 @@ function game(level) {
         //set avatar location
         avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
         $("#" + avatar + "").addClass("avatar").addClass("tankTop");
-        console.log("avatar location " + avatar);
         avatarIsPlaced = true;
     }
 
@@ -188,15 +194,14 @@ function game(level) {
     function getElementPosition(id) {
         var element = document.getElementById(id);
         return {top: element.offsetTop, left: element.offsetLeft};
-    };
+    }
+    ;
 
     var grid = document.getElementById("grid");
     for (i = 0; i <= numRows; i++) {
         for (j = 0; j <= numCols; j++) {
             grid.rows[i].cells[j].onclick = function(e) {
                 if ($(this).hasClass("outer") && !shooting) {
-                    cellWidth = document.getElementById("0_0").offsetWidth / 2;
-                    cellHeight = document.getElementById("0_0").offsetHeight / 2;
                     //get top and left coordinates of the new clicked position
                     var currentPosition = $(this).attr("id");
                     var position = getElementPosition(currentPosition);
@@ -223,15 +228,15 @@ function game(level) {
 //                          
 //                          //make the pew sound
                             aTank.play();
-                            setTimeout(function() {
-                                aTank.pause();
-                                aTank.src = 'pew.mp3';
-                            }, 1000);
+//                            setTimeout(function() {
+//                                aTank.pause();
+//                                aTank.src = 'pew.mp3';
+//                            }, 1000);
 
                             //make the thing visible and change transition speed back to 1s
                             setTimeout(function() {
                                 theThing.style.visibility = "visible";
-                                theThing.style.transition = "left 1s ease-in, top 1s ease-in";
+                                theThing.style.transition = "left 1.2s ease-in, top 1.2s ease-in";
                             }, 1);
 
                             //set new location of the thing, in which it will show the transition to get there
@@ -245,6 +250,7 @@ function game(level) {
                             var hit = new Array();
                             var j = 0;
                             var deathBoxCollision = false;
+
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
                                 var thingPosition = getElementPosition("thing");
@@ -254,23 +260,22 @@ function game(level) {
                                 //test if the laser collides with any boxes
                                 for (var i = 0; i < boxes.length; i++) {
                                     var box = boxes[i];
-                                    var boxDim = box.boxDim(box.getId());
+                                    var boxID = box.getId();
+                                    var boxDim = box.boxDim(boxID);
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
-
                                     if (xOverlap && yOverlap) {
-                                        if (!$("#" + box.getId() + "").hasClass("deathBox")) {
+                                        if (!$("#" + boxID + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
                                             if (box.getHitCount() < 0) {
-                                                $("#" + box.getId() + "").removeClass("unhit").addClass("inner");
+                                                $("#" + boxID + "").removeClass("unHit");
                                             }
                                             else {
                                                 hit[j++] = box;
-                                                box.draw(box.getId(), box.getHitCount());
+                                                box.draw(boxID, box.getHitCount());
                                             }
                                             boxes.splice(i, 1);
                                             Score.hit += 100;
-                                            document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                         } else {
                                             theThing.style.visibility = "hidden";
                                             deathBoxCollision = true;
@@ -287,9 +292,12 @@ function game(level) {
                                         }
                                     }
                                 }
-                            }, 1);
+                            }, 2);
                             setTimeout(function() {
                                 clearInterval(testCollision);
+                                aTank.pause();
+                                aTank.src = 'pew.mp3';
+                                document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
                                 if ((boxes.length + hit.length - deathBoxCount) <= 0 && !deathBoxCollision) {
                                     var nextLevel = true;
                                     levels.level[id].won = true;
@@ -302,10 +310,16 @@ function game(level) {
                                         localStorage.setItem("continue", oldGame);
                                     }
                                     ;
-                                    delay(nextLevel, id, false, 200);
+                                    winning.play();
+                                    a.pause();
+                                    setTimeout(function() {
+                                        winning.pause();
+                                        winning.src = 'winning.mp3';
+                                    }, 9000);
+                                    delay(nextLevel, id, false, 1000);
                                     clearInterval(testCollision);
                                 }
-                            }, 1000);
+                            }, 1200);
 
                             //after done shooting, hide the thing
                             //THING ABSTRACTION
@@ -315,11 +329,9 @@ function game(level) {
                                     boxes[boxes.length] = hit[i];
                                 }
                                 shooting = false;
-                            }, 1000);
+                            }, 1200);
                         }
                     } else {
-                        //AVATAR ABSTRACTION
-
                         avatarPlaced = false;
                         shooting = true;
                         $("#" + avatar + "").removeClass("avatar").removeClass('tankBottom').removeClass('tankTop').
@@ -349,7 +361,7 @@ function game(level) {
                             $(this).addClass("tankLowerRight");
                         }
                         if (avatar == '13_0') {
-//                            $(this).addClass("tankLowerLeft");
+                            $(this).addClass("tankLowerLeft");
                         }
                         avatarPlaced = true;
                         shooting = false;
@@ -372,9 +384,11 @@ function game(level) {
                 position.top + cellHeight :
                 ($(obj).hasClass("bottom") ? position.top : position.top + cellHeight / 2 - $("#thing").height() / 2);
     }
+
     function collides(value, min, max) {
-        return (value >= min - 15) && (value <= max + 15);
+        return (value >= min - 5) && (value <= max + 5);
     }
+
     function checkLocation(laser) {
         return ($("#" + laser + "").hasClass("left") && $(".avatar").hasClass("left")) ? false :
                 ($("#" + laser + "").hasClass("right") && $(".avatar").hasClass("right")) ? false :
@@ -398,13 +412,17 @@ function delay(nextLevel, id, bool, delay) {
 
 //a screen that says Laser Gate and has a big button to begin the game
 function startScreen(cont) {
-    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><center><a id="LaserGate"><h1>Laser Gate</h1></a>');
+    document.write('<link rel="stylesheet" type="text/css" href="laserGate.css"/><div id="firstPage" class="welcomeScreen"><h1>Laser Gate</h1>');
     if (cont) {
         document.write('<a href="#" id="welcomeButton" class="myButton">Continue</a><br>');
     }
-    document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
+    document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></div>');
     init();
-    a.play();
+    warford.play();
+    setTimeout(function() {
+        warford.pause();
+        a.play();
+    }, 2000);
     var audioLoop = setInterval(function() {
         if (a.currentTime > 30) {
             a.pause();
@@ -484,11 +502,17 @@ function handHolding() {
                 <li>Clear the boxes in the least ammount of moves possible. Watch out for dangers on the grid!</li>\n\
             </ol>\n\
             <a id="startLevel">Click to begin</a></center></div></div>');
+    warford.src = 'areYouWithMe.mp3';
+    warford.play();
+    setTimeout(function() {
+        warford.pause();
+    }, 2000);
     $('#startLevel').click(function() {
         $('.helpOverlay').html('');
         $('div').removeClass('helpOverlay');
     });
-};
+}
+;
 
 function menuOverlay(won, id, paused) {
     a.pause();
@@ -508,6 +532,12 @@ function menuOverlay(won, id, paused) {
         //this deletes the menuOverlay
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
+        console.log('Audio on?' + a.paused);
+        if (a.paused) {
+            winning.pause();
+            a.src = 'Intro.mp3';
+            a.play();
+        }
         menu();
     });
 

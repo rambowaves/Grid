@@ -27,6 +27,19 @@ table {
     width: 100%;
     table-layout: fixed;
     overflow: hidden;
+    
+}
+#grid {
+    background-image: url('pics/grass.png');
+    background-repeat: repeat;
+    background-size: 15% 15%;
+}
+tr, td {
+    height: 30px;
+    width: 28px;
+    alignment-adjust: middle;
+    text-align: center;
+    overflow: hidden; 
 }
 
 h1 {
@@ -35,31 +48,17 @@ h1 {
     vertical-align: middle;
     text-align: center;
     font-family: monospace;
+    opacity:1;
 }
-#whereami {
-    color: blue;
-    vertical-align: middle;
-    text-align: center;
-}
-
-tr, td {
-    height: 30px;
-    width: 28px;
-    alignment-adjust: middle;
-    text-align: center;
-    overflow: hidden; 
-/*    border: 1px solid black;*/
-}
-
 .outer {
-    background-image:url('pics/redbutton.png');
+    background-image:url('pics/dirt.png');
     background-size: 200% 200%;
     //background-color: orange;
     //color: white;
     //border: 1px lightgray dotted;
     background-repeat: no-repeat;
     background-position: center;
-        border: 2px dotted black;
+    border: 2px dotted black;
 
 }
 
@@ -86,25 +85,23 @@ tr, td {
 .unHit {
     background-image: url('pics/brickLarge.png');
     background-size: 100% 100%;
-    background-color: green;
     z-index: 10;
 
 }
 .hit2 {
     background-image: url('pics/crackedSteel.png');
     background-size: 100% 100%;
-    background-color: black;
     z-index: 10;
-
 }
 
 .hit3 {
     background-image: url('pics/steel.png');
     background-size: 100% 100%;
-    background-color: black;
     z-index: 10;
+}
 
-
+.remove {
+    background-color: transparent;
 }
 .deathBox {
     background-image: url('pics/skull.png');
@@ -121,16 +118,16 @@ tr, td {
 }
 
 .helpOverlay{
-     position:fixed;
-     margin: auto; 
-     top:0; 
-     left:0; 
+    position:fixed;
+    margin: auto; 
+    top:0; 
+    left:0; 
     width:100%;
     height: 100%;
     background: grey;
     opacity: 0.7;
     z-index: 500; /* or  greater value */
-     padding: 10%; 
+    padding: 10%; 
 }
 
 
@@ -172,10 +169,10 @@ div.helpingTheHelp{
     position: relative;
     width: 60%;
     height: 60%;
-     left: 23%; 
+    left: 23%; 
     position: absolute;
-     margin: auto; 
-     margin-top: 10%; 
+    margin: auto; 
+    margin-top: 10%; 
     background-color: white;
     z-index: 1400;
 }
@@ -267,39 +264,58 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
 
 .welcomeScreen {
     font-size: 60%;
-    /*position: absolute;*/
-    width: 100%;
-    height: 80%;
-    top: 15%
+    z-index: 1;
+    text-align: center;
+    position: absolute;
+    opacity: .8;
+    height:100%;
+    background-image: url('pics/brickLarge.png');
+    background-color:black;
+    background-size: 200% 200%;
+    background-position: center;
+    background-size: 10% 10%;
+    background-repeat: repeat;    
 }
 
 .welcomeScreen h1 {
-    font-size: 10em;
+    font-size: 9em;
+    font-family: verdana;
     position: relative;
     margin: auto;
+    top: 5%;
 }
 
 
 .myButton {
     position: relative;
-    color:#F20d12;
+    color: blue;
     font-family:Verdana;
     font-size:20px;
     font-weight:bold;
     text-decoration:none;
-    text-shadow:-2px 2px 8px #Ff6627;
+    text-shadow:-2px 2px 8px white;
     bottom: 15%;
     top: 20%;
 }
 
 #welcomeButton {
-    top: 30px;
+    top: 50px;
+    color:white;
+    font-weight: 700;
+    font-size: 350%;
 }
-
+#welcomeButton:hover {
+    color:green;
+}
 #clearStorage {
     top: 70px;
+    color:white;
+    font-weight: 700;
+    font-size: 350%;
 }
-
+#clearStorage:hover {
+    color: green;
+}
 div#scoreBar {
     display: inline-block;
     height: 10%;
@@ -338,70 +354,65 @@ button#menu {
 }
 
 .tankLeft{
-    background-image:url('pics/tankLeft.png'),url('pics/redbutton.png');
+    background-image:url('pics/tankLeft.png'),url('pics/dirt.png');
     background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankRight{
-    background-image:url('pics/tankRight.png'),url('pics/redbutton.png');
+    background-image:url('pics/tankRight.png'),url('pics/dirt.png');
     background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankTop{
-    background-image:url('pics/tankUp.png'),url('pics/redbutton.png');
+    background-image:url('pics/tankUp.png'),url('pics/dirt.png');
     background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankBottom{
-    background-image:url('pics/tankDown.png'),url('pics/redbutton.png');
+    background-image:url('pics/tankDown.png'),url('pics/dirt.png');
     background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankUpperLeft{
-    background-image:url('pics/tankUpperLeft.png'),url('pics/redbutton.png');
+    background-image:url('pics/tankUpperLeft.png'),url('pics/dirt.png');
     background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankUpperRight{
-    background-image:url('pics/tankUpperRight.png'),url('pics/redbutton.png');
+    background-image:url('pics/tankUpperRight.png'),url('pics/dirt.png');
     background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankLowerLeft{
-    background-image:url('pics/tankLowerLeft.png'),url('pics/redbutton.png');
+    background-image:url('pics/tankLowerLeft.png'),url('pics/dirt.png');
     background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .tankLowerRight{
-    background-image:url('pics/tankLowerRight.png'),url('pics/redbutton.png');
+    background-image:url('pics/tankLowerRight.png'),url('pics/dirt.png');
     background-size: 90% 90%,200% 200%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .inner{
-    background-image:url('pics/grass.png');
+/*    background-image:url('pics/grass.png');
     background-size: 200% 200%;
-    //background-color: orange;
-    //color: white;
-    //border: 1px lightgray dotted;
-    /*border: 1px solid black;*/
     background-repeat: no-repeat;
     background-position: center;
-    z-index: -500;
+    z-index: -500;*/
 }
-
