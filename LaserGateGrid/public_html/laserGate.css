@@ -29,6 +29,7 @@ table {
     overflow: hidden;
     
 }
+
 #grid {
     background-image: url('pics/grass.png');
     background-repeat: repeat;
@@ -216,6 +217,10 @@ a.onTop {
  margin: .25%;
 }
 
+#selector {
+   height:90%; 
+}
+
 #selector td {
     border: 1px lightgray dotted;
 }
@@ -303,7 +308,7 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     font-size: 350%;
 }
 #welcomeButton:hover {
-    color:green;
+    color:black;
 }
 #clearStorage {
     top: 70px;
@@ -312,7 +317,7 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     font-size: 350%;
 }
 #clearStorage:hover {
-    color: green;
+    color: black;
 }
 div#scoreBar {
     display: inline-block;
@@ -342,7 +347,8 @@ div#scoreBar div#score-header {
 }
 
 button#returnWelcome {
-    width: 20%
+    width: 30%;
+    height: 20px;
 }
 
 button#menu {

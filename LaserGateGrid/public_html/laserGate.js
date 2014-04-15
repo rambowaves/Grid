@@ -112,7 +112,7 @@ function game(level) {
         shots: 0
     };
     document.write('</table>');
-    document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
+    document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">Pause</button></div>');
     document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
 
     if (unlocked === 1) {
@@ -491,7 +491,7 @@ function menu() { //this will bring the user back to the level screen so he can 
         document.write('</tr>');
     }
     ;
-    document.write('</table><button id="returnWelcome">Back to Welcome</button></div>');
+    document.write('</table><button id="returnWelcome">Main Menu</button></div>');
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
         console.log('id for this level is: ' + id);
@@ -541,14 +541,14 @@ function handHolding() {
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><div id="buttonRow"><button class="onTop" id="menuClick" align="center">main menu</button>');
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><div id="buttonRow"><button class="onTop" id="menuClick" align="center">Level Select</button>');
     if (paused) {
-        document.write('<button class="onTop" id="resume" align="center">resume</button>');
+        document.write('<button class="onTop" id="resume" align="center">Resume</button>');
     }
     if (won) {
-        document.write('<button class="onTop" id="nextLevel" align="center">next level</button>');
+        document.write('<button class="onTop" id="nextLevel" align="center">Next Level</button>');
     }
-    document.write('<button class="onTop" id="restart" align="center">restart</button></div></center></div></div></div>');
+    document.write('<button class="onTop" id="restart" align="center">Restart</button></div></center></div></div></div>');
     $('#menuClick').click(function() {
         //this deletes the game()
         $('.laserGate').html('');
@@ -649,8 +649,8 @@ var levels = {
                 {
                     //level 7
                     won: false,
-                    box: [{position: "12_4", hitCount: 0},{position: "11_4", deathBox: true}, {position: "11_3", hitCount: 0}, {position: "4_2", hitCount: 1}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "9_7", hitCount: 0}, {position: "11_7", hitCount: 0}],
-                    laser: [{position: "0_0", disappear: true}, {position: "1_9", disappear: false}, {position: "11_9", disappear: false}]
+                    box: [{position: "2_2", deathBox: true}, {position: "5_7", deathBox: true}, {position: "4_7", hitCount: 1}, {position: "1_4", hitCount: 2}, {position: "6_3", hitCount: 2}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 3}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_8"}, {position: "0_2", disappear: true}, {position: "2_0"}, {position: "7_9"}]
                 },
                 {
                     //level 8
@@ -679,8 +679,8 @@ var levels = {
                 {
                     //level 12
                     won: false,
-                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                    box: [{position: "12_4", hitCount: 0},{position: "11_4", deathBox: true}, {position: "11_3", hitCount: 0}, {position: "4_2", hitCount: 1}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "9_7", hitCount: 0}, {position: "11_7", hitCount: 0}],
+                    laser: [{position: "0_0", disappear: true}, {position: "1_9", disappear: false}, {position: "11_9", disappear: false}]
                 },
                 {
                     //level 13
@@ -707,10 +707,10 @@ var levels = {
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
-                    //level 16
+                    //level 17
                     won: false,
-                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                    box: [{position: "1_2", deathBox: true}, {position: "12_8", deathBox: true}, {position: "11_8", hitCount: 0}, {position: "2_2", hitCount: 0}, {position: "1_3", hitCount: 1}, {position: "1_1", hitCount: 2}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_0", disappear: true}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
                     //level 18
@@ -739,8 +739,8 @@ var levels = {
                 {
                     //level 22
                     won: false,
-                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                    box: [{position: "3_2", deathBox:true}, {position: "4_2", hitCount: 0}, {position: "6_1", hitCount: 0}, {position: "3_7", hitCount: 1}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 1}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4", disappear: true}, {position: "7_0", disappear: true}, {position: "0_9", disappear: true}, {position: "13_7", disappear: true}]
                 },
                 {
                     //level 23
@@ -769,8 +769,8 @@ var levels = {
                 {
                     //level 27
                     won: false,
-                    box: [{position: "3_2", deathBox:true},{position: "4_2", hitCount: 0},{position: "3_7", hitCount: 1}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 1}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
-                    laser: [{position: "0_4", disappear: true}, {position: "7_0", disappear: true}, {position: "0_9", disappear: true}, {position: "13_7", disappear: true}]
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_6", hitCount: 0}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    laser: [{position: "0_0", disappear: true}, {position: "6_0"}, {position: "3_9", disappear: true}, {position: "13_7"}]
                 },
                 {
                     //level 28
