@@ -39,10 +39,10 @@ if (localStorage.getItem("continue")) {
 }
 ;
 var unlocked = 30;
-//if (localStorage.getItem("unlockedLevels")) {
-//    unlocked = localStorage.getItem("unlockedLevels");
-//}
-//;
+if (localStorage.getItem("unlockedLevels")) {
+    unlocked = localStorage.getItem("unlockedLevels");
+}
+;
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -467,7 +467,7 @@ function startScreen(cont) {
         localStorage.clear();
         document.location.replace('');
         document.location.reload();
-        //unlocked = 1;
+        unlocked = 1;
         menu();
     });
 }
@@ -505,7 +505,7 @@ function menu() { //this will bring the user back to the level screen so he can 
             console.log("go to level " + id + "");
             $('.menu').html(''); //remove everything
             $('div').removeClass("menu");
-            var compLevel = id - 1; //I belive this is needed since the level array starts at 0 but my table will have an ID of 1
+            var compLevel = id - 1; 
             a.pause();
             oldGame = true; //used to add contrubute tag to the startscreen
             game(compLevel); //game(id) will be used with a next level function when there is a variety of levels
@@ -551,12 +551,12 @@ function menuOverlay(won, id, paused) {
     }
     else if (won && !paused) {
         document.getElementById("pauseHeader").style.fontSize = "300%";
-        document.getElementById("pauseHeader").innerHTML = 'Level Complete';  
+        document.getElementById("pauseHeader").innerHTML = 'Level Complete';
         if (Score.hit > 1000) {  // real logic goes here            
             document.getElementById("stars").src = 'pics/3stars.png';
             document.getElementById("stars").style.visibility = "visible";
         }
-        else {            
+        else {
             document.getElementById("stars").src = 'pics/0stars.png';
             document.getElementById("stars").style.visibility = "visible";
         }
