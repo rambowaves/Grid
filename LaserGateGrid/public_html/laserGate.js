@@ -36,7 +36,8 @@ function onDeviceReady() {
     navigator.splashscreen.show();
     //audio initilaization
     var a = new Media('Intro.mp3');
-
+    init();
+    startScreen(oldGame);
 //var a = document.createElement('audio');
 //var a = new Audio('Intro.mp3');
 //a.setAttribute('src', 'Intro.mp3');
@@ -54,8 +55,7 @@ function onDeviceReady() {
     }, 3000);
 }
 //code goes to menu function first
-init();
-startScreen(oldGame);
+
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
@@ -411,11 +411,15 @@ function startScreen(cont) {
     init();
     a.play();
     var audioLoop = setInterval(function() {
-        if (a.currentTime > 30) {
-            a.pause();
-            a.src = 'Intro.mp3'; //resets a.currentTime
-            a.play();
-        }
+        a.getCurrentPosition(
+                function(position) {
+                    if (position > 30) {
+                        a.pause();
+                        a.seekTo(0); //resets a.currentTime
+                        a.play();
+                    }
+                }
+        )
     }, 2100);
     $('#welcomeButton').on('click touchstart', function() {
         document.body.innerHTML = '';
