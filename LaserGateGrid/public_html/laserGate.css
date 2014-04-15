@@ -147,22 +147,17 @@ tr, td {
     z-index: 1000; /* or  greater value */
 }
 
-u, div.helpOptions {
+div.helpOptions {
     font-size: 80%;
     display: inline-block;
     width: 63%;
     height: 63%;
     left: 10%;
-     
     top: 9%;
     position: absolute; 
-     
-    /* margin: auto; */ 
-      
     vertical-align: center;
     text-shadow: 0px 0px 1px white;
     z-index: 1500;
-     
     background-color: white;
     opacity: 1;
 }

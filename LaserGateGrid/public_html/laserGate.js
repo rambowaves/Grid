@@ -15,16 +15,7 @@ var avatarIsPlaced = false;
 var shooting = false;
 var boxes = new Array();
 
-//audio initilaization 
-//var a = document.createElement('audio');
-var a = new Audio('Intro.mp3');
-a.setAttribute('src', 'Intro.mp3');
-//Tank audio
-var aTank = new Audio('pew.mp3');
-aTank.setAttribute('src', 'pew.mp3');
-//deathBox audio
-var explode = new Audio('explode.mp3');
-explode.setAttribute('src', 'explode.mp3');
+
 
 
 //show users what levels are open to them and which ones are not
@@ -43,13 +34,28 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     navigator.splashscreen.show();
+    //audio initilaization
+    var a = new Media('Intro.mp3');
+    init();
+    startScreen(oldGame);
+//var a = document.createElement('audio');
+//var a = new Audio('Intro.mp3');
+//a.setAttribute('src', 'Intro.mp3');
+//Tank audio
+//var aTank = new Audio('pew.mp3');
+    var aTank = new Media('pew.mp3');
+
+    aTank.setAttribute('src', 'pew.mp3');
+//deathBox audio
+//var explode = new Audio('explode.mp3');
+    var explode = new Media('explode.mp3');
+//explode.setAttribute('src', 'explode.mp3');
     setTimeout(function() {
         navigator.splashscreen.hide();
     }, 3000);
 }
 //code goes to menu function first
-init();
-startScreen(oldGame);
+
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
@@ -112,8 +118,7 @@ function game(level) {
 
     if (unlocked === 1) {
         setTimeout(handHolding, 500);
-    }
-    ;
+    };
 
 //get cellWidth and cellHeight to be used in placement and in overlap test
     var cellWidth = document.getElementById("0_0").offsetWidth / 2;
@@ -188,8 +193,7 @@ function game(level) {
     function getElementPosition(id) {
         var element = document.getElementById(id);
         return {top: element.offsetTop, left: element.offsetLeft};
-    }
-    ;
+    };
 
     var grid = document.getElementById("grid");
     for (i = 0; i <= numRows; i++) {
@@ -407,11 +411,15 @@ function startScreen(cont) {
     init();
     a.play();
     var audioLoop = setInterval(function() {
-        if (a.currentTime > 30) {
-            a.pause();
-            a.src = 'Intro.mp3'; //resets a.currentTime
-            a.play();
-        }
+        a.getCurrentPosition(
+                function(position) {
+                    if (position > 30) {
+                        a.pause();
+                        a.seekTo(0); //resets a.currentTime
+                        a.play();
+                    }
+                }
+        )
     }, 2100);
     $('#welcomeButton').on('click touchstart', function() {
         document.body.innerHTML = '';
@@ -489,8 +497,7 @@ function handHolding() {
         $('.helpOverlay').html('');
         $('div').removeClass('helpOverlay');
     });
-}
-;
+};
 
 function menuOverlay(won, id, paused) {
     a.pause();
