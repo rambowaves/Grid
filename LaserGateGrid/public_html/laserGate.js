@@ -226,7 +226,7 @@ function game(level) {
                             //make the thing visible and change transition speed back to 1s
                             setTimeout(function() {
                                 theThing.style.visibility = "visible";
-                                theThing.style.transition = "left 1s ease-in, top 1s ease-in";
+                                theThing.style.transition = "left 1.2s ease-in, top 1.2s ease-in";
                             }, 1);
 
                             //set new location of the thing, in which it will show the transition to get there
@@ -250,21 +250,22 @@ function game(level) {
                                 //test if the laser collides with any boxes
                                 for (var i = 0; i < boxes.length; i++) {
                                     var box = boxes[i];
-                                    var boxDim = box.boxDim(box.getId());
+                                    var boxID = box.getId();
+                                    var boxDim = box.boxDim(boxID);
                                     xOverlap = collides(thingLeft, boxDim.left, boxDim.right) || collides(thingLeft, boxDim.right, boxDim.left);
                                     yOverlap = collides(thingTop, boxDim.top, boxDim.bottom) || collides(thingTop, boxDim.bottom, boxDim.top);
                                     if (xOverlap && yOverlap) {
-                                        if (!$("#" + box.getId() + "").hasClass("deathBox")) {
-                                            Score.hit += 100;
+                                        if (!$("#" + boxID + "").hasClass("deathBox")) {
                                             box.setHitCount(box.getHitCount() - 1);
                                             if (box.getHitCount() < 0) {
-                                                $("#" + box.getId() + "").removeClass("unhit").addClass("inner");
+                                                $("#" + boxID + "").removeClass("unhit").addClass("inner");
                                             }
                                             else {
                                                 hit[j++] = box;
-                                                box.draw(box.getId(), box.getHitCount());
+                                                box.draw(boxID, box.getHitCount());
                                             }
                                             boxes.splice(i, 1);
+                                            Score.hit += 100;
                                         } else {
                                             theThing.style.visibility = "hidden";
                                             deathBoxCollision = true;
@@ -281,7 +282,8 @@ function game(level) {
                                         }
                                     }
                                 }
-                            }, 1);
+                                console.log(thingLeft + "  top " + thingTop);
+                            }, 2);
                             setTimeout(function() {
                                 clearInterval(testCollision);
                                 document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
@@ -306,7 +308,7 @@ function game(level) {
                                     delay(nextLevel, id, false, 1000);
                                     clearInterval(testCollision);
                                 }
-                            }, 1000);
+                            }, 1200);
 
                             //after done shooting, hide the thing
                             //THING ABSTRACTION
@@ -316,11 +318,9 @@ function game(level) {
                                     boxes[boxes.length] = hit[i];
                                 }
                                 shooting = false;
-                            }, 1000);
+                            }, 1200);
                         }
                     } else {
-                        //AVATAR ABSTRACTION
-
                         avatarPlaced = false;
                         shooting = true;
                         $("#" + avatar + "").removeClass("avatar").removeClass('tankBottom').removeClass('tankTop').
