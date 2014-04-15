@@ -34,6 +34,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     navigator.splashscreen.show();
+    
     //audio initilaization
     var a = new Media('Intro.mp3');
     init();
@@ -63,7 +64,7 @@ function game(level) {
     a.src = 'Game.mp3';
     a.play();
     var audioLoop = setInterval(function() {
-        if (a.currentTime > 29) { //specific to the song cuz booleans don't seem to work for me here!!!!! blehhhhererasdfgjklg
+        if (a.currentTime > 29) { 
             a.pause();
             a.src = 'Game.mp3'; //resets a.currentTime
             a.play();
