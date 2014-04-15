@@ -83,24 +83,24 @@ h1 {
 }
 
 .unHit {
-    background-image: url('pics/brickLarge.png');
-    background-size: 100% 100%;
-    background-color: green;
+/*    background-image: url('pics/brickLarge.png');
+    background-size: 100% 100%;*/
+background-color:white;
     z-index: 10;
 
 }
 .hit2 {
-    background-image: url('pics/crackedSteel.png');
-    background-size: 100% 100%;
-    background-color: black;
+/*    background-image: url('pics/crackedSteel.png');
+    background-size: 100% 100%;*/
+    background-color: gray;
     z-index: 10;
 
 }
 
 .hit3 {
-    background-image: url('pics/steel.png');
-    background-size: 100% 100%;
-    background-color: black;
+/*    background-image: url('pics/steel.png');
+    background-size: 100% 100%;*/
+background-color: black;
     z-index: 10;
 
 

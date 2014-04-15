@@ -284,7 +284,6 @@ function game(level) {
                                         }
                                     }
                                 }
-                                console.log(thingLeft + "  top " + thingTop);
                             }, 2);
                             setTimeout(function() {
                                 clearInterval(testCollision);
