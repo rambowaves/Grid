@@ -150,6 +150,9 @@ div.helpOptions {
     z-index: 1500;
     background-color: white;
     opacity: 1;
+    border-style: ridge;
+    border-width: 10px;
+    border-color: crimson;
 }
 ol, li {
     overflow-wrap: break-word;
