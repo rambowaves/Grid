@@ -43,11 +43,12 @@ tr, td {
 }
 
 h1 {
-    color: blue;
+    color: red;
     font-size: 30px;
     vertical-align: middle;
     text-align: center;
-    font-family: monospace;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
     opacity:1;
 }
 .outer {
@@ -135,8 +136,9 @@ h1 {
 }
 
 div.helpOptions {
-    font-size: 80%;
+    font-size: 60%;
     display: inline-block;
+    line-height: 1.5em;
     width: 63%;
     height: 63%;
     left: 10%;
@@ -147,6 +149,9 @@ div.helpOptions {
     z-index: 1500;
     background-color: white;
     opacity: 1;
+    border-style: ridge;
+    border-width: 10px;
+    border-color: crimson;
 }
 ol, li {
     overflow-wrap: break-word;
@@ -169,7 +174,7 @@ div.helpingTheHelp{
 
 #startLevel{
     top: 50px;
-    font-size: 215%;
+    font-size: 200%;
     color: darkblue;
     text-decoration:none;
     text-shadow:-2px 2px 8px #Ff6627;
@@ -178,12 +183,15 @@ div.helpingTheHelp{
 
 #OverlayOptions {
     position: relative;
-    width: 50%;
-    height: 50%;
+    width: 80%;
+    height: 80%;
     margin: auto;
-    margin-top: 15%;
+    margin-top: 5%;
     background: white;
-    opacity: 1;    
+    opacity: 1;
+    border-style: ridge;
+    border-width: 10px;
+    border-color: crimson;
 }
 
 .onTop {
@@ -200,44 +208,44 @@ a.onTop {
 
 #menuClick {
     //padding-top: 13%;
-    margin-top: 20%;
+    /* margin-top: 20%; */
     position: relative; //could be a problem
     text-align: center;
     vertical-align: middle;
     z-index: 2000;
+ margin: .25%;
 }
 
 #selector td {
     border: 1px lightgray dotted;
 }
 
-#resume {
-    padding-top: 15%;
-    position: relative; //could be a problem
-    text-align: center;
-    vertical-align: middle;
+div#buttonRow {
+    position: absolute;
+    top: 80%
+}
+
+button#menuClick, button#resume, button#nextLevel, button#restart {
+    width: 25%;
+    margin: .5%;
     z-index: 1700;
-}
-
-#nextLevel{
-    padding-top: 17%;
-    position: relative; //could be a problem
     text-align: center;
     vertical-align: middle;
-    z-index: 1500;
-}
-
-#restart {
-    padding-top: 19%;
-    position: relative; //could be a problem
-    text-align: center;
-    vertical-align: middle;
-    z-index: 1400;
-}
-
-
-#menuClick h1 {
-    padding-top: 10%;
+    
+    //button style code
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	color: #ffffff;
+	padding: 10px 20px;    
+    background: linear-gradient(to bottom, #42aaff 0%, #003366 100%);
+    border-radius: 10px;
+    border: 1px solid #003366;
+    box-shadow:
+            0px 1px 3px rgba(000,000,000,0.5),
+            inset 0px 0px 1px rgba(255,255,255,0.5);
+    text-shadow:
+            0px -1px 0px rgba(000,000,000,0.7),
+            0px 1px 0px rgba(255,255,255,0.3);
 }
 
 #menuClick h1,#nextLevel h1,#resume h1, #restart h1, #clearStorage h1{ 
@@ -266,7 +274,8 @@ a.onTop {
 
 .welcomeScreen h1 {
     font-size: 9em;
-    font-family: verdana;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
     position: relative;
     margin: auto;
     top: 5%;
@@ -275,7 +284,7 @@ a.onTop {
 .myButton {
     position: relative;
     color: blue;
-    font-family:Verdana;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
     font-size:20px;
     font-weight:bold;
     text-decoration:none;
@@ -329,13 +338,14 @@ div#scoreBar div#score-header {
     padding-right: 20px;
 }
 
-button {
-    width: 75%;
-    text-align: center;
+button#returnWelcome {
+    width: 20%
 }
 
-#menu {
+button#menu {
     margin-top: .5%;
+    width: 75%;
+    text-align: center;
 }
 
 .tankLeft{

@@ -38,11 +38,11 @@ if (localStorage.getItem("continue")) {
     oldGame = localStorage.getItem("continue");
 }
 ;
-var unlocked = 1;
-if (localStorage.getItem("unlockedLevels")) {
-    unlocked = localStorage.getItem("unlockedLevels");
-}
-;
+var unlocked = 30;
+//if (localStorage.getItem("unlockedLevels")) {
+//    unlocked = localStorage.getItem("unlockedLevels");
+//}
+//;
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -51,7 +51,7 @@ function onDeviceReady() {
 
     setTimeout(function() {
         navigator.splashscreen.hide();
-    }, 3000);
+    }, 1800);
 }
 //code goes to menu function first
 init();
@@ -465,7 +465,7 @@ function startScreen(cont) {
         localStorage.clear();
         document.location.replace('');
         document.location.reload();
-        unlocked = 1;
+        //unlocked = 1;
         menu();
     });
 }
@@ -520,11 +520,11 @@ function menu() { //this will bring the user back to the level screen so he can 
 
 function handHolding() {
     document.write('<div class="helpOverlay"><div class="helpOptions">\n\
-            <center><h1>Welcome to LASER GATE</h1><h2>How to play our wonderful game</h2>\n\
+            <center><h1>LASER GATE</h1><h2>Instructions:</h2>\n\
             <ol>\n\
                 <li>You are the tank. The tank can move anywhere in the outer grid.</li>\n\
-                <li>There are gates on the outer part of the grid. Click on them to shoot a laser!</li>\n\
-                <li>Clear the boxes in the least ammount of moves possible. Watch out for dangers on the grid!</li>\n\
+                <li>Click on the red targets to shoot across the grid!</li>\n\
+                <li>Clear the boxes in the least amount of moves possible. Watch out for dangers on the grid!</li>\n\
             </ol>\n\
             <a id="startLevel">Click to begin</a></center></div></div>');
     warford.src = 'areYouWithMe.mp3';
@@ -541,14 +541,14 @@ function handHolding() {
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>menu</u></h1></a>');
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><div id="buttonRow"><button class="onTop" id="menuClick" align="center">main menu</button>');
     if (paused) {
-        document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
+        document.write('<button class="onTop" id="resume" align="center">resume</button>');
     }
     if (won) {
-        document.write('<a class="onTop" id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
+        document.write('<button class="onTop" id="nextLevel" align="center">next level</button>');
     }
-    document.write('<a class="onTop" id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div></div>');
+    document.write('<button class="onTop" id="restart" align="center">restart</button></div></center></div></div></div>');
     $('#menuClick').click(function() {
         //this deletes the game()
         $('.laserGate').html('');
@@ -655,8 +655,8 @@ var levels = {
                 {
                     //level 8
                     won: false,
-                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                    box: [{position: "1_5", hitCount: 1}, {position: "4_3", hitCount: 0}, {position: "5_9", hitCount: 1}, {position: "6_5", hitCount: 2}, {position: "9_2", hitCount: 2}, {position: "9_4", hitCount: 2}, {position: "11_2", hitCount: 2}],
+                    laser: [{position: "0_5"}, {position: "6_0"}, {position: "3_9"}, {position: "13_4"}]
                 },
                 {
                     //level 9
@@ -685,8 +685,8 @@ var levels = {
                 {
                     //level 13
                     won: false,
-                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                    box: [{position: "3_4", hitCount: 0}, {position: "4_5", hitCount: 1}, {position: "3_7", hitCount: 0}, {position: "7_3", hitCount: 0, deathBox: true}, {position: "5_2", hitCount: 0, deathBox: true}, {position: "6_3", hitCount: 2}, {position: "8_2", hitCount: 0}, {position: "8_4", hitCount: 0} ],
+                    laser: [{position: "0_9"}, {position: "0_0"}, {position: "0_3"}, {position: "13_6"}, {position: "13_3", disappear: true}]
                 },
                 {
                     //level 14
@@ -715,7 +715,7 @@ var levels = {
                 {
                     //level 18
                     won: false,
-                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    box: [{position: "2_8", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
