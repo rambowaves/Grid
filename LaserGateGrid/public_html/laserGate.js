@@ -25,6 +25,9 @@ aTank.setAttribute('src', 'pew.mp3');
 //deathBox audio
 var explode = new Audio('explode.mp3');
 explode.setAttribute('src', 'explode.mp3');
+//win level audio
+var winning = new Audio('winning.mp3');
+winning.setAttribute('src', 'winning.mp3');
 
 
 //show users what levels are open to them and which ones are not
@@ -302,7 +305,13 @@ function game(level) {
                                         localStorage.setItem("continue", oldGame);
                                     }
                                     ;
-                                    delay(nextLevel, id, false, 200);
+                                    winning.play();
+                                    a.pause();
+                                    setTimeout(function() {
+                                        winning.pause();
+                                        winning.src = 'winning.mp3';
+                                    }, 9000);
+                                    delay(nextLevel, id, false, 1000);
                                     clearInterval(testCollision);
                                 }
                             }, 1000);
@@ -508,6 +517,12 @@ function menuOverlay(won, id, paused) {
         //this deletes the menuOverlay
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
+        console.log('Audio on?' + a.paused);
+        if(a.paused) {
+            winning.pause();
+            a.src ='Intro.mp3';
+            a.play();
+        }
         menu();
     });
 
