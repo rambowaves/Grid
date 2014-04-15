@@ -112,7 +112,7 @@ function game(level) {
         shots: 0
     };
     document.write('</table>');
-    document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
+    document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">Pause</button></div>');
     document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
 
     if (unlocked === 1) {
@@ -491,7 +491,7 @@ function menu() { //this will bring the user back to the level screen so he can 
         document.write('</tr>');
     }
     ;
-    document.write('</table><button id="returnWelcome">Back to Welcome</button></div>');
+    document.write('</table><button id="returnWelcome">Main Menu</button></div>');
     $('#selector td').click(function() { //when you click on a <td> element it will get the id and use that to correlate with the level desired
         var id = $(this).attr('id');
         console.log('id for this level is: ' + id);
@@ -541,14 +541,14 @@ function handHolding() {
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><div id="buttonRow"><button class="onTop" id="menuClick" align="center">main menu</button>');
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><div id="buttonRow"><button class="onTop" id="menuClick" align="center">Level Select</button>');
     if (paused) {
-        document.write('<button class="onTop" id="resume" align="center">resume</button>');
+        document.write('<button class="onTop" id="resume" align="center">Resume</button>');
     }
     if (won) {
-        document.write('<button class="onTop" id="nextLevel" align="center">next level</button>');
+        document.write('<button class="onTop" id="nextLevel" align="center">Next Level</button>');
     }
-    document.write('<button class="onTop" id="restart" align="center">restart</button></div></center></div></div></div>');
+    document.write('<button class="onTop" id="restart" align="center">Restart</button></div></center></div></div></div>');
     $('#menuClick').click(function() {
         //this deletes the game()
         $('.laserGate').html('');
