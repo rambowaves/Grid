@@ -25,6 +25,9 @@ aTank.setAttribute('src', 'pew.mp3');
 //deathBox audio
 var explode = new Audio('explode.mp3');
 explode.setAttribute('src', 'explode.mp3');
+//win level audio
+var winning = new Audio('winning.mp3');
+winning.setAttribute('src', 'winning.mp3');
 
 
 //show users what levels are open to them and which ones are not
@@ -43,6 +46,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     navigator.splashscreen.show();
+
     setTimeout(function() {
         navigator.splashscreen.hide();
     }, 3000);
@@ -57,7 +61,7 @@ function game(level) {
     a.src = 'Game.mp3';
     a.play();
     var audioLoop = setInterval(function() {
-        if (a.currentTime > 29) { //specific to the song cuz booleans don't seem to work for me here!!!!! blehhhhererasdfgjklg
+        if (a.currentTime > 29) { 
             a.pause();
             a.src = 'Game.mp3'; //resets a.currentTime
             a.play();
@@ -293,7 +297,13 @@ function game(level) {
                                         localStorage.setItem("continue", oldGame);
                                     }
                                     ;
-                                    delay(nextLevel, id, false, 200);
+                                    winning.play();
+                                    a.pause();
+                                    setTimeout(function() {
+                                        winning.pause();
+                                        winning.src = 'winning.mp3';
+                                    }, 9000);
+                                    delay(nextLevel, id, false, 1000);
                                     clearInterval(testCollision);
                                 }
                             }, 1000);
@@ -481,8 +491,7 @@ function handHolding() {
         $('.helpOverlay').html('');
         $('div').removeClass('helpOverlay');
     });
-}
-;
+};
 
 function menuOverlay(won, id, paused) {
     a.pause();
@@ -502,6 +511,12 @@ function menuOverlay(won, id, paused) {
         //this deletes the menuOverlay
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
+        console.log('Audio on?' + a.paused);
+        if(a.paused) {
+            winning.pause();
+            a.src ='Intro.mp3';
+            a.play();
+        }
         menu();
     });
 
@@ -620,4 +635,3 @@ function init()
     document.addEventListener("touchend", touchHandler, true);
     document.addEventListener("touchcancel", touchHandler, true);
 }
-
