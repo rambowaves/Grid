@@ -552,11 +552,13 @@ function menuOverlay(won, id, paused) {
     else if (won && !paused) {
         document.getElementById("pauseHeader").style.fontSize = "400%";
         document.getElementById("pauseHeader").innerHTML = 'Level Complete';  
-        if (Score.total > 1000) {  // real logic goes here
+        if (Score.hit > 1000) {  // real logic goes here            
             document.getElementById("stars").src = 'pics/3stars.png';
+            document.getElementById("stars").style.visibility = "visible";
         }
-        else {
+        else {            
             document.getElementById("stars").src = 'pics/0stars.png';
+            document.getElementById("stars").style.visibility = "visible";
         }
         document.getElementById("finalScores").innerHTML = 'Score: ' + Score.hit + '<br>Shots Fired: ' + Score.shots;
         document.write('<button class="onTop" id="nextLevel" align="center">Next Level</button>');

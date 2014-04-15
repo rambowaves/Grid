@@ -270,7 +270,9 @@ h1#pauseHeader {
     visibility: hidden;
     position: relative;
     height: 30%;
-    width: 80%;
+    width: 50%;
+    z-index: 3000;
+    border-style: none;
 }
 
 p#finalScores {
