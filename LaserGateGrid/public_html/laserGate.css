@@ -13,6 +13,8 @@ and open the template in the editor.
     margin-left: auto;
     margin-right: auto;
     width:100%;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size:20px;
 }
 
 html, body{
@@ -43,11 +45,12 @@ tr, td {
 }
 
 h1 {
-    color: blue;
+    color: red;
     font-size: 30px;
     vertical-align: middle;
     text-align: center;
-    font-family: monospace;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
     opacity:1;
 }
 .outer {
@@ -135,7 +138,7 @@ h1 {
 }
 
 div.helpOptions {
-    font-size: 80%;
+    font-size: 70%;
     display: inline-block;
     width: 63%;
     height: 63%;
@@ -266,7 +269,8 @@ a.onTop {
 
 .welcomeScreen h1 {
     font-size: 9em;
-    font-family: verdana;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
     position: relative;
     margin: auto;
     top: 5%;
@@ -276,7 +280,7 @@ a.onTop {
 .myButton {
     position: relative;
     color: blue;
-    font-family:Verdana;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
     font-size:20px;
     font-weight:bold;
     text-decoration:none;
