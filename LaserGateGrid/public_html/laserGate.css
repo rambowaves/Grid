@@ -227,7 +227,7 @@ a.onTop {
 
 div#buttonRow {
     position: absolute;
-    top: 70%;
+    top: 75%;
 }
 
 button#menuClick, button#resume, button#nextLevel, button#restart {
@@ -240,10 +240,10 @@ button#menuClick, button#resume, button#nextLevel, button#restart {
     
     //button style code
     font-family: Arial, Helvetica, sans-serif;
-	font-size: 1em;
+	font-size: 100%;
 	color: #ffffff;
 	
-    padding: 5px;    
+    padding: 0px;    
     background: linear-gradient(to bottom, #42aaff 0%, #003366 100%);
     border-radius: 10px;
     border: 1px solid #003366;
