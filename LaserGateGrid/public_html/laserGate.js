@@ -545,12 +545,12 @@ function menuOverlay(won, id, paused) {
     a.pause();
     document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><h1 id="pauseHeader"></h1><img id="stars"><p id="finalScores"></p><div id="buttonRow"><button class="onTop" id="menuClick" align="center">Level Select</button>');
     if (!won && paused) {
-        document.getElementById("pauseHeader").style.fontSize = "500%";
+        document.getElementById("pauseHeader").style.fontSize = "400%";
         document.getElementById("pauseHeader").innerHTML = 'Paused';
         document.write('<button class="onTop" id="resume" align="center">Resume</button>');
     }
     else if (won && !paused) {
-        document.getElementById("pauseHeader").style.fontSize = "400%";
+        document.getElementById("pauseHeader").style.fontSize = "300%";
         document.getElementById("pauseHeader").innerHTML = 'Level Complete';  
         if (Score.hit > 1000) {  // real logic goes here            
             document.getElementById("stars").src = 'pics/3stars.png';
@@ -564,13 +564,13 @@ function menuOverlay(won, id, paused) {
         document.write('<button class="onTop" id="nextLevel" align="center">Next Level</button>');
     }
     else if (won && paused) {
-        document.getElementById("pauseHeader").style.fontSize = "500%";
+        document.getElementById("pauseHeader").style.fontSize = "400%";
         document.getElementById("pauseHeader").innerHTML = 'Paused';
         document.write('<button class="onTop" id="resume" align="center">Resume</button>');
         document.write('<button class="onTop" id="nextLevel" align="center">Next Level</button>');
     }
     else {
-        document.getElementById("pauseHeader").style.fontSize = "400%";
+        document.getElementById("pauseHeader").style.fontSize = "300%";
         document.getElementById("pauseHeader").innerHTML = 'Game Over';
         document.getElementById("finalScores").innerHTML = 'Score: ' + Score.hit + '<br>Shots Fired: ' + Score.shots;
     }
