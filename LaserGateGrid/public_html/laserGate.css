@@ -231,7 +231,7 @@ div#buttonRow {
 }
 
 button#menuClick, button#resume, button#nextLevel, button#restart {
-    width: 20%;
+    width: 24%;
     margin: .5%;
     height: 50px;
     z-index: 1700;
