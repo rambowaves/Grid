@@ -38,11 +38,11 @@ if (localStorage.getItem("continue")) {
     oldGame = localStorage.getItem("continue");
 }
 ;
-var unlocked = 1;
-if (localStorage.getItem("unlockedLevels")) {
-    unlocked = localStorage.getItem("unlockedLevels");
-}
-;
+var unlocked = 30;
+//if (localStorage.getItem("unlockedLevels")) {
+//    unlocked = localStorage.getItem("unlockedLevels");
+//}
+//;
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -464,7 +464,7 @@ function startScreen(cont) {
         localStorage.clear();
         document.location.replace('');
         document.location.reload();
-        unlocked = 1;
+        //unlocked = 1;
         menu();
     });
 }
@@ -654,8 +654,8 @@ var levels = {
                 {
                     //level 8
                     won: false,
-                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                    box: [{position: "1_5", hitCount: 1}, {position: "4_3", hitCount: 0}, {position: "5_9", hitCount: 1}, {position: "6_5", hitCount: 2}, {position: "9_2", hitCount: 2}, {position: "9_4", hitCount: 2}, {position: "11_2", hitCount: 2}],
+                    laser: [{position: "0_5"}, {position: "6_0"}, {position: "3_9"}, {position: "13_4"}]
                 },
                 {
                     //level 9
@@ -684,8 +684,8 @@ var levels = {
                 {
                     //level 13
                     won: false,
-                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                    box: [{position: "3_4", hitCount: 0}, {position: "4_5", hitCount: 1}, {position: "3_7", hitCount: 0}, {position: "7_3", hitCount: 0, deathBox: true}, {position: "5_2", hitCount: 0, deathBox: true}, {position: "6_3", hitCount: 2}, {position: "8_2", hitCount: 0}, {position: "8_4", hitCount: 0} ],
+                    laser: [{position: "0_9"}, {position: "0_0"}, {position: "0_3"}, {position: "13_6"}, {position: "13_3", disappear: true}]
                 },
                 {
                     //level 14
@@ -714,7 +714,7 @@ var levels = {
                 {
                     //level 18
                     won: false,
-                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    box: [{position: "2_8", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
