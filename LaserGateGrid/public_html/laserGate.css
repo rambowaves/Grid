@@ -329,13 +329,14 @@ div#scoreBar div#score-header {
     padding-right: 20px;
 }
 
-button {
-    width: 75%;
-    text-align: center;
+button#returnWelcome {
+    width: 20%
 }
 
-#menu {
+button#menu {
     margin-top: .5%;
+    width: 75%;
+    text-align: center;
 }
 
 .tankLeft{
