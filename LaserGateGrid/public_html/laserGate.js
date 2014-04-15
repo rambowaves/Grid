@@ -649,8 +649,8 @@ var levels = {
                 {
                     //level 7
                     won: false,
-                    box: [{position: "12_4", hitCount: 0},{position: "11_4", deathBox: true}, {position: "11_3", hitCount: 0}, {position: "4_2", hitCount: 1}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "9_7", hitCount: 0}, {position: "11_7", hitCount: 0}],
-                    laser: [{position: "0_0", disappear: true}, {position: "1_9", disappear: false}, {position: "11_9", disappear: false}]
+                    box: [{position: "2_2", deathBox: true}, {position: "5_7", deathBox: true}, {position: "4_7", hitCount: 1}, {position: "1_4", hitCount: 2}, {position: "6_3", hitCount: 2}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 3}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_8"}, {position: "0_2", disappear: true}, {position: "2_0"}, {position: "7_9"}]
                 },
                 {
                     //level 8
@@ -679,8 +679,8 @@ var levels = {
                 {
                     //level 12
                     won: false,
-                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                    box: [{position: "12_4", hitCount: 0},{position: "11_4", deathBox: true}, {position: "11_3", hitCount: 0}, {position: "4_2", hitCount: 1}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "9_7", hitCount: 0}, {position: "11_7", hitCount: 0}],
+                    laser: [{position: "0_0", disappear: true}, {position: "1_9", disappear: false}, {position: "11_9", disappear: false}]
                 },
                 {
                     //level 13
@@ -707,10 +707,10 @@ var levels = {
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
-                    //level 16
+                    //level 17
                     won: false,
-                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                    box: [{position: "1_2", deathBox: true}, {position: "12_8", deathBox: true}, {position: "11_8", hitCount: 0}, {position: "2_2", hitCount: 0}, {position: "1_3", hitCount: 1}, {position: "1_1", hitCount: 2}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_0", disappear: true}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
                     //level 18
@@ -739,8 +739,8 @@ var levels = {
                 {
                     //level 22
                     won: false,
-                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_6", hitCount: 0}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    laser: [{position: "0_0", disappear: true}, {position: "6_0"}, {position: "3_9", disappear: true}, {position: "13_7"}]
                 },
                 {
                     //level 23
