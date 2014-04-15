@@ -132,15 +132,7 @@ function game(level) {
     Box.prototype.getHitCount = function() {
         return this.hitCount;
     };
-    Box.prototype.initialDraw = function(id, hitCount) {
-        if(hitCount < 1) {
-            $("#" + id + "").addClass("unHit");
-        } else if(hitCount == 1) {
-            $("#" + id + "").addClass("unHit").addClass("hit2");
-        } else {
-            $("#" + id + "").addClass("unHit").addClass("hit2").addClass("hit3");
-        }
-    };
+
     Box.prototype.draw = function(id, hitCount) {
         hitCount < 1 ? $("#" + id + "").removeClass("hit2") : $("#" + id + "").removeClass("hit3");
     };
@@ -155,7 +147,8 @@ function game(level) {
         };
     };
 
-
+    var laserCount = 0;
+    var disappearingLasers = new Array();
     //used to create the levels
     gameLevels(id);
     function gameLevels(id) {
@@ -163,6 +156,10 @@ function game(level) {
         //place lasers
         for (var i = 0; i < levels.level[id].laser.length; i++) {
             $("#" + levels.level[id].laser[i].position).addClass("laser");
+            laserCount++;
+            if (levels.level[id].laser[i].disappear) {
+                disappearingLasers.push(levels.level[id].laser[i].position);
+            }
         }
         ;
 
@@ -176,7 +173,15 @@ function game(level) {
                 $("#" + box.getId() + "").addClass("deathBox");
                 deathBoxCount++;
             } else {
-                box.initialDraw(box.getId(), box.getHitCount());
+                var boxHitCount = box.getHitCount();
+                var boxId = box.getId();
+                if (boxHitCount < 1) {
+                    $("#" + boxId + "").addClass("unHit");
+                } else if (boxHitCount == 1) {
+                    $("#" + boxId + "").addClass("unHit").addClass("hit2");
+                } else {
+                    $("#" + boxId + "").addClass("unHit").addClass("hit2").addClass("hit3");
+                }
             }
         }
         ;
@@ -248,7 +253,7 @@ function game(level) {
                             var hit = new Array();
                             var j = 0;
                             var deathBoxCollision = false;
-
+                            var removeLaser = false;
                             var testCollision = setInterval(function() {
                                 //get the necessary location of the thing at that moment
                                 var thingPosition = getElementPosition("thing");
@@ -274,6 +279,9 @@ function game(level) {
                                             }
                                             boxes.splice(i, 1);
                                             Score.hit += 100;
+                                            if (disappearingLasers.indexOf(currentPosition) != -1) {
+                                                removeLaser = true;
+                                            }
                                         } else {
                                             theThing.style.visibility = "hidden";
                                             deathBoxCollision = true;
@@ -296,6 +304,22 @@ function game(level) {
                                 aTank.pause();
                                 aTank.src = 'pew.mp3';
                                 document.getElementById("score").innerHTML = '<p id="score">Score: ' + Score.hit + '</p>';
+                                if (removeLaser) {
+                                    disappearingLasers.splice(disappearingLasers.indexOf(currentPosition), 1);
+                                    $("#" + currentPosition + "").removeClass("laser");
+                                    laserCount--;
+                                    if (laserCount == 0 && (boxes.length + hit.length > 0)) {
+                                        var nextLevel = false;
+                                        levels.level[id].won = false;
+                                        console.log(levels.level[id].won);
+                                        explode.play();
+                                        setTimeout(function() {
+                                            explode.pause();
+                                            explode.src = 'explode.mp3';
+                                        }, 1500);
+                                        delay(nextLevel, id, false, 400);
+                                    }
+                                }
                                 if ((boxes.length + hit.length - deathBoxCount) <= 0 && !deathBoxCollision) {
                                     var nextLevel = true;
                                     levels.level[id].won = true;
@@ -594,6 +618,162 @@ var levels = {
                 },
                 {
                     //level 4
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 5
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 6
+                    won: false,
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 7
+                    won: false,
+                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 8
+                    won: false,
+                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 9
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 10
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 11
+                    won: false,
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 12
+                    won: false,
+                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 13
+                    won: false,
+                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 14
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 15
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 16
+                    won: false,
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 16
+                    won: false,
+                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 18
+                    won: false,
+                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 19
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 20
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 21
+                    won: false,
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 22
+                    won: false,
+                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 23
+                    won: false,
+                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 24
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 25
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 26
+                    won: false,
+                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 27
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4", disappear: true}, {position: "7_0", disappear: true}, {position: "0_9", disappear: true}, {position: "13_7", disappear: true}]
+                },
+                {
+                    //level 28
+                    won: false,
+                    box: [{position: "2_4", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "9_7", hitCount: 0}, {position: "10_7", hitCount: 0}, {position: "7_2", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 29
+                    won: false,
+                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
+                },
+                {
+                    //level 30
                     won: false,
                     box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
                     laser: [{position: "0_4"}, {position: "7_0"}, {position: "0_9"}, {position: "13_7"}]
