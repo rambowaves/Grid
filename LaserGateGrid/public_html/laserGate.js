@@ -281,7 +281,7 @@ function game(level) {
                                             }
                                             boxes.splice(i, 1);
                                             Score.hit += 100;
-                                            if (disappearingLasers.indexOf(currentPosition) != -1) {
+                                            if (disappearingLasers.indexOf(currentPosition) !== -1) {
                                                 removeLaser = true;
                                             }
                                         } else {
@@ -310,7 +310,7 @@ function game(level) {
                                     disappearingLasers.splice(disappearingLasers.indexOf(currentPosition), 1);
                                     $("#" + currentPosition + "").removeClass("laser");
                                     laserCount--;
-                                    if (laserCount == 0 && (boxes.length + hit.length > 0)) {
+                                    if (laserCount == 0 && (boxes.length + hit.length - deathBoxCount > 0)) {
                                         var nextLevel = false;
                                         levels.level[id].won = false;
                                         console.log(levels.level[id].won);
@@ -322,6 +322,7 @@ function game(level) {
                                         delay(nextLevel, id, false, 400);
                                     }
                                 }
+                                console.log("deathbox count " + deathBoxCount + " lengths " + boxes.length + " " + hit.length + " " + disappearingLasers.length);
                                 if ((boxes.length + hit.length - deathBoxCount) <= 0 && !deathBoxCollision) {
                                     var nextLevel = true;
                                     levels.level[id].won = true;
@@ -648,8 +649,8 @@ var levels = {
                 {
                     //level 7
                     won: false,
-                    box: [{position: "1_4", hitCount: 0}, {position: "6_3", hitCount: 0}, {position: "8_8", hitCount: 0}, {position: "7_8", hitCount: 0}, {position: "7_2", hitCount: 0}],
-                    laser: [{position: "1_0"}, {position: "1_9"}, {position: "3_9"}, {position: "13_7"}]
+                    box: [{position: "12_4", hitCount: 0},{position: "11_4", deathBox: true}, {position: "11_3", hitCount: 0}, {position: "4_2", hitCount: 1}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "9_7", hitCount: 0}, {position: "11_7", hitCount: 0}],
+                    laser: [{position: "0_0", disappear: true}, {position: "1_9", disappear: false}, {position: "11_9", disappear: false}]
                 },
                 {
                     //level 8
@@ -768,7 +769,7 @@ var levels = {
                 {
                     //level 27
                     won: false,
-                    box: [{position: "4_2", hitCount: 0}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 1}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
+                    box: [{position: "3_2", deathBox:true},{position: "4_2", hitCount: 0},{position: "3_7", hitCount: 1}, {position: "6_2", hitCount: 0}, {position: "5_2", hitCount: 1}, {position: "7_2", hitCount: 0}, {position: "8_2", hitCount: 0}, {position: "9_2", hitCount: 0}, {position: "6_4", hitCount: 0}, {position: "7_3", hitCount: 0}, {position: "5_3", hitCount: 0}, {position: "4_7", hitCount: 0}, {position: "5_7", hitCount: 0}, {position: "6_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "9_7", hitCount: 0}],
                     laser: [{position: "0_4", disappear: true}, {position: "7_0", disappear: true}, {position: "0_9", disappear: true}, {position: "13_7", disappear: true}]
                 },
                 {
@@ -835,4 +836,4 @@ function init()
     document.addEventListener("touchmove", touchHandler, true);
     document.addEventListener("touchend", touchHandler, true);
     document.addEventListener("touchcancel", touchHandler, true);
-}
+};

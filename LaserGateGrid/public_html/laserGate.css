@@ -261,7 +261,7 @@ a.onTop {
     background-size: 200% 200%;
     background-position: center;
     background-size: 10% 10%;
-    background-repeat: repeat;    
+    background-repeat: repeat;
 }
 
 .welcomeScreen h1 {
@@ -271,7 +271,6 @@ a.onTop {
     margin: auto;
     top: 5%;
 }
-
 
 .myButton {
     position: relative;
