@@ -15,7 +15,16 @@ var avatarIsPlaced = false;
 var shooting = false;
 var boxes = new Array();
 
-
+//audio initilaization 
+//var a = document.createElement('audio');
+var a = new Audio('Intro.mp3');
+a.setAttribute('src', 'Intro.mp3');
+//Tank audio
+var aTank = new Audio('pew.mp3');
+aTank.setAttribute('src', 'pew.mp3');
+//deathBox audio
+var explode = new Audio('explode.mp3');
+explode.setAttribute('src', 'explode.mp3');
 
 
 //show users what levels are open to them and which ones are not
@@ -34,30 +43,13 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     navigator.splashscreen.show();
-     setTimeout(function() {
+    setTimeout(function() {
         navigator.splashscreen.hide();
     }, 3000);
-    //audio initilaization
-    init();
-    startScreen(oldGame);
-//     var a = new Media('Intro.mp3');
-
-// //var a = document.createElement('audio');
-// //var a = new Audio('Intro.mp3');
-// //a.setAttribute('src', 'Intro.mp3');
-// //Tank audio
-// //var aTank = new Audio('pew.mp3');
-//     var aTank = new Media('pew.mp3');
-
-//     aTank.setAttribute('src', 'pew.mp3');
-// //deathBox audio
-// //var explode = new Audio('explode.mp3');
-//     var explode = new Media('explode.mp3');
-// //explode.setAttribute('src', 'explode.mp3');
-   
 }
 //code goes to menu function first
-
+init();
+startScreen(oldGame);
 //sets up the game grid 
 //puts id's for outer and locations to be used when shooting to test if avatar and laser are in the same row/col
 function game(level) {
@@ -411,18 +403,14 @@ function startScreen(cont) {
     }
     document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></center></div>');
     init();
-    // a.play();
-    // var audioLoop = setInterval(function() {
-    //     a.getCurrentPosition(
-    //             function(position) {
-    //                 if (position > 30) {
-    //                     a.pause();
-    //                     a.seekTo(0); //resets a.currentTime
-    //                     a.play();
-    //                 }
-    //             }
-    //     )
-    // }, 2100);
+    a.play();
+    var audioLoop = setInterval(function() {
+        if (a.currentTime > 30) {
+            a.pause();
+            a.src = 'Intro.mp3'; //resets a.currentTime
+            a.play();
+        }
+    }, 2100);
     $('#welcomeButton').on('click touchstart', function() {
         document.body.innerHTML = '';
         menu();
@@ -637,4 +625,3 @@ function init()
     document.addEventListener("touchend", touchHandler, true);
     document.addEventListener("touchcancel", touchHandler, true);
 }
-
