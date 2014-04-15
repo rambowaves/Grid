@@ -34,10 +34,14 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     navigator.splashscreen.show();
+     setTimeout(function() {
+        navigator.splashscreen.hide();
+    }, 3000);
     //audio initilaization
-    var a = new Media('Intro.mp3');
     init();
     startScreen(oldGame);
+    var a = new Media('Intro.mp3');
+
 //var a = document.createElement('audio');
 //var a = new Audio('Intro.mp3');
 //a.setAttribute('src', 'Intro.mp3');
@@ -50,9 +54,7 @@ function onDeviceReady() {
 //var explode = new Audio('explode.mp3');
     var explode = new Media('explode.mp3');
 //explode.setAttribute('src', 'explode.mp3');
-    setTimeout(function() {
-        navigator.splashscreen.hide();
-    }, 3000);
+   
 }
 //code goes to menu function first
 
