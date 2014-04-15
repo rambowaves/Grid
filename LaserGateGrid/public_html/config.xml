@@ -28,11 +28,11 @@
         <param name="ios-package" value="CDVSplashScreen" />
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
     </feature>
-    <gap:plugin name="org.apache.cordova.media" version="0.2.8" />
-    <feature name="Media">
-    <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
-    <param name="ios-package" value="CDVSound" />
-    </feature>
+    <gap:plugin name="org.apache.cordova.media" version="0.2.9" />
+    <!--<feature name="Media">-->
+    <!--<param name="android-package" value="org.apache.cordova.media.AudioHandler" />-->
+    <!--<param name="ios-package" value="CDVSound" />-->
+    <!--</feature>-->
 
     <!--
         If you do not want any permissions to be added to your app, add the
