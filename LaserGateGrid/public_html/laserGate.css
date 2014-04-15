@@ -27,8 +27,13 @@ table {
     width: 100%;
     table-layout: fixed;
     overflow: hidden;
+    
 }
-
+#grid {
+    background-image: url('pics/grass.png');
+    background-repeat: repeat;
+    background-size: 15% 15%;
+}
 tr, td {
     height: 30px;
     width: 28px;
@@ -403,9 +408,9 @@ button {
 }
 
 .inner{
-    background-image:url('pics/grass.png');
+/*    background-image:url('pics/grass.png');
     background-size: 200% 200%;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: -500;
+    z-index: -500;*/
 }
