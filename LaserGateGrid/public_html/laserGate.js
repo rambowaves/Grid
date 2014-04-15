@@ -519,7 +519,7 @@ function menu() { //this will bring the user back to the level screen so he can 
 
 function handHolding() {
     document.write('<div class="helpOverlay"><div class="helpOptions">\n\
-            <center><h1>LASER GATE<h1><h2>Instructions:</h2>\n\
+            <center><h1>LASER GATE</h1><h2>Instructions:</h2>\n\
             <ol>\n\
                 <li>You are the tank. The tank can move anywhere in the outer grid.</li>\n\
                 <li>Click on the red targets to shoot across the grid!</li>\n\
