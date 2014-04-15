@@ -109,7 +109,6 @@ function game(level) {
         hit: 0,
         shots: 0
     };
-
     document.write('</table>');
     document.write('<div id="scoreBar"><div id="button"><button id="menu" align="center">pause</button></div>');
     document.write('<div id="score-header"><p id="score">Score: ' + Score.hit + '</p></div></div>');
@@ -133,10 +132,17 @@ function game(level) {
     Box.prototype.getHitCount = function() {
         return this.hitCount;
     };
+    Box.prototype.initialDraw = function(id, hitCount) {
+        if(hitCount < 1) {
+            $("#" + id + "").addClass("unHit");
+        } else if(hitCount == 1) {
+            $("#" + id + "").addClass("unHit").addClass("hit2");
+        } else {
+            $("#" + id + "").addClass("unHit").addClass("hit2").addClass("hit3");
+        }
+    };
     Box.prototype.draw = function(id, hitCount) {
-        hitCount < 1 ? $("#" + id + "").addClass("unHit").removeClass("hit2") :
-                hitCount === 1 ? $("#" + id + "").addClass("hit2").removeClass("hit3") :
-                $("#" + id + "").addClass("hit3") ;
+        hitCount < 1 ? $("#" + id + "").removeClass("hit2") : $("#" + id + "").removeClass("hit3");
     };
 
     Box.prototype.boxDim = function(id) {
@@ -170,7 +176,7 @@ function game(level) {
                 $("#" + box.getId() + "").addClass("deathBox");
                 deathBoxCount++;
             } else {
-                box.draw(box.getId(), box.getHitCount());
+                box.initialDraw(box.getId(), box.getHitCount());
             }
         }
         ;
@@ -378,7 +384,7 @@ function game(level) {
     }
 
     function collides(value, min, max) {
-        return (value >= min - 15) && (value <= max + 15);
+        return (value >= min - 5) && (value <= max + 5);
     }
 
     function checkLocation(laser) {
