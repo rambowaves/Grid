@@ -586,7 +586,7 @@ function menuOverlay(won, id, paused) {
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
     });
-
+    console.log('won: ' + won + ' id: ' + id);
     $('#restart').click(function() {
         //this deletes the game()
         avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString(); //reset the avatar
@@ -596,7 +596,7 @@ function menuOverlay(won, id, paused) {
         //this deletes the menuOverlay
         $('.menuOverlay').html('');
         $('div').removeClass('menuOverlay');
-        if (won) { //so restart does not go to the next level if you won the current level
+        if (won && id !== 0) { //so restart does not go to the next level if you won the current level
             id--;
         }
         ;
