@@ -39,10 +39,10 @@ if (localStorage.getItem("continue")) {
 }
 ;
 var unlocked = 30;
-//if (localStorage.getItem("unlockedLevels")) {
-//    unlocked = localStorage.getItem("unlockedLevels");
-//}
-//;
+if (localStorage.getItem("unlockedLevels")) {
+    unlocked = localStorage.getItem("unlockedLevels");
+}
+;
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -467,7 +467,7 @@ function startScreen(cont) {
         localStorage.clear();
         document.location.replace('');
         document.location.reload();
-        //unlocked = 1;
+        unlocked = 1;
         menu();
     });
 }
