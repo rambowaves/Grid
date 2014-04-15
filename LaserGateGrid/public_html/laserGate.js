@@ -492,14 +492,14 @@ function handHolding() {
 
 function menuOverlay(won, id, paused) {
     a.pause();
-    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><a class="onTop" id="menuClick" align="center"><h1><u>main menu</u></h1></a><br>');
+    document.write('<div class="onTop"><div class="menuOverlay"><center><div id="OverlayOptions" align="center"><div id="buttonRow"><button class="onTop" id="menuClick" align="center">main menu</button>');
     if (paused) {
-        document.write('<a class="onTop" id="resume" align="center"><h1><u>resume</u></h1></a><br>');
+        document.write('<button class="onTop" id="resume" align="center">resume</button>');
     }
     if (won) {
-        document.write('<a class="onTop" id="nextLevel" align="center"><h1><u>next level</u></h1></a><br>');
+        document.write('<button class="onTop" id="nextLevel" align="center">next level</button>');
     }
-    document.write('<a class="onTop" id="restart" align="center"><h1><u>restart</u></h1></a></div></center></div></div>');
+    document.write('<button class="onTop" id="restart" align="center">restart</button></div></center></div></div></div>');
     $('#menuClick').click(function() {
         //this deletes the game()
         $('.laserGate').html('');
