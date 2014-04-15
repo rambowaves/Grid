@@ -19,6 +19,8 @@ var boxes = new Array();
 //var a = document.createElement('audio');
 var a = new Audio('Intro.mp3');
 a.setAttribute('src', 'Intro.mp3');
+var warford = new Audio('areYouWithMe.mp3');
+warford.setAttribute('src','areYouWithMe.mp3');
 //Tank audio
 var aTank = new Audio('pew.mp3');
 aTank.setAttribute('src', 'pew.mp3');
@@ -440,7 +442,11 @@ function startScreen(cont) {
     }
     document.write('<a class="myButton" id="clearStorage" align="center">New Game</a></div>');
     init();
-    a.play();
+    warford.play();
+    setTimeout(function() {
+        warford.pause();
+        a.play();
+    }, 2000);
     var audioLoop = setInterval(function() {
         if (a.currentTime > 30) {
             a.pause();
@@ -520,6 +526,11 @@ function handHolding() {
                 <li>Clear the boxes in the least ammount of moves possible. Watch out for dangers on the grid!</li>\n\
             </ol>\n\
             <a id="startLevel">Click to begin</a></center></div></div>');
+    warford.src = 'areYouWithMe.mp3';
+    warford.play();
+    setTimeout(function() {
+        warford.pause();
+    }, 2000);
     $('#startLevel').click(function() {
         $('.helpOverlay').html('');
         $('div').removeClass('helpOverlay');
