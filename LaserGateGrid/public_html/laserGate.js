@@ -641,7 +641,7 @@ var levels = {
                 {
                     //level 1
                     won: false,
-                    box: [{position: "2_4", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    box: [{position: "2_4", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0}, {position: "2_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
                     laser: [{position: "0_0"}, {position: "6_0"}, {position: "3_9"}, {position: "13_7"}]
                 },
                 {
