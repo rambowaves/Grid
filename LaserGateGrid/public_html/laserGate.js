@@ -8,7 +8,7 @@
 //Initialize num of rows and cols to use as the game grid
 var numCols = 9;
 var numRows = 13;
-
+ 
 //set avatar location to be in the center of the bottom row
 var avatar = numRows.toString() + "_" + Math.floor(numCols / 2).toString();
 var avatarIsPlaced = false;
@@ -33,7 +33,7 @@ winning.setAttribute('src', 'winning.mp3');
 
 
 //show users what levels are open to them and which ones are not
-var oldGame = false;
+var oldGame = false; 
 if (localStorage.getItem("continue")) {
     oldGame = localStorage.getItem("continue");
 }
@@ -41,8 +41,7 @@ if (localStorage.getItem("continue")) {
 var unlocked = 30;
 if (localStorage.getItem("unlockedLevels")) {
     unlocked = localStorage.getItem("unlockedLevels");
-}
-;
+};
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -743,7 +742,7 @@ var levels = {
                 {
                     //level 18
                     won: false,
-                    box: [{position: "2_8", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 1}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0, deathBox: true}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
+                    box: [{position: "2_8", hitCount: 2}, {deathBox: true, position: "6_2", hitCount: 0}, {position: "8_7", hitCount: 0}, {position: "7_7", hitCount: 0}, {position: "7_2", hitCount: 0, deathBox: true}, {position: "1_6", hitCount: 1}, {position: "2_6", hitCount: 0}, {position: "3_6", hitCount: 0}, {position: "4_6", hitCount: 0}],
                     laser: [{position: "0_0", disappear: true}, {position: "6_0", disappear: true}, {position: "3_9", disappear: true}, {position: "13_7", disappear: true}]
                 },
                 {
